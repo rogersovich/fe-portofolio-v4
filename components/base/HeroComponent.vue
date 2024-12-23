@@ -1,0 +1,38 @@
+<template lang="">
+  <div
+    class="layout text-center pb-12 pt-12 min-h-[calc(100vh-80px)] md:pb-20 md:pt-36 flex flex-col justify-center"
+  >
+    <div class="grid grid-cols-12 gap-8">
+      <div class="col-span-6 flex flex-col gap-4 text-left">
+        <BaseSparklesText
+          text="Dimas Roger W"
+          class="text-foreground font-rethink text-6xl"
+          :colors="{ first: '#9E7AFF', second: '#FE8BBB' }"
+          :sparkles-count="8"
+        >
+        </BaseSparklesText>
+        <div class="font-light text-muted-foreground text-base">
+          I work with React Ecosystem, and write to teach people how to rebuild
+          and redefine fundamental concepts through mental models.
+        </div>
+        <div class="flex flex-start gap-4 pt-4">
+          <Button variant="default">Explore more</Button>
+          <Button variant="outline">More about me</Button>
+        </div>
+      </div>
+      <div class="col-span-6"></div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  setup() {
+    const colorMode = useColorMode()
+
+    return {
+      colorMode
+    }
+  },
+};
+</script>
+<style lang=""></style>

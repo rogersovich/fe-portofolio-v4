@@ -1,0 +1,32 @@
+@tailwind base;
+
+@layer base {
+  :root {
+    --color-foreground: #09090b;
+    --color-muted-foreground: #52525b;
+  }
+
+  :root[class~="dark"] {
+    --color-foreground: #fafafa;
+    --color-muted-foreground: #a1a1aa;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  @apply text-zinc-950 dark:text-zinc-50;
+}
+
+.layout {
+  max-width: 68rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 91.666667%;
+}
+
+.font-rethink {
+  font-family: 'Rethink Sans', sans-serif;
+}
