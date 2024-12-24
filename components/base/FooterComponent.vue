@@ -23,7 +23,7 @@
           <div class="font-light">About</div>
         </div>
       </div>
-      <div class="text-[14px">
+      <div class="text-[14px]">
         <div class="font-light text-muted-foreground mb-[12px]">General</div>
         <div class="flex flex-col gap-[10px]">
           <div class="font-light">Home</div>
@@ -31,7 +31,7 @@
           <div class="font-light">About</div>
         </div>
       </div>
-      <div class="text-[14px">
+      <div class="text-[14px]">
         <div class="font-light text-muted-foreground mb-[12px]">General</div>
         <div class="flex flex-col gap-[10px]">
           <div class="font-light">Home</div>
