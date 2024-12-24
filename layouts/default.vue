@@ -2,6 +2,7 @@
   <div>
     <LayoutNavbarComponent />
     <slot />
+    <BaseFooterComponent />
   </div>
 </template>
 <script>

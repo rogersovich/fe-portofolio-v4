@@ -27,7 +27,15 @@
       class="layout text-center pb-12 pt-12 md:pb-8 md:pt-8 flex flex-col justify-center"
     >
       <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-6">Kasih gambar atau illustrasi</div>
+        <div class="col-span-6 flex items-center justify-center">
+          <NuxtImg
+            src="/images/kucing-hijab.jpg"
+            height="350px"
+            width="350px"
+            class="rounded-lg"
+            densities="x1 x2"
+          />
+        </div>
         <div class="col-span-6 text-left">
           <div class="text-4xl font-rethink font-bold pb-2">
             Dimas Roger Widianto
@@ -37,23 +45,49 @@
           </div>
           <div class="pt-8 text-muted-foreground font-light">
             <p class="tracking-wide">
-              Hello! You can call me Clarence. I am a Software Engineer who
-              works with the React ecosystem and writes to teach people how to
-              rebuild and redefine fundamental concepts through mental models.
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book
             </p>
             <p>
-              I was born in 2001 in Jakarta, Indonesia. When the pandemic hit 4
-              years ago, my university was closed for a few weeks, and I started
-              to learn web development, especially front-end development, out of
-              boredom.
+              It was popularised in the 1960s with the release of Letraset
+              sheets containing Lorem Ipsum passages, and more recently with
+              desktop publishing software like Aldus PageMaker including
+              versions of Lorem Ipsum.
             </p>
             <p>
-              As part of my learning journey, I started writing blog articles as
-              a way to solidify my knowledge. When I posted them here as
-              documentation, I discovered that many people found them valuable.
-              Hopefully, it can help you too.
+              Contrary to popular belief, Lorem Ipsum is not simply random text.
+              It has roots in a piece of classical Latin literature from 45 BC,
+              making it over 2000 years old.
             </p>
           </div>
+        </div>
+      </div>
+    </section>
+    <section  class="layout text-center pb-12 pt-12 md:pb-12 md:pt-12 flex flex-col justify-center">
+      <div class="flex flex-col gap-12">
+        <div class="flex flex-row gap-4 items-center">
+          <div class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full">
+            💧 
+          </div>
+          <div class="text-2xl font-rethink font-bold">
+            Skills
+          </div>
+        </div>
+        <div class="grid grid-cols-12 gap-4">
+          <template v-for="skill in listSkills" :key="skill">
+            <div class="col-span-3">
+              <div class="border border-zinc-50/[.15] rounded-lg p-4 min-h-[200px] flex items-center justify-center flex-col gap-2">
+                <div class="text-2xl">
+                  🔥
+                </div>
+                <div class="text-lg font-bold tracking-wide">
+                  Laravel
+                </div>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </section>
@@ -62,51 +96,63 @@
     >
       <div class="flex flex-col gap-12">
         <div class="flex flex-row gap-4 items-center">
-          <div class="border border-zinc-50/15 px-2 py-1 text-xl rounded-full">
+          <div class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full">
             🔥
           </div>
           <div class="text-2xl font-rethink font-bold">Experience</div>
         </div>
-        <div class="grid grid-cols-12 gap-4">
-          <div class="col-span-4 text-left">
-            <div>SEP 2023 — PRESENT</div>
-          </div>
-          <div class="col-span-8 text-left">
-            <div class="text-2xl font-rethink font-bold">
-              Front-end Developer
-            </div>
-            <div class="flex gap-[5px] pt-2 text-[14px] pb-5 font-light">
-              <div class="flex gap-3">
-                <div>
-                  <NuxtImg src="/images/gopay-logo.png" height="20" densities="x1 x2" />
+        <template v-for="exp in listExperiences" :key="exp">
+          <div class="flex flex-col gap-4">
+            <div class="grid grid-cols-12 gap-4">
+              <div class="col-span-4 text-left">
+                <div>SEP 2023 — PRESENT - {{ exp }}</div>
+              </div>
+              <div class="col-span-8 text-left">
+                <div class="text-2xl font-rethink font-bold">
+                  Front-end Developer
                 </div>
-                <div class="font-light">
-                  Gopay
+                <div class="flex gap-[5px] pt-2 text-[14px] pb-5 font-light">
+                  <div class="flex gap-3">
+                    <div>
+                      <NuxtImg
+                        src="/images/gopay-logo.png"
+                        height="20"
+                        densities="x1 x2"
+                      />
+                    </div>
+                    <div class="font-light">Gopay</div>
+                  </div>
+                  <div class="text-muted-foreground">-</div>
+                  <div class="text-muted-foreground">United States, Remote</div>
                 </div>
-              </div>
-              <div class="text-muted-foreground">
-                -
-              </div>
-              <div class="text-muted-foreground">
-                United States, Remote
+                <p class="text-muted-foreground font-light text-[14px]">
+                  There are many variations of passages of Lorem Ipsum available,
+                  but the majority have suffered alteration in some form, by
+                  injected humour, or randomised words which don't look even
+                  slightly believable
+                </p>
+                <ul
+                  class="list-disc list-outside text-muted-foreground font-light text-[14px] pl-3"
+                >
+                  <li class="mb-2">
+                    It is a long established fact that a reader will be distracted
+                    by the readable content of a page when looking at its layout.
+                  </li>
+                  <li class="mb-2">
+                    Many desktop publishing packages and web page editors now use
+                    Lorem Ipsum as their default model text, and a search for 'lorem
+                    ipsum' will uncover many web sites still in their infancy.
+                  </li>
+                  <li class="mb-2">
+                    Contrary to popular belief, Lorem Ipsum is not simply random
+                    text. It has roots in a piece of classical Latin literature from
+                    45 BC, making it over 2000 years old
+                  </li>
+                </ul>
               </div>
             </div>
-            <p class="text-muted-foreground font-light text-[14px]">
-              Dimension is a collaboration platform for modern engineering teams. It bridges the gap between communication, cloud, code, projects, and more—with an incredible developer experience.
-            </p>
-            <ul class="list-disc list-outside text-muted-foreground font-light text-[14px] pl-3">
-              <li class="mb-2">
-                Led the rewrite from the MVP version, which was previously fragile with numerous bugs and technical debt. Convinced the team to transition to a new monorepo project with a solid foundation, ensuring code quality and developing conventions to maintain consistency and reliability across the team.
-              </li>
-              <li class="mb-2">
-                Developed a comprehensive front-end design system with well-structured and easy-to-use APIs, equipped with accessibility and keyboard navigation. This system has been praised by colleagues for enhancing the development experience and accelerating feature development.
-              </li>
-              <li class="mb-2">
-                Led the hiring process for software engineers, including designing interview processes and evaluating candidates to build a strong development team.
-              </li>
-            </ul>
           </div>
-        </div>
+        </template>
       </div>
     </section>
   </div>
@@ -118,6 +164,14 @@ export default {
       title: "About",
       titleTemplate: "%s | Portofolio",
     });
+
+    const experiences = [1, 2, 3]
+    const skill = [1, 2, 3, 4, 5, 6, 7, 8]
+
+    return {
+      listExperiences: experiences,
+      listSkills: skill
+    }
   },
 };
 </script>
