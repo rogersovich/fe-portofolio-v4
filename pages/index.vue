@@ -1,6 +1,5 @@
 <template lang="">
-  <div class="h-screen bg-zinc-950">
-    <NuxtRouteAnnouncer />
+  <div class="min-h-screen bg-zinc-950">
     <BaseHeroComponent />
   </div>
 </template>

@@ -4,11 +4,17 @@
   :root {
     --color-foreground: #09090b;
     --color-muted-foreground: #52525b;
+    background: #ffffff;
   }
 
   :root[class~="dark"] {
     --color-foreground: #fafafa;
     --color-muted-foreground: #a1a1aa;
+    background: #09090b;
+  }
+
+  p {
+    @apply mb-4;
   }
 }
 
