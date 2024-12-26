@@ -65,25 +65,29 @@
         </div>
       </div>
     </section>
-    <section  class="layout text-center pb-12 pt-12 md:pb-12 md:pt-12 flex flex-col justify-center">
+    <section
+      class="layout text-center pb-12 pt-12 md:pb-12 md:pt-12 flex flex-col justify-center"
+    >
       <div class="flex flex-col gap-12">
         <div class="flex flex-row gap-4 items-center">
-          <div class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full">
-            💧 
+          <div
+            class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
+          >
+            🏹
           </div>
-          <div class="text-2xl font-rethink font-bold">
-            Skills
-          </div>
+          <div class="text-2xl font-rethink font-bold">Skills</div>
         </div>
-        <div class="grid grid-cols-12 gap-4">
-          <template v-for="skill in listSkills" :key="skill">
+        <div class="grid grid-cols-12 gap-6">
+          <template v-for="(skill, index) in listSkills" :key="index">
             <div class="col-span-3">
-              <div class="border border-zinc-50/[.15] rounded-lg p-4 min-h-[200px] flex items-center justify-center flex-col gap-2">
+              <div
+                class="border border-zinc-50/[.15] rounded-lg p-4 min-h-[200px] flex items-center justify-center flex-col gap-2"
+              >
                 <div class="text-2xl">
-                  🔥
+                  <component :is="skill.icon" v-bind="skill.iconProps" />
                 </div>
                 <div class="text-lg font-bold tracking-wide">
-                  Laravel
+                  {{ skill.title }}
                 </div>
               </div>
             </div>
@@ -96,8 +100,10 @@
     >
       <div class="flex flex-col gap-12">
         <div class="flex flex-row gap-4 items-center">
-          <div class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full">
-            🔥
+          <div
+            class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
+          >
+            💼
           </div>
           <div class="text-2xl font-rethink font-bold">Experience</div>
         </div>
@@ -126,27 +132,29 @@
                   <div class="text-muted-foreground">United States, Remote</div>
                 </div>
                 <p class="text-muted-foreground font-light text-[14px]">
-                  There are many variations of passages of Lorem Ipsum available,
-                  but the majority have suffered alteration in some form, by
-                  injected humour, or randomised words which don't look even
-                  slightly believable
+                  There are many variations of passages of Lorem Ipsum
+                  available, but the majority have suffered alteration in some
+                  form, by injected humour, or randomised words which don't look
+                  even slightly believable
                 </p>
                 <ul
                   class="list-disc list-outside text-muted-foreground font-light text-[14px] pl-3"
                 >
                   <li class="mb-2">
-                    It is a long established fact that a reader will be distracted
-                    by the readable content of a page when looking at its layout.
+                    It is a long established fact that a reader will be
+                    distracted by the readable content of a page when looking at
+                    its layout.
                   </li>
                   <li class="mb-2">
-                    Many desktop publishing packages and web page editors now use
-                    Lorem Ipsum as their default model text, and a search for 'lorem
-                    ipsum' will uncover many web sites still in their infancy.
+                    Many desktop publishing packages and web page editors now
+                    use Lorem Ipsum as their default model text, and a search
+                    for 'lorem ipsum' will uncover many web sites still in their
+                    infancy.
                   </li>
                   <li class="mb-2">
                     Contrary to popular belief, Lorem Ipsum is not simply random
-                    text. It has roots in a piece of classical Latin literature from
-                    45 BC, making it over 2000 years old
+                    text. It has roots in a piece of classical Latin literature
+                    from 45 BC, making it over 2000 years old
                   </li>
                 </ul>
               </div>
@@ -158,6 +166,15 @@
   </div>
 </template>
 <script>
+import IconReact from "~/components/base/IconReact.vue";
+import IconVue from "~/components/base/IconVue.vue";
+import IconNuxt from "~/components/base/IconNuxt.vue";
+import IconAngular from "~/components/base/IconAngular.vue";
+import IconTypescript from "~/components/base/IconTypescript.vue";
+import IconLaravel from "~/components/base/IconLaravel.vue";
+import IconGolang from "~/components/base/IconGolang.vue";
+import IconDatabase from "~/components/base/IconDatabase.vue";
+
 export default {
   setup() {
     useHead({
@@ -165,13 +182,78 @@ export default {
       titleTemplate: "%s | Portofolio",
     });
 
-    const experiences = [1, 2, 3]
-    const skill = [1, 2, 3, 4, 5, 6, 7, 8]
+    const experiences = [1, 2, 3];
+    const skill = [
+      {
+        title: "React Js",
+        icon: IconReact,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+      {
+        title: "Vue Js",
+        icon: IconVue,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+      {
+        title: "Nuxt Js",
+        icon: IconNuxt,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+      {
+        title: "Angular Js",
+        icon: IconAngular,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+      {
+        title: "Typescript",
+        icon: IconTypescript,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+      {
+        title: "Laravel",
+        icon: IconLaravel,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+      {
+        title: "Golang",
+        icon: IconGolang,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+      {
+        title: "Database",
+        icon: IconDatabase,
+        iconProps: {
+          width: "50",
+          height: "50",
+        },
+      },
+    ];
 
     return {
       listExperiences: experiences,
-      listSkills: skill
-    }
+      listSkills: skill,
+    };
   },
 };
 </script>
