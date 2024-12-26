@@ -1,0 +1,15 @@
+.exp-description-content {
+  p {
+    @apply text-muted-foreground font-light text-[14px];
+  }
+
+  ul {
+    @apply list-disc list-outside text-muted-foreground font-light text-[14px] pl-3;
+
+    li {
+      @apply mb-2;
+    }
+  }
+
+
+}

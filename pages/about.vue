@@ -110,53 +110,37 @@
         <template v-for="exp in listExperiences" :key="exp">
           <div class="flex flex-col gap-4">
             <div class="grid grid-cols-12 gap-4">
-              <div class="col-span-4 text-left">
-                <div>SEP 2023 — PRESENT - {{ exp }}</div>
+              <div
+                class="col-span-4 text-left uppercase font-normal text-muted-foreground"
+              >
+                <div>
+                  {{ exp.period }}
+                </div>
               </div>
               <div class="col-span-8 text-left">
                 <div class="text-2xl font-rethink font-bold">
-                  Front-end Developer
+                  {{ exp.position }}
                 </div>
                 <div class="flex gap-[5px] pt-2 text-[14px] pb-5 font-light">
                   <div class="flex gap-3">
                     <div>
-                      <NuxtImg
-                        src="/images/gopay-logo.png"
-                        height="20"
-                        densities="x1 x2"
-                      />
+                      <NuxtImg :src="exp.logo" height="20" densities="x1 x2" />
                     </div>
-                    <div class="font-light">Gopay</div>
+                    <nuxt-link :to="exp.linkWeb" class="font-light underline" target="_blank">{{ exp.companyName }}</nuxt-link>
                   </div>
                   <div class="text-muted-foreground">-</div>
-                  <div class="text-muted-foreground">United States, Remote</div>
+                  <div class="text-muted-foreground">
+                    {{ exp.location }}, {{ exp.workType }}
+                  </div>
+                  <div class="text-muted-foreground">-</div>
+                  <div class="text-muted-foreground">
+                    {{ exp.employmentType }}
+                  </div>
                 </div>
-                <p class="text-muted-foreground font-light text-[14px]">
-                  There are many variations of passages of Lorem Ipsum
-                  available, but the majority have suffered alteration in some
-                  form, by injected humour, or randomised words which don't look
-                  even slightly believable
-                </p>
-                <ul
-                  class="list-disc list-outside text-muted-foreground font-light text-[14px] pl-3"
-                >
-                  <li class="mb-2">
-                    It is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking at
-                    its layout.
-                  </li>
-                  <li class="mb-2">
-                    Many desktop publishing packages and web page editors now
-                    use Lorem Ipsum as their default model text, and a search
-                    for 'lorem ipsum' will uncover many web sites still in their
-                    infancy.
-                  </li>
-                  <li class="mb-2">
-                    Contrary to popular belief, Lorem Ipsum is not simply random
-                    text. It has roots in a piece of classical Latin literature
-                    from 45 BC, making it over 2000 years old
-                  </li>
-                </ul>
+                <div
+                  class="exp-description-content"
+                  v-html="exp.description"
+                ></div>
               </div>
             </div>
           </div>
@@ -166,6 +150,7 @@
   </div>
 </template>
 <script>
+import "~/assets/css/about.css";
 import IconReact from "~/components/base/IconReact.vue";
 import IconVue from "~/components/base/IconVue.vue";
 import IconNuxt from "~/components/base/IconNuxt.vue";
@@ -182,10 +167,181 @@ export default {
       titleTemplate: "%s | Portofolio",
     });
 
-    const experiences = [1, 2, 3];
+    const experiences = [
+      {
+        period: "Jan 2019 - Jun 2019",
+        position: "Web Developer",
+        companyName: "PT. Zamasco Mitra Solusindo",
+        employmentType: "Internship",
+        location: "Jakarta, Indonesia",
+        workType: "On site",
+        logo: "/images/companies/zamasco.jpeg",
+        linkWeb: 'https://zamasco.co.id/',
+        description: `<p>
+            There are many variations of passages of Lorem Ipsum
+            available, but the majority have suffered alteration in some
+            form, by injected humour, or randomised words which don't
+            look even slightly believable
+          </p>
+          <ul>
+            <li>
+              It is a long established fact that a reader will be
+              distracted by the readable content of a page when looking
+              at its layout.
+            </li>
+            <li>
+              Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search
+              for 'lorem ipsum' will uncover many web sites still in
+              their infancy.
+            </li>
+            <li>
+              Contrary to popular belief, Lorem Ipsum is not simply
+              random text. It has roots in a piece of classical Latin
+              literature from 45 BC, making it over 2000 years old
+            </li>
+          </ul>`,
+      },
+      {
+        period: "Jun 2020 - May 2021",
+        position: "Full-stack Developer",
+        companyName: "Vconex IT and Multimedia",
+        employmentType: "Full-time",
+        location: "Tangerang, Indonesia",
+        workType: "On site",
+        logo: "/images/companies/vconex.png",
+        linkWeb: 'https://vconex.id/',
+        description: `<p>
+            There are many variations of passages of Lorem Ipsum
+            available, but the majority have suffered alteration in some
+            form, by injected humour, or randomised words which don't
+            look even slightly believable
+          </p>
+          <ul>
+            <li>
+              It is a long established fact that a reader will be
+              distracted by the readable content of a page when looking
+              at its layout.
+            </li>
+            <li>
+              Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search
+              for 'lorem ipsum' will uncover many web sites still in
+              their infancy.
+            </li>
+            <li>
+              Contrary to popular belief, Lorem Ipsum is not simply
+              random text. It has roots in a piece of classical Latin
+              literature from 45 BC, making it over 2000 years old
+            </li>
+          </ul>`,
+      },
+      {
+        period: "May 2021 - May 2023",
+        position: "Front-end Developer",
+        companyName: "Tiranyx Digital Transformation",
+        employmentType: "Full-time",
+        location: "Bogor, Indonesia",
+        workType: "On site",
+        logo: "/images/companies/tiranyx.jpeg",
+        linkWeb: 'https://www.linkedin.com/company/tiranyx-digital-system/',
+        description: `<p>
+            There are many variations of passages of Lorem Ipsum
+            available, but the majority have suffered alteration in some
+            form, by injected humour, or randomised words which don't
+            look even slightly believable
+          </p>
+          <ul>
+            <li>
+              It is a long established fact that a reader will be
+              distracted by the readable content of a page when looking
+              at its layout.
+            </li>
+            <li>
+              Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search
+              for 'lorem ipsum' will uncover many web sites still in
+              their infancy.
+            </li>
+            <li>
+              Contrary to popular belief, Lorem Ipsum is not simply
+              random text. It has roots in a piece of classical Latin
+              literature from 45 BC, making it over 2000 years old
+            </li>
+          </ul>`,
+      },
+      {
+        period: "May 2023 - Aug 2023",
+        position: "Front-end Developer",
+        companyName: "Zegen Solusi Mandiri",
+        employmentType: "Full-time",
+        location: "Tangerang, Indonesia",
+        workType: "On site",
+        logo: "/images/companies/zegen.jpeg",
+        linkWeb: 'https://zegen.id/',
+        description: `<p>
+            There are many variations of passages of Lorem Ipsum
+            available, but the majority have suffered alteration in some
+            form, by injected humour, or randomised words which don't
+            look even slightly believable
+          </p>
+          <ul>
+            <li>
+              It is a long established fact that a reader will be
+              distracted by the readable content of a page when looking
+              at its layout.
+            </li>
+            <li>
+              Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search
+              for 'lorem ipsum' will uncover many web sites still in
+              their infancy.
+            </li>
+            <li>
+              Contrary to popular belief, Lorem Ipsum is not simply
+              random text. It has roots in a piece of classical Latin
+              literature from 45 BC, making it over 2000 years old
+            </li>
+          </ul>`,
+      },
+      {
+        period: "Sept 2023 - Present",
+        position: "Front-end Developer",
+        companyName: "PT. Elabram Group",
+        employmentType: "Full-time",
+        location: "Jakarta, Indonesia",
+        workType: "On site",
+        logo: "/images/companies/elabram.jpeg",
+        linkWeb: 'https://elabram.com/',
+        description: `<p>
+            There are many variations of passages of Lorem Ipsum
+            available, but the majority have suffered alteration in some
+            form, by injected humour, or randomised words which don't
+            look even slightly believable
+          </p>
+          <ul>
+            <li>
+              It is a long established fact that a reader will be
+              distracted by the readable content of a page when looking
+              at its layout.
+            </li>
+            <li>
+              Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search
+              for 'lorem ipsum' will uncover many web sites still in
+              their infancy.
+            </li>
+            <li>
+              Contrary to popular belief, Lorem Ipsum is not simply
+              random text. It has roots in a piece of classical Latin
+              literature from 45 BC, making it over 2000 years old
+            </li>
+          </ul>`,
+      },
+    ];
     const skill = [
       {
-        title: "React Js",
+        title: "React",
         icon: IconReact,
         iconProps: {
           width: "50",
@@ -193,7 +349,7 @@ export default {
         },
       },
       {
-        title: "Vue Js",
+        title: "Vue",
         icon: IconVue,
         iconProps: {
           width: "50",
@@ -201,7 +357,7 @@ export default {
         },
       },
       {
-        title: "Nuxt Js",
+        title: "Nuxt",
         icon: IconNuxt,
         iconProps: {
           width: "50",
@@ -209,7 +365,7 @@ export default {
         },
       },
       {
-        title: "Angular Js",
+        title: "Angular",
         icon: IconAngular,
         iconProps: {
           width: "50",
@@ -251,7 +407,7 @@ export default {
     ];
 
     return {
-      listExperiences: experiences,
+      listExperiences: experiences.reverse(),
       listSkills: skill,
     };
   },
