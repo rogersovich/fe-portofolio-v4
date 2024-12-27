@@ -31,6 +31,10 @@ export default {
         link: "/",
       },
       {
+        title: "Fun Facts",
+        link: "/fun-fact",
+      },
+      {
         title: "About",
         link: "/about",
       },
