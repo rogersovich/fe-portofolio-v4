@@ -1,3 +1,5 @@
+import customTheme from "./themes/customTheme";
+
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
@@ -8,6 +10,7 @@ export default defineNuxtConfig({
     "@vueuse/motion/nuxt",
     "@nuxt/image",
     "@vueuse/nuxt",
+    "@primevue/nuxt-module",
   ],
   colorMode: {
     classSuffix: "",
@@ -21,5 +24,15 @@ export default defineNuxtConfig({
       darkMode: "class",
     },
     viewer: true,
+  },
+  primevue: {
+    options: {
+      theme: {
+        preset: customTheme,
+      },
+      ripple: true,
+      inputVariant: 'filled',
+    },
+    autoImport: true
   },
 });
