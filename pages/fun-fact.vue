@@ -137,7 +137,12 @@
           <div
             class="basis-[25%] border border-zinc-50/[.05] rounded-xl flex items-center justify-center"
           >
-            <BaseIconSong width="150" height="150" fill="#a1a1a1" stroke="#a1a1a1" />
+            <BaseIconSong
+              width="150"
+              height="150"
+              fill="#a1a1a1"
+              stroke="#a1a1a1"
+            />
           </div>
           <div class="basis-[70%] flex flex-col justify-end gap-2">
             <div
@@ -154,7 +159,7 @@
             </div>
             <div class="pt-2">
               <NuxtLink :to="myProfileSpotify" target="_blank">
-                <Button variant="outline">Visit profile</Button>
+                <Button>Visit profile</Button>
               </NuxtLink>
             </div>
           </div>
@@ -174,19 +179,10 @@
                   </div>
                 </div>
                 <div class="basis-[7.5%] flex items-center justify-center">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger as-child>
-                        <NuxtImg
-                          :src="song.url_img"
-                          class="rounded w-[50px] h-[50px] border border-zinc-50/[.05]"
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p class="mb-0">Add to library</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <NuxtImg
+                    :src="song.url_img"
+                    class="rounded w-[50px] h-[50px] border border-zinc-50/[.05]"
+                  />
                 </div>
                 <div
                   class="basis-[35%] flex-col items-center justify-left gap-2"

@@ -16,8 +16,8 @@
           and redefine fundamental concepts through mental models.
         </div>
         <div class="flex flex-start gap-4 pt-4">
-          <Button variant="default">Explore more</Button>
-          <Button variant="outline">More about me</Button>
+          <Button>Explore more</Button>
+          <Button>More about me</Button>
         </div>
       </div>
       <div class="col-span-6"></div>
