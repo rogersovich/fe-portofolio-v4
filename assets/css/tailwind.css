@@ -36,3 +36,23 @@ body {
 .font-rethink {
   font-family: 'Rethink Sans', sans-serif;
 }
+
+.tiptap-control-button--active {
+  @apply outline outline-1 !outline-orange-400 bg-orange-400/[.15];
+}
+
+.tiptap-control-button {
+  @apply outline outline-1 outline-zinc-600 text-white px-[8px] py-[6px] rounded-md;
+}
+
+.tiptap-image-item {
+  @apply h-[300px] object-cover;
+}
+
+.tiptap-content {
+  @apply border border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:border-zinc-50/[.3]
+}
+
+.tiptap-content--error {
+  @apply border border-red-300 rounded-lg px-5 py-4 focus:outline-none focus:border-red-300
+}

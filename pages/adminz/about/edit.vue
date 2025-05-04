@@ -1,9 +1,19 @@
 <template>
   <div>
     <div class="mb-6">
-      <div class="text-3xl font-rethink font-bold">Edit - Page About</div>
-      <div class="text-muted-foreground font-light mt-2">
-        Edit summary about your personality
+      <div class="flex justify-between">
+        <div>
+          <div class="text-3xl font-rethink font-bold">Edit - Page About</div>
+          <div class="text-muted-foreground font-light mt-2">
+            Edit summary about your personality
+          </div>
+        </div>
+        <div>
+          <Button variant="text" @click="$router.push('/adminz/about')">
+            <IconArrowLeft class="size-5" />
+            <span> Back </span>
+          </Button>
+        </div>
       </div>
     </div>
     <div class="pt-3">
@@ -20,7 +30,7 @@
             <div class="text-2xl font-rethink font-bold">Form Edit</div>
             <hr class="border-zinc-50/[.15] mt-3" />
           </div>
-          <div class="col-span-4">
+          <div class="col-start-1 col-span-4">
             <div class="flex flex-col gap-1 text-left">
               <label for="title" class="mb-1">Title</label>
               <InputText
@@ -39,7 +49,50 @@
               >
             </div>
           </div>
-          <div class="col-start-1 col-end-4 w-full">
+          <div class="col-start-5 col-span-3">
+            <div class="flex flex-col gap-1 text-left">
+              <label class="mb-1">Usage status</label>
+              <Select
+                name="is_used"
+                :options="isUsedOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select"
+                fluid
+                variant="outlined"
+              />
+            </div>
+          </div>
+          <div class="col-start-1 2xl:col-end-9 col-end-13">
+            <div class="flex flex-col gap-1 text-left">
+              <label class="mb-1">Description HTML</label>
+              <BaseCustomEditor v-model="initialValues.description_html" :errMessage="descriptionHtmlError" />
+              <Message
+                v-if="descriptionHtmlError"
+                severity="error"
+                size="small"
+                variant="simple"
+              >
+                {{ descriptionHtmlError }}
+              </Message>
+            </div>
+          </div>
+          <div class="col-start-1 2xl:col-end-9 col-end-13">
+            <div class="flex flex-col gap-1 text-left">
+              <label class="mb-1">Image</label>
+            </div>
+          </div>
+          <div class="col-start-9 col-end-11 2xl:col-start-7 2xl:col-end-8 w-full">
+            <Button
+              type="button"
+              variant="outlined"
+              label="Cancel"
+              size="small"
+              class="w-full"
+              @click="$router.push('/adminz/about')"
+            />
+          </div>
+          <div class="col-start-11 col-end-13 2xl:col-start-8 2xl:col-end-9 w-full">
             <Button
               type="submit"
               severity="contrast"
@@ -54,7 +107,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { FormResolverOptions } from "@primevue/forms/form";
+import { z } from "zod";
+import { IconArrowLeft } from "@tabler/icons-vue";
+import type { FormSubmitEvent } from "@primevue/forms/form";
+import { zodResolver } from "@primevue/forms/resolvers/zod";
 
 useHead({
   title: "Admin - Edit About",
@@ -65,39 +121,54 @@ definePageMeta({
   layout: "admin",
 });
 
-interface FormValues {
-  title: string;
-  description_html: string;
-}
+const isUsedOptions = [
+  {
+    label: "Yes",
+    value: true,
+  },
+  {
+    label: "No",
+    value: false,
+  },
+];
 
 const toast = useToast();
 const initialValues = reactive({
   title: "",
+  is_used: true,
   description_html: "",
 });
 
-const formResolver = ({ values }: FormResolverOptions) => {
-  const errors: any = {};
+const formSchema = z.object({
+  title: z.string().nonempty("Title is required."),
+});
 
-  if (!values.title) {
-    errors.title = [{ message: "Title is required." }];
+const formResolver = zodResolver(formSchema);
+
+const descriptionHtmlError = ref<string>('');
+
+const validateDescriptionHtml = () => {
+  const val = initialValues.description_html.trim();
+  if (val == "" || val == "<p></p>") {
+    descriptionHtmlError.value = "Description HTML is required.";
+  } else {
+    descriptionHtmlError.value = '';
   }
-
-  if (!values.description_html) {
-    errors.description_html = [{ message: "Description HTML is required." }];
-  }
-
-  return {
-    values, // (Optional) Used to pass current form values to submit event.
-    errors,
-  };
 };
 
-const onFormSubmit = ({ valid }: { valid: boolean }) => {
-  if (valid) {
+watch(
+  () => initialValues.description_html,
+  () => {
+    validateDescriptionHtml();
+  }
+);
+
+const onFormSubmit = async ({ valid }: FormSubmitEvent) => {
+  validateDescriptionHtml();
+  if (valid && !descriptionHtmlError.value) {
     toast.add({
       severity: "info",
-      summary: "Welcome to Dashboard Admin",
+      summary: "Success to created data",
       life: 3000,
     });
   }
