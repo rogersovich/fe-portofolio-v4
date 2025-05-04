@@ -1,22 +1,16 @@
-<template lang="">
+<template>
   <div>
-    dashboard index
+    <div class="text-3xl font-rethink font-bold">Dashboard</div>
   </div>
 </template>
 <script setup>
-
 useHead({
   title: "Admin - Dashboard",
   titleTemplate: "%s | Portofolio",
 });
 
 definePageMeta({
-  layout: 'admin'
+  layout: "admin",
 });
-
-
-
 </script>
-<style lang="">
-  
-</style>
+<style lang=""></style>

@@ -7,7 +7,7 @@
         'col-span-2': sidebarExpanded,
       }"
     >
-      <BaseSidebarMenu/>
+      <BaseSidebarMenu />
     </div>
     <div
       :class="{
@@ -15,15 +15,40 @@
         'col-span-10': sidebarExpanded,
       }"
     >
-      <slot />
+      <div class="px-10 py-8">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useSidebarStore } from '~/stores/useSidebar';
+import { storeToRefs } from "pinia";
+import { useSidebarStore } from "~/stores/useSidebar";
 
-const {
-  sidebarExpanded,
-} = useSidebarStore()
+const route = useRoute();
+const sidebarStore = useSidebarStore();
+const { sidebarExpanded, menuList } = storeToRefs(sidebarStore);
+
+const syncMenuActive = (routePath: string) => {
+  const oldActiveIndex = menuList.value.findIndex((menu) => {
+    return menu.is_active;
+  })
+
+  menuList.value[oldActiveIndex].is_active = false
+
+  const findMenuIndex = menuList.value.findIndex((menu) => {
+    return routePath.includes(menu.key);
+  });
+
+  if (findMenuIndex == -1) {
+    return;
+  }
+
+  menuList.value[findMenuIndex].is_active = true;
+}
+
+onMounted(() => {
+  syncMenuActive(route.path)
+})
 </script>
 <style lang=""></style>

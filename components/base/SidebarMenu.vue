@@ -8,13 +8,13 @@
   >
     <template v-if="sidebarExpanded">
       <div
-        class="flex justify-between items-center gap-3 px-4 cursor-pointer mt-3 mb-1"
+        class="flex justify-between items-center gap-3 px-4 cursor-pointer mt-1 mb-1"
       >
         <div class="flex items-center gap-3">
           <NuxtImg src="/images/logo.png" class="w-[60px] h-[60px]" />
           <div class="font-bold text-2xl font-rethink">Zeraphi</div>
         </div>
-        <div>
+        <div class="absolute -right-3">
           <IconChevronLeft
             @click="toggleSidebar()"
             class="size-6 cursor-pointer text-white bg-zinc-50/[.2] p-1 rounded-full"
@@ -65,7 +65,7 @@
             </div>
           </div>
           <div
-            class="flex items-start gap-2 flex-col pl-10 w-full"
+            class="flex items-start gap-2 flex-col pl-14 w-full"
             v-if="item.children.length > 0 && item.is_active"
           >
             <div
@@ -111,11 +111,11 @@
     </template>
     <template v-else>
       <div
-        class="flex justify-center items-center gap-3 px-4 cursor-pointer mt-3 relative"
+        class="flex justify-center items-center gap-3 px-4 cursor-pointer mt-1 relative"
       >
         <NuxtImg src="/images/logo.png" class="w-[70px] h-[70px]" />
         <div class="absolute -right-3">
-          <IconChevronLeft
+          <IconChevronRight
             @click="toggleSidebar()"
             class="size-6 cursor-pointer text-white bg-zinc-50/[.2] p-1 rounded-full"
           />
@@ -166,14 +166,18 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconChevronLeft,
+  IconChevronRight,
   IconLogout,
 } from "@tabler/icons-vue";
+import { storeToRefs } from "pinia";
 
 import { useSidebarStore } from '~/stores/useSidebar';
 
+const sidebarStore = useSidebarStore();
+const { sidebarExpanded } = storeToRefs(sidebarStore);
+
 const {
   menuList,
-  sidebarExpanded,
   toggleMenu,
   toggleMenuChild,
   toggleSidebar
