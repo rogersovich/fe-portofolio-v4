@@ -1,118 +1,160 @@
 <template>
-  <div>
-    <div
-      class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center items-center"
-    >
-      <Toast position="top-center" />
-      <div class="card flex justify-center items-center flex-col gap-4 sm:w-[30rem]">
-        <div class="flex flex-col gap-2 mb-4">
-          <div class="text-5xl font-rethink font-bold">
-            <span> Welcome to </span>
-            <BaseTextHighlight
-              :duration="500"
-              class="rounded-lg bg-gradient-to-r from-[#9E7AFF] to-[#FE8BBB]"
-            >
-              Login
-            </BaseTextHighlight>
-          </div>
-          <div class="text-muted-foreground">
-            Sign in to Continue to the Dashboard
-          </div>
-        </div>
-        <Form
-          v-slot="$form"
-          :initialValues
-          :resolver="formResolver"
-          @submit="onFormSubmit"
-          class="flex flex-col gap-4 w-full sm:w-[24rem]"
+  <ClientOnly fallback-tag="span" fallback="Loading...">
+    <div>
+      <div
+        class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center items-center"
+      >
+        <Toast position="top-right" />
+        <div
+          class="card flex justify-center items-center flex-col gap-4 sm:w-[30rem]"
         >
-          <div class="flex flex-col gap-1 text-left">
-            <label for="username" class="mb-1">Username</label>
-            <InputText
-              name="username"
-              type="text"
-              placeholder="Username"
-              fluid
-              variant="outlined"
-              size="small"
-            />
-            <Message
-              v-if="$form.username?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-              >{{ $form.username.error?.message }}</Message
-            >
+          <div class="flex flex-col gap-2 mb-4">
+            <div class="text-5xl font-rethink font-bold">
+              <span> Welcome to </span>
+              <BaseTextHighlight
+                :duration="500"
+                class="rounded-lg bg-gradient-to-r from-[#9E7AFF] to-[#FE8BBB]"
+              >
+                Login
+              </BaseTextHighlight>
+            </div>
+            <div class="text-muted-foreground">
+              Sign in to Continue to the Dashboard
+            </div>
           </div>
-          <div class="flex flex-col gap-1 text-left">
-            <label for="password" class="mb-1">Password</label>
-            <InputText
-              name="password"
-              type="text"
-              placeholder="Password"
-              fluid
-              variant="outlined"
-              size="small"
-            />
-            <Message
-              v-if="$form.password?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-              >{{ $form.password.error?.message }}</Message
-            >
-          </div>
-          <div class="mt-2 w-full">
-            <Button
-              type="submit"
-              severity="contrast"
-              label="Submit"
-              size="small"
-              class="w-full"
-            />
-          </div>
-        </Form>
+          <Form
+            v-slot="$form"
+            :initialValues="formData"
+            :resolver="formResolver"
+            @submit="onFormSubmit"
+            class="flex flex-col gap-4 w-full sm:w-[24rem]"
+          >
+            <div class="flex flex-col gap-1 text-left">
+              <label for="email" class="mb-1">Email</label>
+              <InputText
+                name="email"
+                type="text"
+                placeholder="Email"
+                fluid
+                variant="outlined"
+                size="small"
+              />
+              <Message
+                v-if="$form.email?.invalid"
+                severity="error"
+                size="small"
+                variant="simple"
+                >{{ $form.email.error?.message }}</Message
+              >
+            </div>
+            <div class="flex flex-col gap-1 text-left">
+              <label for="password" class="mb-1">Password</label>
+              <InputText
+                name="password"
+                type="text"
+                placeholder="Password"
+                fluid
+                variant="outlined"
+                size="small"
+              />
+              <Message
+                v-if="$form.password?.invalid"
+                severity="error"
+                size="small"
+                variant="simple"
+                >{{ $form.password.error?.message }}</Message
+              >
+            </div>
+            <div class="mt-2 w-full">
+              <Button
+                type="submit"
+                severity="contrast"
+                label="Submit"
+                size="small"
+                class="w-full"
+              />
+            </div>
+          </Form>
+        </div>
       </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
-<script setup>
+<script setup lang="ts">
+import { z } from "zod";
+import type { FormSubmitEvent } from "@primevue/forms/form";
+import { zodResolver } from "@primevue/forms/resolvers/zod";
+import { useAuthStore } from "~/stores/useAuth";
+import type { TLoginResponse } from "~/types/auth.type";
+import type { TBaseResponse } from "~/types/base.type";
 
 useHead({
   title: "Auth Login",
   titleTemplate: "%s | Portofolio",
 });
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const toast = useToast();
-const initialValues = reactive({
-  username: "",
+const authStore = useAuthStore();
+const sidebarStore = useSidebarStore();
+const formData = ref({
+  email: "",
   password: "",
 });
 
-const formResolver = ({ values }) => {
-  const errors = {};
+const formSchema = z.object({
+  email: z.string().nonempty("Email is required."),
+  password: z.string().nonempty("Password is required."),
+});
 
-  if (!values.username) {
-    errors.username = [{ message: "Username is required." }];
-  }
+const formResolver = zodResolver(formSchema);
 
-  if (!values.password) {
-    errors.password = [{ message: "Password is required." }];
-  }
-
-  return {
-    values, // (Optional) Used to pass current form values to submit event.
-    errors,
-  };
-};
-
-const onFormSubmit = ({ valid }) => {
+const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
-    toast.add({
-      severity: "info",
-      summary: "Welcome to Dashboard Admin",
-      life: 3000,
-    });
+    try {
+      const { error, data } = await useAPI<TBaseResponse<TLoginResponse>>(
+        "/auth/login",
+        {
+          method: "POST",
+          body: {
+            email: values.email,
+            password: values.password,
+          },
+          lazy: true,
+          server: false,
+        }
+      );
+
+      if (error.value) {
+        const errMsg = toCapitalize(error.value.data.message);
+        throw new Error(errMsg);
+      }
+
+      if (data.value) {
+        authStore.setAuth(data.value.data);
+        const message = toCapitalize(data.value.message);
+        toast.add({
+          severity: "info",
+          summary: message,
+          life: 3000,
+        });
+
+        sidebarStore.setInitMenuList();
+
+        setTimeout(() => {
+          navigateTo("/adminz/dashboard");
+        }, 3000);
+      }
+    } catch (error: any) {
+      toast.add({
+        severity: "error",
+        summary: error.message,
+        life: 3000,
+      });
+    }
   }
 };
 </script>

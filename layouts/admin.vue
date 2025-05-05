@@ -1,25 +1,27 @@
 <template>
-  <div class="grid grid-cols-12">
-    <div
-      class="border border-zinc-50/[.05] border-t-0 border-b-0"
-      :class="{
-        'col-span-1': !sidebarExpanded,
-        'col-span-2': sidebarExpanded,
-      }"
-    >
-      <BaseSidebarMenu />
-    </div>
-    <div
-      :class="{
-        'col-span-11': !sidebarExpanded,
-        'col-span-10': sidebarExpanded,
-      }"
-    >
-      <div class="px-10 py-8">
-        <slot />
+  <ClientOnly>
+    <div class="grid grid-cols-12">
+      <div
+        class="border border-zinc-50/[.05] border-t-0 border-b-0"
+        :class="{
+          'col-span-1': !sidebarExpanded,
+          'col-span-2': sidebarExpanded,
+        }"
+      >
+        <BaseSidebarMenu />
+      </div>
+      <div
+        :class="{
+          'col-span-11': !sidebarExpanded,
+          'col-span-10': sidebarExpanded,
+        }"
+      >
+        <div class="px-10 py-8">
+          <slot />
+        </div>
       </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
@@ -32,9 +34,9 @@ const { sidebarExpanded, menuList } = storeToRefs(sidebarStore);
 const syncMenuActive = (routePath: string) => {
   const oldActiveIndex = menuList.value.findIndex((menu) => {
     return menu.is_active;
-  })
+  });
 
-  menuList.value[oldActiveIndex].is_active = false
+  menuList.value[oldActiveIndex].is_active = false;
 
   const findMenuIndex = menuList.value.findIndex((menu) => {
     return routePath.includes(menu.key);
@@ -45,10 +47,13 @@ const syncMenuActive = (routePath: string) => {
   }
 
   menuList.value[findMenuIndex].is_active = true;
-}
+};
 
 onMounted(() => {
-  syncMenuActive(route.path)
-})
+  sidebarStore.setInitMenuList();
+  setTimeout(() => {
+    syncMenuActive(route.path);
+  }, 500);
+});
 </script>
 <style lang=""></style>

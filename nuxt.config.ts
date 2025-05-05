@@ -12,7 +12,13 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@primevue/nuxt-module",
     "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
   ],
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_API_BASE || "http://localhost:4000/api",
+    },
+  },
   colorMode: {
     classSuffix: "",
   },
@@ -32,8 +38,8 @@ export default defineNuxtConfig({
         preset: customTheme,
       },
       ripple: true,
-      inputVariant: 'filled',
+      inputVariant: "filled",
     },
-    autoImport: true
+    autoImport: true,
   },
 });
