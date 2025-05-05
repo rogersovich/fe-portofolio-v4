@@ -1,9 +1,7 @@
 <template>
-   <ClientOnly fallback-tag="span" fallback="Loading dashboard...">
-     <div>
-       <div class="text-3xl font-rethink font-bold">Dashboard</div>
-     </div>
-   </ClientOnly>
+  <div>
+    <div class="text-3xl font-rethink font-bold">Dashboard</div>
+  </div>
 </template>
 <script setup>
 useHead({

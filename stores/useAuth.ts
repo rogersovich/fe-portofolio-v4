@@ -16,7 +16,7 @@ export const useAuthStore = defineStore("auth", () => {
     };
   };
 
-  const unsetAuth = () => {
+  const logout = () => {
     auth.token = "";
     auth.user = null;
   };
@@ -33,7 +33,7 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     auth,
     setAuth,
-    unsetAuth,
+    logout,
     getToken,
     getUserLogin
   };

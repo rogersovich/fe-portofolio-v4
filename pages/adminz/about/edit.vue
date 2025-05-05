@@ -119,6 +119,7 @@ useHead({
 
 definePageMeta({
   layout: "admin",
+  middleware: "auth",
 });
 
 const isUsedOptions = [

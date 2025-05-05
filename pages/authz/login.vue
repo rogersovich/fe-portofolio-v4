@@ -1,84 +1,82 @@
 <template>
-  <ClientOnly fallback-tag="span" fallback="Loading...">
-    <div>
+  <div>
+    <div
+      class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center items-center"
+    >
+      <Toast position="top-right" />
       <div
-        class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center items-center"
+        class="card flex justify-center items-center flex-col gap-4 sm:w-[30rem]"
       >
-        <Toast position="top-right" />
-        <div
-          class="card flex justify-center items-center flex-col gap-4 sm:w-[30rem]"
-        >
-          <div class="flex flex-col gap-2 mb-4">
-            <div class="text-5xl font-rethink font-bold">
-              <span> Welcome to </span>
-              <BaseTextHighlight
-                :duration="500"
-                class="rounded-lg bg-gradient-to-r from-[#9E7AFF] to-[#FE8BBB]"
-              >
-                Login
-              </BaseTextHighlight>
-            </div>
-            <div class="text-muted-foreground">
-              Sign in to Continue to the Dashboard
-            </div>
+        <div class="flex flex-col gap-2 mb-4">
+          <div class="text-5xl font-rethink font-bold">
+            <span> Welcome to </span>
+            <BaseTextHighlight
+              :duration="500"
+              class="rounded-lg bg-gradient-to-r from-[#9E7AFF] to-[#FE8BBB]"
+            >
+              Login
+            </BaseTextHighlight>
           </div>
-          <Form
-            v-slot="$form"
-            :initialValues="formData"
-            :resolver="formResolver"
-            @submit="onFormSubmit"
-            class="flex flex-col gap-4 w-full sm:w-[24rem]"
-          >
-            <div class="flex flex-col gap-1 text-left">
-              <label for="email" class="mb-1">Email</label>
-              <InputText
-                name="email"
-                type="text"
-                placeholder="Email"
-                fluid
-                variant="outlined"
-                size="small"
-              />
-              <Message
-                v-if="$form.email?.invalid"
-                severity="error"
-                size="small"
-                variant="simple"
-                >{{ $form.email.error?.message }}</Message
-              >
-            </div>
-            <div class="flex flex-col gap-1 text-left">
-              <label for="password" class="mb-1">Password</label>
-              <InputText
-                name="password"
-                type="text"
-                placeholder="Password"
-                fluid
-                variant="outlined"
-                size="small"
-              />
-              <Message
-                v-if="$form.password?.invalid"
-                severity="error"
-                size="small"
-                variant="simple"
-                >{{ $form.password.error?.message }}</Message
-              >
-            </div>
-            <div class="mt-2 w-full">
-              <Button
-                type="submit"
-                severity="contrast"
-                label="Submit"
-                size="small"
-                class="w-full"
-              />
-            </div>
-          </Form>
+          <div class="text-muted-foreground">
+            Sign in to Continue to the Dashboard
+          </div>
         </div>
+        <Form
+          v-slot="$form"
+          :initialValues="formData"
+          :resolver="formResolver"
+          @submit="onFormSubmit"
+          class="flex flex-col gap-4 w-full sm:w-[24rem]"
+        >
+          <div class="flex flex-col gap-1 text-left">
+            <label for="email" class="mb-1">Email</label>
+            <InputText
+              name="email"
+              type="text"
+              placeholder="Email"
+              fluid
+              variant="outlined"
+              size="small"
+            />
+            <Message
+              v-if="$form.email?.invalid"
+              severity="error"
+              size="small"
+              variant="simple"
+              >{{ $form.email.error?.message }}</Message
+            >
+          </div>
+          <div class="flex flex-col gap-1 text-left">
+            <label for="password" class="mb-1">Password</label>
+            <InputText
+              name="password"
+              type="text"
+              placeholder="Password"
+              fluid
+              variant="outlined"
+              size="small"
+            />
+            <Message
+              v-if="$form.password?.invalid"
+              severity="error"
+              size="small"
+              variant="simple"
+              >{{ $form.password.error?.message }}</Message
+            >
+          </div>
+          <div class="mt-2 w-full">
+            <Button
+              type="submit"
+              severity="contrast"
+              label="Submit"
+              size="small"
+              class="w-full"
+            />
+          </div>
+        </Form>
       </div>
     </div>
-  </ClientOnly>
+  </div>
 </template>
 <script setup lang="ts">
 import { z } from "zod";
@@ -115,39 +113,54 @@ const formResolver = zodResolver(formSchema);
 const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
     try {
-      const { error, data } = await useAPI<TBaseResponse<TLoginResponse>>(
-        "/auth/login",
-        {
-          method: "POST",
-          body: {
-            email: values.email,
-            password: values.password,
-          },
-          lazy: true,
-          server: false,
-        }
-      );
+      // const { error, data } = await useAPI<TBaseResponse<TLoginResponse>>(
+      //   "/auth/login",
+      //   {
+      //     method: "POST",
+      //     body: {
+      //       email: values.email,
+      //       password: values.password,
+      //     },
+      //     lazy: true,
+      //     server: false,
+      //   }
+      // );
 
-      if (error.value) {
-        const errMsg = toCapitalize(error.value.data.message);
-        throw new Error(errMsg);
-      }
+      // if (error.value) {
+      //   const errMsg = toCapitalize(error.value.data.message);
+      //   throw new Error(errMsg);
+      // }
 
-      if (data.value) {
-        authStore.setAuth(data.value.data);
-        const message = toCapitalize(data.value.message);
-        toast.add({
-          severity: "info",
-          summary: message,
-          life: 3000,
-        });
+      // if (data.value) {
+      //   authStore.setAuth(data.value.data);
+      //   const message = toCapitalize(data.value.message);
+      //   toast.add({
+      //     severity: "info",
+      //     summary: message,
+      //     life: 3000,
+      //   });
 
-        sidebarStore.setInitMenuList();
+      //   sidebarStore.setInitMenuList();
 
-        setTimeout(() => {
-          navigateTo("/adminz/dashboard");
-        }, 3000);
-      }
+      //   setTimeout(() => {
+      //     navigateTo("/adminz/dashboard");
+      //   }, 3000);
+      // }
+
+      authStore.setAuth({
+        id: 1,
+        username: "roger",
+        email: "roger",
+        token: "hehehehhe",
+      });
+      toast.add({
+        severity: "info",
+        summary: "Welcome to Dashboard",
+        life: 3000,
+      });
+      setTimeout(() => {
+        navigateTo("/adminz/dashboard");
+      }, 2000);
     } catch (error: any) {
       toast.add({
         severity: "error",
@@ -157,5 +170,11 @@ const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
     }
   }
 };
+
+onMounted(() => {
+  // if(authStore.auth.token){
+  //   navigateTo("/adminz/dashboard");
+  // }
+});
 </script>
 <style lang=""></style>
