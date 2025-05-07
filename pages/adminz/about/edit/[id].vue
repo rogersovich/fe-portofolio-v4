@@ -185,7 +185,7 @@ import { z } from "zod";
 import { IconArrowLeft } from "@tabler/icons-vue";
 import type { TBaseResponse } from "~/types/base.type";
 import type { TAbout } from "~/types/about.type";
-import axios from "axios";
+import { type AxiosResponse } from "axios";
 
 useHead({
   title: "Admin - Edit About",
@@ -352,41 +352,24 @@ const onFormSubmit = async () => {
 
 const handleUpdateAbout = async (payload: any) => {
   try {
-    const data = await axios.post(
-      "http://localhost:4000/api/abouts/update",
-      payload,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${authStore.getToken()}`,
-        },
-      }
-    );
+    const { $axios } = useNuxtApp();
+    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post("/abouts/update", payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-    console.log(data);
+    if (data.status == "ok") {
+      const message = toCapitalize(data.message);
 
-    // const { data, error } = await useAPI<TBaseResponse<any>>(`/abouts/update`, {
-    //   method: "POST",
-    //   body: payload,
-    //   server: false,
-    // });
+      alertStore.setAlert({
+        severity: "info",
+        summary: message,
+        show_alert: true,
+      });
 
-    // if (error.value) {
-    //   const errMsg = toCapitalize(error.value.data.message);
-    //   throw new Error(errMsg);
-    // }
-
-    // if (data.value) {
-    //   const message = toCapitalize(data.value.message);
-
-    //   alertStore.setAlert({
-    //     severity: "info",
-    //     summary: message,
-    //     show_alert: true,
-    //   });
-
-    //   navigateTo("/adminz/about");
-    // }
+      navigateTo("/adminz/about");
+    }
   } catch (error: any) {
     loading.value = false;
     console.warn(error);
