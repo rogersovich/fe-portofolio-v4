@@ -94,7 +94,9 @@
               class="w-[50px] h-[50px rounded-full"
             />
             <div class="flex flex-col gap-0">
-              <div class="text-[13px] font-bold">Dimas Roger W</div>
+              <div class="text-[13px] font-bold">
+                {{ auth.user?.username }}
+              </div>
               <div class="text-[12px] font-light">Super Admin</div>
             </div>
           </div>
@@ -181,8 +183,8 @@ import { useAuthStore } from "~/stores/useAuth";
 
 const confirm = useConfirm();
 
+const { logout, auth } = useAuthStore();
 const sidebarStore = useSidebarStore();
-const authStore = useAuthStore();
 const { sidebarExpanded } = storeToRefs(sidebarStore);
 
 const { menuList, toggleMenu, toggleMenuChild, toggleSidebar } =
@@ -198,7 +200,7 @@ const handleLogout = () => {
     acceptLabel: "Yes",
     rejectLabel: "Cancel",
     accept: () => {
-      authStore.logout();
+      logout();
       navigateTo("/authz/login");
     },
     reject: () => {

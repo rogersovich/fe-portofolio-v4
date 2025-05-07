@@ -11,51 +11,59 @@
         <div class="border border-zinc-50/[.1] rounded-lg px-5 py-4">
           <div class="grid grid-cols-12 gap-8">
             <div class="col-span-3">
-              <div class="flex flex-col items-start justify-center gap-4">
-                <NuxtImg
-                  src="/images/kucing-hijab.jpg"
-                  height="350px"
-                  width="350px"
-                  class="rounded-lg"
-                  densities="x1 x2"
-                />
-                <div class="flex items-center justify-center gap-3 w-full">
-                  <router-link to="/adminz/about/edit">
-                    <IconEdit class="size-11 border border-zinc-50/[.1] p-2 rounded-md cursor-pointer hover:border-orange-500" />
-                  </router-link>
-                  <IconArchive class="size-11 border border-zinc-50/[.1] p-2 rounded-md cursor-pointer hover:border-orange-500" />
+              <template v-if="!loading && about">
+                <div class="flex flex-col items-start justify-center gap-4">
+                  <NuxtImg
+                    :src="about?.avatar_url"
+                    height="350px"
+                    width="350px"
+                    class="rounded-lg"
+                    densities="x1 x2"
+                  />
+                  <div class="flex items-center justify-center gap-3 w-full">
+                    <router-link :to="`/adminz/about/edit/${about?.id}`">
+                      <IconEdit
+                        class="size-11 border border-zinc-50/[.1] p-2 rounded-md cursor-pointer hover:border-orange-500"
+                      />
+                    </router-link>
+                    <IconArchive
+                      class="size-11 border border-zinc-50/[.1] p-2 rounded-md cursor-pointer hover:border-orange-500"
+                    />
+                  </div>
                 </div>
-              </div>
+              </template>
+              <template v-else>
+                <div>
+                  <Skeleton width="100%" height="250px" class="mb-3"></Skeleton>
+                  <div class="flex items-center justify-center gap-3 w-full">
+                    <Skeleton width="50px" height="50px"></Skeleton>
+                    <Skeleton width="50px" height="50px"></Skeleton>
+                  </div>
+                </div>
+              </template>
             </div>
             <div class="col-span-9">
-              <div>
-                <div class="text-5xl text-zinc-50 font-rethink font-bold pb-2">
-                  Dimas Roger Widianto
+              <template v-if="!loading && about">
+                <div>
+                  <div
+                    class="text-5xl text-zinc-50 font-rethink font-bold"
+                  >
+                    {{ about?.title }}
+                  </div>
+                  <div class="pt-8 text-muted-foreground font-light text-base">
+                    <span v-html="about?.description_html"></span>
+                  </div>
                 </div>
-                <div class="text-zinc-300 font-semibold text-lg">
-                  Front-end Developer at <span>Elabram</span>
+              </template>
+              <template v-else>
+                <div>
+                  <Skeleton width="80%" height="50px" class="mb-3"></Skeleton>
+
+                  <template v-for="i in 6" :key="i">
+                    <Skeleton width="75%" height="15px" class="mb-3"></Skeleton>
+                  </template>
                 </div>
-                <div class="pt-8 text-muted-foreground font-light text-base">
-                  <p class="tracking-wide">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book
-                  </p>
-                  <p>
-                    It was popularised in the 1960s with the release of Letraset
-                    sheets containing Lorem Ipsum passages, and more recently
-                    with desktop publishing software like Aldus PageMaker
-                    including versions of Lorem Ipsum.
-                  </p>
-                  <p>
-                    Contrary to popular belief, Lorem Ipsum is not simply random
-                    text. It has roots in a piece of classical Latin literature
-                    from 45 BC, making it over 2000 years old.
-                  </p>
-                </div>
-              </div>
+              </template>
             </div>
           </div>
         </div>
@@ -63,11 +71,10 @@
     </div>
   </div>
 </template>
-<script setup>
-import {
-  IconEdit,
-  IconArchive
-} from "@tabler/icons-vue";
+<script setup lang="ts">
+import { IconEdit, IconArchive } from "@tabler/icons-vue";
+import type { TAbout } from "~/types/about.type";
+import type { TBaseResponse } from "~/types/base.type";
 
 useHead({
   title: "Admin - About",
@@ -78,5 +85,40 @@ definePageMeta({
   layout: "admin",
   middleware: "auth",
 });
+
+const about = ref<TAbout | null>(null);
+const loading = ref(false);
+
+const fetchAbout = async () => {
+  try {
+    const { data, error } = await useAPI<TBaseResponse<TAbout[]>>("/abouts", {
+      method: "GET",
+      lazy: true,
+      server: false,
+    });
+
+    if (error.value) {
+      const errMsg = toCapitalize(error.value.data.message);
+      throw new Error(errMsg);
+    }
+
+    if (data.value) {
+      const res = data.value.data;
+
+      if (res.length > 0) {
+        about.value = res[0];
+      }
+    }
+  } catch (error) {
+    loading.value = false;
+    console.warn(error);
+  }
+};
+
+onMounted(async () => {
+  loading.value = true;
+  await fetchAbout();
+  loading.value = false;
+});
 </script>
-<style lang=""></style>
+<style></style>

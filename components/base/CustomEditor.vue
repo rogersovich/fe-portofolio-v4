@@ -258,7 +258,7 @@
         </button>
       </div>
     </div>
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor"/>
   </div>
 </template>
 
@@ -347,6 +347,10 @@ export default {
       type: String,
       default: "",
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   emits: ["update:modelValue"],
@@ -447,6 +451,16 @@ export default {
         },
       });
     },
+
+    setEditorContentDisabled() {
+      this.editor.setOptions({
+        editorProps: {
+          attributes: {
+            class: "tiptap-content--disabled",
+          },
+        },
+      });
+    },
   },
 
   data() {
@@ -475,6 +489,13 @@ export default {
     errMessage(newValue) {
       if (newValue) {
         this.setEditorContentError();
+      } else {
+        this.setEditorContentNormal();
+      }
+    },
+    disabled(newValue) {
+      if (newValue === false) {
+        this.setEditorContentDisabled();
       } else {
         this.setEditorContentNormal();
       }
@@ -522,6 +543,7 @@ export default {
         }),
       ],
       content: this.modelValue,
+      editable: this.$props.disabled,
       editorProps: {
         attributes: {
           class: "tiptap-content",

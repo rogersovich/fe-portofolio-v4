@@ -82,14 +82,6 @@ export const useSidebarStore = defineStore(
           children: [],
         },
         {
-          title: "About",
-          icon: IconBook,
-          is_active: false,
-          route: "/adminz/about",
-          key: "about",
-          children: [],
-        },
-        {
           title: "Project",
           icon: IconPresentation,
           is_active: false,
