@@ -20,15 +20,13 @@
                     class="rounded-lg"
                     densities="x1 x2"
                   />
-                  <div class="flex items-center justify-center gap-3 w-full">
+                  <div class="w-full">
                     <router-link :to="`/adminz/about/edit/${about?.id}`">
-                      <IconEdit
-                        class="size-11 border border-zinc-50/[.1] p-2 rounded-md cursor-pointer hover:border-orange-500"
-                      />
+                      <Button type="button" fluid variant="outlined">
+                        <IconEdit class="size-5" />
+                        <span> Edit </span>
+                      </Button>
                     </router-link>
-                    <IconArchive
-                      class="size-11 border border-zinc-50/[.1] p-2 rounded-md cursor-pointer hover:border-orange-500"
-                    />
                   </div>
                 </div>
               </template>
@@ -36,8 +34,7 @@
                 <div>
                   <Skeleton width="100%" height="250px" class="mb-3"></Skeleton>
                   <div class="flex items-center justify-center gap-3 w-full">
-                    <Skeleton width="50px" height="50px"></Skeleton>
-                    <Skeleton width="50px" height="50px"></Skeleton>
+                    <Skeleton width="100px" height="100px"></Skeleton>
                   </div>
                 </div>
               </template>
@@ -45,9 +42,7 @@
             <div class="col-span-9">
               <template v-if="!loading && about">
                 <div>
-                  <div
-                    class="text-5xl text-zinc-50 font-rethink font-bold"
-                  >
+                  <div class="text-5xl text-zinc-50 font-rethink font-bold">
                     {{ about?.title }}
                   </div>
                   <div class="pt-8 text-muted-foreground font-light text-base">

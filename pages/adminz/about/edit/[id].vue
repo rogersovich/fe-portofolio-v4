@@ -208,9 +208,9 @@ const isUsedOptions = [
   },
 ];
 
+const { $axios } = useNuxtApp();
 const route = useRoute();
 const alertStore = useAlertStore();
-const authStore = useAuthStore();
 
 const loading = ref(false);
 const forms = ref({
@@ -239,25 +239,13 @@ const descriptionHtmlError = ref<string>("");
 
 const fetchAbout = async () => {
   try {
-    const { data, error } = await useAPI<TBaseResponse<TAbout>>(
-      `/abouts/${route.params.id}`,
-      {
-        method: "GET",
-        lazy: true,
-        server: false,
-      }
+    const { data }: AxiosResponse<TBaseResponse<TAbout>> = await $axios.get(
+      `/abouts/${route.params.id}`
     );
 
-    if (error.value) {
-      const errMsg = toCapitalize(error.value.data.message);
-      throw new Error(errMsg);
-    }
+    const res = data.data;
 
-    if (data.value) {
-      const res = data.value.data;
-
-      fillForm(res);
-    }
+    fillForm(res);
   } catch (error) {
     loading.value = false;
     console.warn(error);
@@ -294,7 +282,7 @@ const cancelEditAvatar = () => {
   avatarOld.is_changed = false;
 };
 
-const formErrors = ref<any>({}); // Store all error messages
+const { formErrors,  validateForm } = useValidateForm();
 
 const validateDescriptionHtml = () => {
   const val = forms.value.description_html.trim();
@@ -305,30 +293,15 @@ const validateDescriptionHtml = () => {
   }
 };
 
-// Validate form data
-const validateForm = () => {
-  formErrors.value = [];
-  const result = formSchema.safeParse(forms.value);
-  if (!result.success) {
-    result.error.errors.forEach((err) => {
-      // Add each error to the formErrors object
-      if (!formErrors.value[err.path[0]]) {
-        formErrors.value[err.path[0]] = [];
-      }
-      formErrors.value[err.path[0]].push(err.message);
-    });
-
-    return false;
-  }
-  return true;
-};
 
 const onFormSubmit = async () => {
   validateDescriptionHtml();
 
-  if (!validateForm()) return;
+  const isValid = validateForm(formSchema, forms.value);
 
-  if (!descriptionHtmlError.value) {
+  // if (!validateForm()) return;
+
+  if (!descriptionHtmlError.value && isValid) {
     loading.value = true;
 
     const id = route.params.id;
@@ -352,24 +325,25 @@ const onFormSubmit = async () => {
 
 const handleUpdateAbout = async (payload: any) => {
   try {
-    const { $axios } = useNuxtApp();
-    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post("/abouts/update", payload, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      "/abouts/update",
+      payload,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    const message = toCapitalize(data.message);
+
+    alertStore.setAlert({
+      severity: "info",
+      summary: message,
+      show_alert: true,
     });
 
-    if (data.status == "ok") {
-      const message = toCapitalize(data.message);
-
-      alertStore.setAlert({
-        severity: "info",
-        summary: message,
-        show_alert: true,
-      });
-
-      navigateTo("/adminz/about");
-    }
+    navigateTo("/adminz/about");
   } catch (error: any) {
     loading.value = false;
     console.warn(error);
@@ -390,7 +364,7 @@ watch(
 watch(
   () => [forms.value.title, forms.value.is_used],
   () => {
-    validateForm();
+    validateForm(formSchema, forms.value);
   }
 );
 
