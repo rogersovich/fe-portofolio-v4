@@ -56,3 +56,11 @@ body {
 .tiptap-content--error {
   @apply border border-red-300 rounded-lg px-5 py-4 focus:outline-none focus:border-red-300
 }
+
+.btn-accept-dialog {
+  @apply bg-orange-500 text-white px-5 py-2 rounded-md !border-none focus:outline-none hover:!bg-orange-500 hover:!text-white;
+}
+
+.btn-reject-dialog {
+  @apply !text-white px-5 py-2 rounded-md !bg-transparent !border !border-zinc-50/[.2] focus:outline-none;
+}

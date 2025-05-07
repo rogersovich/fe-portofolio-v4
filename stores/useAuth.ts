@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { parse, stringify } from 'zipson'
 import type { TAuth, TLoginResponse } from "~/types/auth.type";
 
 export const useAuthStore = defineStore("auth", () => {
@@ -41,6 +42,10 @@ export const useAuthStore = defineStore("auth", () => {
   persist: {
     pick: ['auth'],
     storage: piniaPluginPersistedstate.localStorage(),
-    key: 'auth',
+    key: 'idk-maybe-auth',
+    serializer: {
+      deserialize: parse,
+      serialize: stringify
+    }
   }
 });

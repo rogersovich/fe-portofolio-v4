@@ -34,11 +34,13 @@
     "nuxt": "^3.15.0",
     "pinia": "^3.0.2",
     "pinia-plugin-persistedstate": "^4.2.0",
+    "primeicons": "^7.0.0",
     "primevue": "^4.3.3",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vue": "latest",
     "vue-router": "latest",
+    "zipson": "^0.2.12",
     "zod": "^3.24.3"
   },
   "devDependencies": {

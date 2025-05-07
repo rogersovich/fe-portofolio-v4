@@ -162,6 +162,7 @@
         </div>
       </div>
     </template>
+    <ConfirmDialog />
   </div>
 </template>
 <script setup lang="ts">
@@ -173,9 +174,12 @@ import {
   IconLogout,
 } from "@tabler/icons-vue";
 import { storeToRefs } from "pinia";
+import { useConfirm } from "primevue/useconfirm";
 
 import { useSidebarStore } from "~/stores/useSidebar";
 import { useAuthStore } from "~/stores/useAuth";
+
+const confirm = useConfirm();
 
 const sidebarStore = useSidebarStore();
 const authStore = useAuthStore();
@@ -185,8 +189,22 @@ const { menuList, toggleMenu, toggleMenuChild, toggleSidebar } =
   useSidebarStore();
 
 const handleLogout = () => {
-  authStore.logout();
-  navigateTo("/authz/login");
+  confirm.require({
+    message: "Are you sure you want to logout?",
+    header: "Logout Confirmation",
+    icon: "pi pi-exclamation-triangle",
+    acceptClass: "btn-accept-dialog",
+    rejectClass: "btn-reject-dialog",
+    acceptLabel: "Yes",
+    rejectLabel: "Cancel",
+    accept: () => {
+      authStore.logout();
+      navigateTo("/authz/login");
+    },
+    reject: () => {
+      // Handle the rejection logic here
+    },
+  });
 };
 </script>
 <style lang=""></style>

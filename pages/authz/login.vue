@@ -3,7 +3,6 @@
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center items-center"
     >
-      <Toast position="top-right" />
       <div
         class="card flex justify-center items-center flex-col gap-4 sm:w-[30rem]"
       >
@@ -98,6 +97,7 @@ definePageMeta({
 const toast = useToast();
 const authStore = useAuthStore();
 const sidebarStore = useSidebarStore();
+const alertStore = useAlertStore();
 const formData = ref({
   email: "",
   password: "",
@@ -113,68 +113,47 @@ const formResolver = zodResolver(formSchema);
 const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
     try {
-      // const { error, data } = await useAPI<TBaseResponse<TLoginResponse>>(
-      //   "/auth/login",
-      //   {
-      //     method: "POST",
-      //     body: {
-      //       email: values.email,
-      //       password: values.password,
-      //     },
-      //     lazy: true,
-      //     server: false,
-      //   }
-      // );
+      const { error, data } = await useAPI<TBaseResponse<TLoginResponse>>(
+        "/auth/login",
+        {
+          method: "POST",
+          body: {
+            email: values.email,
+            password: values.password,
+          },
+          lazy: true,
+          server: false,
+        }
+      );
 
-      // if (error.value) {
-      //   const errMsg = toCapitalize(error.value.data.message);
-      //   throw new Error(errMsg);
-      // }
+      if (error.value) {
+        const errMsg = toCapitalize(error.value.data.message);
+        throw new Error(errMsg);
+      }
 
-      // if (data.value) {
-      //   authStore.setAuth(data.value.data);
-      //   const message = toCapitalize(data.value.message);
-      //   toast.add({
-      //     severity: "info",
-      //     summary: message,
-      //     life: 3000,
-      //   });
+      if (data.value) {
+        authStore.setAuth(data.value.data);
 
-      //   sidebarStore.setInitMenuList();
+        const message = toCapitalize(data.value.message);
 
-      //   setTimeout(() => {
-      //     navigateTo("/adminz/dashboard");
-      //   }, 3000);
-      // }
+        alertStore.setAlert({
+          severity: "info",
+          summary: message,
+          show_alert: true,
+        });
 
-      authStore.setAuth({
-        id: 1,
-        username: "roger",
-        email: "roger",
-        token: "hehehehhe",
-      });
-      toast.add({
-        severity: "info",
-        summary: "Welcome to Dashboard",
-        life: 3000,
-      });
-      setTimeout(() => {
+        sidebarStore.setInitMenuList();
+
         navigateTo("/adminz/dashboard");
-      }, 2000);
+      }
     } catch (error: any) {
-      toast.add({
+      alertStore.setAlert({
         severity: "error",
         summary: error.message,
-        life: 3000,
+        show_alert: true,
       });
     }
   }
 };
-
-onMounted(() => {
-  // if(authStore.auth.token){
-  //   navigateTo("/adminz/dashboard");
-  // }
-});
 </script>
 <style lang=""></style>
