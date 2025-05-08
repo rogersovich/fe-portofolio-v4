@@ -27,9 +27,14 @@
           <div class="flex flex-wrap items-center justify-between gap-2">
             <span class="text-lg font-bold">List Author</span>
             <div class="flex items-center justify-center gap-4">
-              <Button variant="filled" class="py-2.5 bg-blue-600 !border-none hover:!bg-blue-700 !text-white">
-                <IconPlus class="size-5" />
-              </Button>
+              <router-link to="author/create">
+                <Button
+                  variant="filled"
+                  class="py-2.5 bg-blue-600 !border-none hover:!bg-blue-700 !text-white"
+                >
+                  <IconPlus class="size-5" />
+                </Button>
+              </router-link>
               <Button
                 icon="pi pi-refresh"
                 class="!text-white bg-zinc-600 hover:!bg-zinc-700 !border-none"
@@ -109,12 +114,15 @@
           <template #body="{ data }">
             <div class="flex items-center justify-center gap-4">
               <NuxtLink
-                to="/adminz/author/create"
+                :to="`/adminz/author/edit/${data.id}`"
                 class="cursor-pointer hover:bg-zinc-50/[.05] p-2 rounded-md"
               >
                 <IconEdit class="size-6 text-orange-500" />
               </NuxtLink>
-              <div class="cursor-pointer hover:bg-zinc-50/[.05] p-2 rounded-md">
+              <div
+                class="cursor-pointer hover:bg-zinc-50/[.05] p-2 rounded-md"
+                @click="handleConfirmDelete(data.id)"
+              >
                 <IconTrash class="size-6 text-red-500" />
               </div>
             </div>
@@ -141,9 +149,12 @@ definePageMeta({
 });
 
 const { $axios } = useNuxtApp();
-const totalRecords = ref(5);
+const confirm = useConfirm();
+const alertStore = useAlertStore();
+
+const totalRecords = ref(10);
 const first = ref(0);
-const rows = ref(2);
+const rows = ref(5);
 const sortField = ref("");
 const sortOrder = ref(1);
 const filters = ref({
@@ -161,69 +172,6 @@ const debouncedFilterCallback = useDebounceFn(
   500
 );
 
-const products = reactive([
-  {
-    id: "1000",
-    code: "f230fh0g3",
-    name: "Bamboo Watch",
-    description: "Product Description",
-    image: "bamboo-watch.jpg",
-    price: 65,
-    category: "Accessories",
-    quantity: 24,
-    inventoryStatus: "INSTOCK",
-    rating: 5,
-  },
-  {
-    id: "1001",
-    code: "nvklal433",
-    name: "Black Watch",
-    description: "Product Description",
-    image: "black-watch.jpg",
-    price: 72,
-    category: "Accessories",
-    quantity: 61,
-    inventoryStatus: "INSTOCK",
-    rating: 4,
-  },
-  {
-    id: "1002",
-    code: "zz21cz3c1",
-    name: "Blue Band",
-    description: "Product Description",
-    image: "blue-band.jpg",
-    price: 79,
-    category: "Fitness",
-    quantity: 2,
-    inventoryStatus: "LOWSTOCK",
-    rating: 3,
-  },
-  {
-    id: "1003",
-    code: "zz21cz3c1",
-    name: "Blue Band",
-    description: "Product Description",
-    image: "blue-band.jpg",
-    price: 79,
-    category: "Fitness",
-    quantity: 2,
-    inventoryStatus: "LOWSTOCK",
-    rating: 3,
-  },
-  {
-    id: "1004",
-    code: "zz21cz3c1",
-    name: "Blue Band",
-    description: "Product Description",
-    image: "blue-band.jpg",
-    price: 79,
-    category: "Fitness",
-    quantity: 2,
-    inventoryStatus: "LOWSTOCK",
-    rating: 3,
-  },
-]);
-
 const fetchAuthors = async () => {
   loading.value = true;
   try {
@@ -235,6 +183,7 @@ const fetchAuthors = async () => {
 
     if (res.length > 0) {
       authors.value = res;
+      totalRecords.value = res.length;
     }
 
     loading.value = false;
@@ -261,6 +210,48 @@ function onFilter(event: any) {
 
   console.log(event);
 }
+
+const handleConfirmDelete = (id: number) => {
+  confirm.require({
+    message: "Are you sure you want to delete?",
+    header: "Delete Confirmation",
+    icon: "pi pi-exclamation-triangle",
+    acceptClass: "btn-accept-dialog",
+    rejectClass: "btn-reject-dialog",
+    acceptLabel: "Yes",
+    rejectLabel: "Cancel",
+    accept: async () => {
+      await APIDeleteAuthor(id);
+    },
+    reject: () => {},
+  });
+};
+
+const APIDeleteAuthor = async (id: number) => {
+  loading.value = true;
+  try {
+    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      `/authors/delete`,
+      {
+        id,
+      }
+    );
+
+    const message = toCapitalize(data.message);
+
+    alertStore.setAlert({
+      severity: "info",
+      summary: message,
+      show_alert: true,
+    });
+
+    loading.value = false;
+
+    await fetchAuthors();
+  } catch (error) {
+    loading.value = false;
+  }
+};
 
 onMounted(() => {
   fetchAuthors();

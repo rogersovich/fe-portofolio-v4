@@ -3,25 +3,25 @@
     <Toast position="top-right" />
     <NuxtRouteAnnouncer />
     <NuxtPage />
+    <ConfirmDialog />
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import 'primeicons/primeicons.css'
+import "primeicons/primeicons.css";
 
 const toast = useToast();
 const alertStore = useAlertStore();
 
 alertStore.$subscribe((mutation, state) => {
-  if(state.show_alert){
+  if (state.show_alert) {
     setTimeout(() => {
       toast.add({
         severity: state.severity,
         summary: state.summary,
-        life: state.life
-      })
+        life: state.life,
+      });
     }, 300);
   }
-})
-
+});
 </script>

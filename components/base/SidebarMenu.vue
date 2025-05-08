@@ -164,7 +164,6 @@
         </div>
       </div>
     </template>
-    <ConfirmDialog />
   </div>
 </template>
 <script setup lang="ts">
