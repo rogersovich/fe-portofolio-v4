@@ -17,7 +17,11 @@
       </div>
     </div>
     <div class="pt-3">
-      <form @submit.prevent="onFormSubmit" class="grid grid-cols-12 gap-6">
+      <form
+        @submit.prevent="onFormSubmit"
+        class="grid grid-cols-12 gap-6"
+        :disabled="loading || loadingAuthor"
+      >
         <div class="col-span-12">
           <div class="text-2xl font-rethink font-bold">Form Edit</div>
           <hr class="border-zinc-50/[.15] mt-3" />
@@ -56,7 +60,7 @@
                   size="small"
                   class="w-full"
                   @click="triggerAvatarChange"
-                  :disabled="loading"
+                  :disabled="loading || loadingAuthor"
                 />
                 <template v-if="avatarNew.is_changed">
                   <Button
@@ -67,7 +71,7 @@
                     size="small"
                     class="w-full"
                     @click="cancelEditAvatar"
-                    :disabled="loading"
+                    :disabled="loading || loadingAuthor"
                   />
                 </template>
               </div>
@@ -84,7 +88,7 @@
               placeholder="e.g. name"
               fluid
               variant="outlined"
-              :disabled="loading"
+              :disabled="loading || loadingAuthor"
             />
             <div v-if="formErrors.name && formErrors.name.length > 0">
               <Message
@@ -130,10 +134,7 @@
 </template>
 <script setup lang="ts">
 import { z } from "zod";
-import { IconArrowLeft, IconPhoto } from "@tabler/icons-vue";
-import type { TBaseResponse } from "~/types/base.type";
-import type { AxiosResponse } from "axios";
-import type { TAuthor } from "~/types/author.type";
+import { IconArrowLeft } from "@tabler/icons-vue";
 
 useHead({
   title: "Admin - Edit Author",
@@ -145,9 +146,7 @@ definePageMeta({
   middleware: "auth",
 });
 
-const { $axios } = useNuxtApp();
 const route = useRoute();
-const alertStore = useAlertStore();
 
 const loading = ref(false);
 const refAvatar = ref("");
@@ -165,29 +164,11 @@ const formSchema = z.object({
   name: z.string().nonempty("Name is required."),
 });
 
-const APIFetchAuthor = async () => {
-  loading.value = true;
-  try {
-    const { data }: AxiosResponse<TBaseResponse<TAuthor>> = await $axios.get(
-      `/authors/${route.params.id}`
-    );
+// Fetch author data
+const { loading: loadingAuthor, authorData, fetchAuthor } = useAuthorAPI();
 
-    const res = data.data;
-
-    fillForm(res);
-
-    loading.value = false;
-  } catch (error) {
-    loading.value = false;
-  }
-};
-
-const fillForm = (data: TAuthor) => {
-  forms.value = {
-    name: data.name,
-    avatar_url: data.avatar_url,
-  };
-};
+// Update author data
+const { updateAuthor } = useAuthorAPI();
 
 const handleAvatarChange = (event: any) => {
   const file = event.target.files[0];
@@ -218,6 +199,14 @@ watch(
   }
 );
 
+watch(authorData, (newAuthor) => {
+  if (newAuthor) {
+    forms.value = { ...newAuthor };
+  } else {
+    forms.value = { name: "", avatar_url: "" };
+  }
+});
+
 const onFormSubmit = async () => {
   const isValid = validateForm(formSchema, forms.value);
   if (isValid) {
@@ -234,44 +223,13 @@ const onFormSubmit = async () => {
       formData.append("avatar_file", avatarNewFile);
     }
 
-    await APIUpdateAuthor(formData);
+    await updateAuthor(formData);
     loading.value = false;
-  }
-};
-
-const APIUpdateAuthor = async (payload: any) => {
-  try {
-    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-      "/authors/update",
-      payload,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
-    const message = toCapitalize(data.message);
-
-    alertStore.setAlert({
-      severity: "info",
-      summary: message,
-      show_alert: true,
-    });
-
-    navigateTo("/adminz/author");
-  } catch (error: any) {
-    loading.value = false;
-    alertStore.setAlert({
-      severity: "error",
-      summary: error.message,
-      show_alert: true,
-    });
   }
 };
 
 onMounted(async () => {
-  await APIFetchAuthor();
-})
+  await fetchAuthor();
+});
 </script>
 <style lang=""></style>

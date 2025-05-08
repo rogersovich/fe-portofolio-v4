@@ -45,8 +45,19 @@ const syncMenuActive = (routePath: string) => {
   if (findMenuIndex == -1) {
     return;
   }
-
   menuList.value[findMenuIndex].is_active = true;
+
+  const activeMenu = menuList.value[findMenuIndex];
+
+  if (activeMenu.children.length > 0) {
+    const oldActiveChildIndex = activeMenu.children.findIndex((menu) => {
+      return menu.is_active;
+    });
+
+    if(oldActiveChildIndex == -1) {
+      activeMenu.children[0].is_active = true;
+    }
+  }
 };
 
 onMounted(() => {

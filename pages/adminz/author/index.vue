@@ -16,7 +16,7 @@
         :first="first"
         :sortField="sortField"
         :sortOrder="sortOrder"
-        :loading="loading"
+        :loading="loadingAuthorDelete || loadingAuthor"
         filterDisplay="row"
         v-model:filters="filters"
         ref="dt"
@@ -134,9 +134,7 @@
 </template>
 <script setup lang="ts">
 import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
-import type { AxiosResponse } from "axios";
 import type { TAuthor } from "~/types/author.type";
-import type { TBaseResponse } from "~/types/base.type";
 
 useHead({
   title: "Admin - Author",
@@ -148,11 +146,8 @@ definePageMeta({
   middleware: "auth",
 });
 
-const { $axios } = useNuxtApp();
 const confirm = useConfirm();
-const alertStore = useAlertStore();
 
-const totalRecords = ref(10);
 const first = ref(0);
 const rows = ref(5);
 const sortField = ref("");
@@ -161,7 +156,6 @@ const filters = ref({
   name: { value: "", matchMode: "contains" },
   created_at: { value: "", matchMode: "contains" },
 });
-const loading = ref(false);
 const authors = ref<TAuthor[]>([]);
 
 // Debounced filter callback function with a 500ms delay (adjust as needed)
@@ -172,25 +166,18 @@ const debouncedFilterCallback = useDebounceFn(
   500
 );
 
-const fetchAuthors = async () => {
-  loading.value = true;
-  try {
-    const { data }: AxiosResponse<TBaseResponse<TAuthor[]>> = await $axios.get(
-      `/authors`
-    );
+// Fetch author list data
+const { loading: loadingAuthor, authorListData, fetchAuthors, totalRecords } = useAuthorAPI();
 
-    const res = data.data;
+// Delete author
+const { loading: loadingAuthorDelete, deleteAuthor} = useAuthorAPI();
 
-    if (res.length > 0) {
-      authors.value = res;
-      totalRecords.value = res.length;
-    }
-
-    loading.value = false;
-  } catch (error) {
-    loading.value = false;
+watch(
+  () => [authorListData.value],
+  () => {
+    authors.value = authorListData.value;
   }
-};
+);
 
 const onPageChange = (event: any) => {
   first.value = event.first;
@@ -221,40 +208,15 @@ const handleConfirmDelete = (id: number) => {
     acceptLabel: "Yes",
     rejectLabel: "Cancel",
     accept: async () => {
-      await APIDeleteAuthor(id);
+      await deleteAuthor(id);
+      await fetchAuthors();
     },
     reject: () => {},
   });
 };
 
-const APIDeleteAuthor = async (id: number) => {
-  loading.value = true;
-  try {
-    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-      `/authors/delete`,
-      {
-        id,
-      }
-    );
-
-    const message = toCapitalize(data.message);
-
-    alertStore.setAlert({
-      severity: "info",
-      summary: message,
-      show_alert: true,
-    });
-
-    loading.value = false;
-
-    await fetchAuthors();
-  } catch (error) {
-    loading.value = false;
-  }
-};
-
-onMounted(() => {
-  fetchAuthors();
+onMounted(async() => {
+  await fetchAuthors();
 });
 </script>
 <style></style>

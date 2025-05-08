@@ -217,6 +217,9 @@ watch(
   }
 );
 
+// Update author data
+const { storeAuthor } = useAuthorAPI();
+
 const onFormSubmit = async () => {
   const isValid = validateForm(formSchema, forms.value);
   const isValidAvatar = validateAvatar();
@@ -228,39 +231,8 @@ const onFormSubmit = async () => {
     const avatarNewFile = forms.value.avatar_file.file as unknown as File;
     formData.append("avatar_file", avatarNewFile);
 
-    await APICreateAuthor(formData);
+    await storeAuthor(formData);
     loading.value = false;
-  }
-};
-
-const APICreateAuthor = async (payload: any) => {
-  try {
-    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-      "/authors/store",
-      payload,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
-    const message = toCapitalize(data.message);
-
-    alertStore.setAlert({
-      severity: "info",
-      summary: message,
-      show_alert: true,
-    });
-
-    navigateTo("/adminz/author");
-  } catch (error: any) {
-    loading.value = false;
-    alertStore.setAlert({
-      severity: "error",
-      summary: error.message,
-      show_alert: true,
-    });
   }
 };
 </script>
