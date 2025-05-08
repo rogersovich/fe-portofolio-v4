@@ -45,7 +45,7 @@
                   <div class="text-5xl text-zinc-50 font-rethink font-bold">
                     {{ about?.title }}
                   </div>
-                  <div class="pt-8 text-muted-foreground font-light text-base">
+                  <div class="pt-8 text-muted-foreground text-base">
                     <span v-html="about?.description_html"></span>
                   </div>
                 </div>

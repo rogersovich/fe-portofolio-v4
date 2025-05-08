@@ -38,7 +38,7 @@
                 <div
                   class="flex flex-col items-start justify-center gap-3 mb-3"
                 >
-                  <template v-if="!avatarOld.is_changed">
+                  <template v-if="!avatarNew.is_changed">
                     <NuxtImg
                       :src="forms?.avatar_old"
                       width="w-full"
@@ -47,7 +47,7 @@
                   </template>
                   <template v-else>
                     <NuxtImg
-                      :src="avatarOld.blob_url"
+                      :src="avatarNew.blob_url"
                       width="w-full"
                       class="rounded-lg"
                     ></NuxtImg>
@@ -62,7 +62,7 @@
                       @click="triggerAvatarChange"
                       :disabled="loading"
                     />
-                    <template v-if="avatarOld.is_changed">
+                    <template v-if="avatarNew.is_changed">
                       <Button
                         type="button"
                         variant="outlined"
@@ -218,10 +218,9 @@ const forms = ref({
   is_used: true,
   description_html: "",
   avatar_old: "",
-  avatar_new: "",
 });
 const refAvatarNew = ref("");
-const avatarOld = reactive<{
+const avatarNew = reactive<{
   file: File | null;
   blob_url: string;
   is_changed: boolean;
@@ -248,7 +247,6 @@ const fetchAbout = async () => {
     fillForm(res);
   } catch (error) {
     loading.value = false;
-    console.warn(error);
   }
 };
 
@@ -258,16 +256,15 @@ const fillForm = (data: TAbout) => {
     is_used: data.is_used == "Y" ? true : false,
     description_html: data.description_html,
     avatar_old: data.avatar_url,
-    avatar_new: "",
   };
 };
 
 const handleAvatarChange = (event: any) => {
   const file = event.target.files[0];
   if (file) {
-    avatarOld.blob_url = URL.createObjectURL(file);
-    avatarOld.file = file;
-    avatarOld.is_changed = true;
+    avatarNew.blob_url = URL.createObjectURL(file);
+    avatarNew.file = file;
+    avatarNew.is_changed = true;
   }
 };
 
@@ -277,9 +274,9 @@ const triggerAvatarChange = () => {
 };
 
 const cancelEditAvatar = () => {
-  avatarOld.file = null;
-  avatarOld.blob_url = "";
-  avatarOld.is_changed = false;
+  avatarNew.file = null;
+  avatarNew.blob_url = "";
+  avatarNew.is_changed = false;
 };
 
 const { formErrors,  validateForm } = useValidateForm();
@@ -299,8 +296,6 @@ const onFormSubmit = async () => {
 
   const isValid = validateForm(formSchema, forms.value);
 
-  // if (!validateForm()) return;
-
   if (!descriptionHtmlError.value && isValid) {
     loading.value = true;
 
@@ -312,9 +307,9 @@ const onFormSubmit = async () => {
     formData.append("description_html", forms.value.description_html);
     formData.append("is_used", forms.value.is_used ? "Y" : "N");
 
-    if (avatarOld.is_changed && avatarOld.file instanceof File) {
-      const avatarOldFile = avatarOld.file as File;
-      formData.append("avatar_file", avatarOldFile);
+    if (avatarNew.is_changed && avatarNew.file instanceof File) {
+      const avatarNewFile = avatarNew.file as File;
+      formData.append("avatar_file", avatarNewFile);
     }
 
     await handleUpdateAbout(formData);
@@ -346,7 +341,6 @@ const handleUpdateAbout = async (payload: any) => {
     navigateTo("/adminz/about");
   } catch (error: any) {
     loading.value = false;
-    console.warn(error);
     alertStore.setAlert({
       severity: "error",
       summary: error.message,
