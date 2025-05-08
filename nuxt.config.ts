@@ -3,7 +3,9 @@ import customTheme from "./themes/customTheme";
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  css: ["@/assets/css/fonts.css"],
+  css: [
+    "@/assets/css/fonts.css",
+  ],
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
@@ -19,10 +21,10 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_API_BASE || "http://localhost:4000/api",
     },
   },
-  plugins: ['~/plugins/axios.ts'],
+  plugins: ["~/plugins/axios.ts"],
   routeRules: {
-    '/adminz/**': { ssr: false },
-    '/authz/**': { ssr: false },
+    "/adminz/**": { ssr: false },
+    "/authz/**": { ssr: false },
   },
   colorMode: {
     classSuffix: "",
@@ -38,12 +40,13 @@ export default defineNuxtConfig({
     viewer: true,
   },
   primevue: {
+    usePrimeVue: true,
     options: {
       theme: {
         preset: customTheme,
       },
       ripple: true,
-      inputVariant: "filled",
+      inputVariant: "outlined",
     },
     autoImport: true,
   },

@@ -36,7 +36,7 @@
     "pinia": "^3.0.2",
     "pinia-plugin-persistedstate": "^4.2.0",
     "primeicons": "^7.0.0",
-    "primevue": "^4.3.3",
+    "primevue": "^4.3.4",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vue": "latest",

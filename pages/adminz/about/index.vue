@@ -67,7 +67,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IconEdit, IconArchive } from "@tabler/icons-vue";
+import { IconEdit } from "@tabler/icons-vue";
+import type { AxiosResponse } from "axios";
 import type { TAbout } from "~/types/about.type";
 import type { TBaseResponse } from "~/types/base.type";
 
@@ -81,38 +82,29 @@ definePageMeta({
   middleware: "auth",
 });
 
+const { $axios } = useNuxtApp();
 const about = ref<TAbout | null>(null);
 const loading = ref(false);
 
-const fetchAbout = async () => {
+const fetchAbouts = async () => {
   try {
-    const { data, error } = await useAPI<TBaseResponse<TAbout[]>>("/abouts", {
-      method: "GET",
-      lazy: true,
-      server: false,
-    });
+    const { data }: AxiosResponse<TBaseResponse<TAbout[]>> = await $axios.get(
+      `/abouts`
+    );
 
-    if (error.value) {
-      const errMsg = toCapitalize(error.value.data.message);
-      throw new Error(errMsg);
-    }
+    const res = data.data;
 
-    if (data.value) {
-      const res = data.value.data;
-
-      if (res.length > 0) {
-        about.value = res[0];
-      }
+    if (res.length > 0) {
+      about.value = res[0];
     }
   } catch (error) {
     loading.value = false;
-    console.warn(error);
   }
 };
 
 onMounted(async () => {
   loading.value = true;
-  await fetchAbout();
+  await fetchAbouts();
   loading.value = false;
 });
 </script>
