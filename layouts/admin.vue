@@ -50,13 +50,22 @@ const syncMenuActive = (routePath: string) => {
   const activeMenu = menuList.value[findMenuIndex];
 
   if (activeMenu.children.length > 0) {
-    const oldActiveChildIndex = activeMenu.children.findIndex((menu) => {
-      return menu.is_active;
+    activeMenu.children.forEach((child) => {
+      child.is_active = false;
     });
 
-    if(oldActiveChildIndex == -1) {
-      activeMenu.children[0].is_active = true;
+    const segments = routePath.split("/");
+    const segmentKey = segments[segments.length - 1];
+
+    const chidlMenuIndex = activeMenu.children.findIndex((menu) => {
+      return menu.route.includes(segmentKey);
+    });
+
+    if (findMenuIndex == -1) {
+      return;
     }
+
+    activeMenu.children[chidlMenuIndex].is_active = true;
   }
 };
 
