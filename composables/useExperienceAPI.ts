@@ -5,26 +5,26 @@ import type {
   TBasePaginateResponse,
   TBaseResponse,
 } from "~/types/base.type";
-import type { TBaseParamsTestimonial, TTestimonial } from "~/types/testimonial.type";
+import type { TBaseParamsExperience, TExperience } from "~/types/experience.type";
 
-export const useTestimonialAPI = () => {
+export const useExperienceAPI = () => {
   const { $axios } = useNuxtApp();
   const loading = ref(false);
   const error = ref(null);
-  const testimonialData = ref<TTestimonial | null>(null);
-  const testimonialListData = ref<TTestimonial[]>([]);
+  const experienceData = ref<TExperience | null>(null);
+  const experienceListData = ref<TExperience[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
 
-  const fetchTestimonial = async () => {
+  const fetchExperience = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TTestimonial>> = await $axios.get(
-        `/testimonials/${route.params.id}`
+      const { data }: AxiosResponse<TBaseResponse<TExperience>> = await $axios.get(
+        `/experiences/${route.params.id}`
       );
 
-      testimonialData.value = data.data;
+      experienceData.value = data.data;
 
       loading.value = false;
     } catch (err: any) {
@@ -33,13 +33,13 @@ export const useTestimonialAPI = () => {
     }
   };
 
-  const fetchTestimonials = async (params: TBaseParamsTestimonial) => {
+  const fetchExperiences = async (params: TBaseParamsExperience) => {
     loading.value = true;
     try {
       const {
         data,
-      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTestimonial[]>>> =
-        await $axios.get(`/testimonials`, {
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TExperience[]>>> =
+        await $axios.get(`/experiences`, {
           params: {
             ...params,
           },
@@ -48,7 +48,7 @@ export const useTestimonialAPI = () => {
       const res = data.data;
       
       if (res.items.length > 0) {
-        testimonialListData.value = res.items;
+        experienceListData.value = res.items;
         totalRecords.value = res.pagination.total;
       }
 
@@ -58,11 +58,11 @@ export const useTestimonialAPI = () => {
     }
   };
 
-  const updateTestimonial = async (payload: any) => {
+  const updateExperience = async (payload: any) => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/testimonials/update",
+        "/experiences/update",
         payload,
       );
 
@@ -75,18 +75,18 @@ export const useTestimonialAPI = () => {
       });
 
       loading.value = false;
-      navigateTo("/adminz/testimonial");
+      navigateTo("/adminz/experience");
     } catch (error: any) {
       resultErrMessage(error);
       loading.value = false;
     }
   };
 
-  const storeTestimonial = async (payload: any) => {
+  const storeExperience = async (payload: any) => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/testimonials/store",
+        "/experiences/store",
         payload
       );
 
@@ -99,18 +99,18 @@ export const useTestimonialAPI = () => {
       });
 
       loading.value = false;
-      navigateTo("/adminz/testimonial");
+      navigateTo("/adminz/experience");
     } catch (error: any) {
       resultErrMessage(error);
       loading.value = false;
     }
   };
 
-  const deleteTestimonial = async (id: number) => {
+  const deleteExperience = async (id: number) => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/testimonials/delete`,
+        `/experiences/delete`,
         {
           id,
         }
@@ -152,12 +152,12 @@ export const useTestimonialAPI = () => {
     loading,
     error,
     totalRecords,
-    testimonialData,
-    testimonialListData,
-    fetchTestimonial,
-    updateTestimonial,
-    storeTestimonial,
-    fetchTestimonials,
-    deleteTestimonial,
+    experienceData,
+    experienceListData,
+    fetchExperience,
+    updateExperience,
+    storeExperience,
+    fetchExperiences,
+    deleteExperience,
   };
 };

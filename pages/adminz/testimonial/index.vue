@@ -206,7 +206,7 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
-import type { TBaseParamsTestomonial, TTestomonial } from "~/types/testimonial.type";
+import type { TBaseParamsTestimonial, TTestimonial } from "~/types/testimonial.type";
 
 useHead({
   title: "Admin - Testimonial",
@@ -238,7 +238,7 @@ const filters = ref<any>({
   is_used: { value: "all", matchMode: "contains" },
   created_at: { value: [], matchMode: "contains" },
 });
-const testimonials = ref<TTestomonial[]>([]);
+const testimonials = ref<TTestimonial[]>([]);
   const is_used_options = ref([
   { label: "All", value: "all" },
   { label: "Yes", value: "Y" },
@@ -318,7 +318,7 @@ const clearFilterDate = async (field: string) => {
   }, 10);
 };
 
-const setFilters = (params: TBaseParamsTestomonial) => {
+const setFilters = (params: TBaseParamsTestimonial) => {
   if (filters.value.name) {
     const filterName = filters.value.name;
 
@@ -411,7 +411,7 @@ const handleAPIFetchTestimonials = async () => {
     limit: paginate.limit,
     sort: sorts.sort,
     order: sorts.order,
-  } as TBaseParamsTestomonial;
+  } as TBaseParamsTestimonial;
 
   params = setFilters(params);
 

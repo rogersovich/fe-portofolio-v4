@@ -1,6 +1,6 @@
 import type { TBasePaginateParams, TBaseSortingParams } from "./base.type"
 
-export interface TTestomonial {
+export interface TTestimonial {
   id: number
   name: string
   via: string
@@ -10,7 +10,7 @@ export interface TTestomonial {
   created_at: string
 }
 
-export interface TParamsFilterTestomonial {
+export interface TParamsFilterTestimonial {
   type?: string
   name?: string
   role?: string
@@ -19,4 +19,4 @@ export interface TParamsFilterTestomonial {
   created_at?: string
 }
 
-export type TBaseParamsTestomonial = TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterTestomonial>
+export type TBaseParamsTestimonial = TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterTestimonial>

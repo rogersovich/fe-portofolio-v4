@@ -67,7 +67,7 @@
           headerClass="w-[100px]"
         >
           <template #body="{ data }">
-            <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md w-[70px]" />
+            <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md h-[70px]" />
           </template>
         </Column>
         <Column field="name" header="Name" sortable :showFilterMenu="false">

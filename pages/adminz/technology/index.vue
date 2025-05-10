@@ -79,7 +79,7 @@
             <NuxtImg
               :src="data.logo_url"
               fit="cover"
-              class="rounded-md w-[40px]"
+              class="rounded-md h-[40px]"
             />
           </template>
         </Column>
@@ -269,7 +269,7 @@ const calculateIndex = (rowIndex: number) => {
 const handleRefresh = () => {
   fetchTechnologies({
     page: 1,
-    limit: 5,
+    limit: 10,
     sort: "DESC",
     order: "id",
   });
