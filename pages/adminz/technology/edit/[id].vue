@@ -287,7 +287,5 @@ const onFormSubmit = async () => {
 onMounted(async () => {
   await fetchTechnology();
 });
-
-onUnmounted(() => {});
 </script>
 <style lang=""></style>
