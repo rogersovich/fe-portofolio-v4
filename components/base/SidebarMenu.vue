@@ -14,7 +14,7 @@
           <NuxtImg src="/images/logo.png" class="w-[60px] h-[60px]" />
           <div class="font-bold text-2xl font-rethink">Zeraphi</div>
         </div>
-        <div class="absolute -right-3">
+        <div class="absolute -right-3" v-tooltip.bottom="'Toggle Sidebar'">
           <IconChevronLeft
             @click="toggleSidebar()"
             class="size-6 cursor-pointer text-white bg-zinc-50/[.2] p-1 rounded-full"
@@ -119,7 +119,7 @@
         class="flex justify-center items-center gap-3 px-4 cursor-pointer mt-1 relative"
       >
         <NuxtImg src="/images/logo.png" class="w-[70px] h-[70px]" />
-        <div class="absolute -right-3">
+        <div class="absolute -right-3" v-tooltip.bottom="'Toggle Sidebar'">
           <IconChevronRight
             @click="toggleSidebar()"
             class="size-6 cursor-pointer text-white bg-zinc-50/[.2] p-1 rounded-full"
@@ -133,6 +133,7 @@
             :class="{
               'bg-zinc-50/[.05] rounded-full': item.is_active,
             }"
+            v-tooltip.right="item.title"
           >
             <component
               :is="item.icon"
@@ -152,10 +153,13 @@
             <NuxtImg
               src="/images/logo.png"
               class="w-[50px] h-[50px bg-zinc-50/[.05] p-2 rounded-full"
+              v-tooltip.right="'Profile Info'"
             />
           </div>
           <div
             class="flex items-center justify-center px-6 cursor-pointer group"
+            @click="handleLogout()"
+            v-tooltip.right="'Logout'"
           >
             <IconLogout
               class="size-5 text-zinc-50 group-hover:text-orange-500"
