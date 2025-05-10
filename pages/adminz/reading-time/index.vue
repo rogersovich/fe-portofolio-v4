@@ -234,9 +234,9 @@ const { loading, readingTimeListData, totalRecords, fetchReadingTimes } =
 
 // Watch list
 watch(
-  () => [readingTimeListData.value],
-  () => {
-    reading_times.value = readingTimeListData.value;
+  () => readingTimeListData.value,
+  (newValue) => {
+    reading_times.value = newValue || [];
   }
 );
 

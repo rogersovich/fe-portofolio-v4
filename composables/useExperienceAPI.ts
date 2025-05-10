@@ -23,7 +23,6 @@ export const useExperienceAPI = () => {
       const { data }: AxiosResponse<TBaseResponse<TExperience>> = await $axios.get(
         `/experiences/${route.params.id}`
       );
-
       experienceData.value = data.data;
 
       loading.value = false;
@@ -47,10 +46,8 @@ export const useExperienceAPI = () => {
 
       const res = data.data;
       
-      if (res.items.length > 0) {
-        experienceListData.value = res.items;
-        totalRecords.value = res.pagination.total;
-      }
+      experienceListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {

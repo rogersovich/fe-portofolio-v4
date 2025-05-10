@@ -47,10 +47,8 @@ export const useTopicAPI = () => {
 
       const res = data.data;
       
-      if (res.items.length > 0) {
-        topicListData.value = res.items;
-        totalRecords.value = res.pagination.total;
-      }
+      topicListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {

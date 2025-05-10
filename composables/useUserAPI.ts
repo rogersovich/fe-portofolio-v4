@@ -1,10 +1,7 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
-import type {
-  TBasePaginateResponse,
-  TBaseResponse,
-} from "~/types/base.type";
+import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TBaseParamsUser, TMasterUser } from "~/types/user.type";
 
 export const useUserAPI = () => {
@@ -20,9 +17,8 @@ export const useUserAPI = () => {
   const fetchUser = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TMasterUser>> = await $axios.get(
-        `/users/${route.params.id}`
-      );
+      const { data }: AxiosResponse<TBaseResponse<TMasterUser>> =
+        await $axios.get(`/users/${route.params.id}`);
 
       userData.value = data.data;
 
@@ -46,11 +42,9 @@ export const useUserAPI = () => {
         });
 
       const res = data.data;
-      
-      if (res.items.length > 0) {
-        userListData.value = res.items;
-        totalRecords.value = res.pagination.total;
-      }
+
+      userListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {

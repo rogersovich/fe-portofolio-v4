@@ -46,10 +46,8 @@ export const useTechnologyAPI = () => {
 
       const res = data.data;
 
-      if (res.items.length > 0) {
-        technologyListData.value = res.items;
-        totalRecords.value = res.pagination.total;
-      }
+      technologyListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {

@@ -190,9 +190,9 @@ const {
 
 // Watch user list data
 watch(
-  () => [topicListData.value],
-  () => {
-    topics.value = topicListData.value;
+  () => topicListData.value,
+  (newValue) => {
+    topics.value = newValue || [];
   }
 );
 

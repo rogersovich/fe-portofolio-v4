@@ -172,9 +172,9 @@ const {
 
 // Watch user list data
 watch(
-  () => [userListData.value],
-  () => {
-    users.value = userListData.value;
+  () => userListData.value,
+  (newData) => {
+    users.value = newData || [];
   }
 );
 

@@ -43,10 +43,8 @@ export const useStatisticAPI = () => {
 
       const res = data.data;
 
-      if (res.items.length > 0) {
-        statisticListData.value = res.items;
-        totalRecords.value = res.pagination.total;
-      }
+      statisticListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {

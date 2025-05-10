@@ -2,7 +2,10 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
 import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
-import type { TBaseParamsReadingTime, TReadingTime } from "~/types/reading_time.type";
+import type {
+  TBaseParamsReadingTime,
+  TReadingTime,
+} from "~/types/reading_time.type";
 
 export const useReadingTimeAPI = () => {
   const { $axios } = useNuxtApp();
@@ -43,10 +46,8 @@ export const useReadingTimeAPI = () => {
 
       const res = data.data;
 
-      if (res.items.length > 0) {
-        readingTimeListData.value = res.items;
-        totalRecords.value = res.pagination.total;
-      }
+      readingTimeListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {

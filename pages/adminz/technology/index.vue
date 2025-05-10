@@ -231,9 +231,9 @@ const {
 
 // Watch data
 watch(
-  () => [technologyListData.value],
-  () => {
-    technologies.value = technologyListData.value;
+  () => technologyListData.value,
+  (newValue) => {
+    technologies.value = newValue || [];
   }
 );
 

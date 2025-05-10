@@ -215,9 +215,9 @@ const { loading, statisticListData, totalRecords, fetchStatistics } =
 
 // Watch list
 watch(
-  () => [statisticListData.value],
-  () => {
-    statistics.value = statisticListData.value;
+  () => statisticListData.value,
+  (newValue) => {
+    statistics.value = newValue || [];
   }
 );
 

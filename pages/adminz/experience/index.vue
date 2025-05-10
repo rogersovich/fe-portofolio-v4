@@ -361,9 +361,9 @@ const {
 
 // Watch data
 watch(
-  () => [experienceListData.value],
-  () => {
-    experiences.value = experienceListData.value;
+  () => experienceListData.value,
+  (newValue) => {
+    experiences.value = newValue || [];
   }
 );
 

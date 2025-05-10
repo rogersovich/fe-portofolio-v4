@@ -266,9 +266,9 @@ const {
 
 // Watch
 watch(
-  () => [testimonialListData.value],
-  () => {
-    testimonials.value = testimonialListData.value;
+  () => testimonialListData.value,
+  (newValue) => {
+    testimonials.value = newValue || [];
   }
 );
 

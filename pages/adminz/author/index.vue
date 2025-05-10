@@ -188,9 +188,9 @@ const {
 
 // Watch author list data
 watch(
-  () => [authorListData.value],
-  () => {
-    authors.value = authorListData.value;
+  () => authorListData.value,
+  (newValue) => {
+    authors.value = newValue || [];
   }
 );
 

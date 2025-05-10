@@ -1,11 +1,11 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
+import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type {
-  TBasePaginateResponse,
-  TBaseResponse,
-} from "~/types/base.type";
-import type { TBaseParamsTestimonial, TTestimonial } from "~/types/testimonial.type";
+  TBaseParamsTestimonial,
+  TTestimonial,
+} from "~/types/testimonial.type";
 
 export const useTestimonialAPI = () => {
   const { $axios } = useNuxtApp();
@@ -20,9 +20,8 @@ export const useTestimonialAPI = () => {
   const fetchTestimonial = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TTestimonial>> = await $axios.get(
-        `/testimonials/${route.params.id}`
-      );
+      const { data }: AxiosResponse<TBaseResponse<TTestimonial>> =
+        await $axios.get(`/testimonials/${route.params.id}`);
 
       testimonialData.value = data.data;
 
@@ -46,11 +45,9 @@ export const useTestimonialAPI = () => {
         });
 
       const res = data.data;
-      
-      if (res.items.length > 0) {
-        testimonialListData.value = res.items;
-        totalRecords.value = res.pagination.total;
-      }
+
+      testimonialListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {
@@ -63,7 +60,7 @@ export const useTestimonialAPI = () => {
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
         "/testimonials/update",
-        payload,
+        payload
       );
 
       const message = toCapitalize(data.message);
