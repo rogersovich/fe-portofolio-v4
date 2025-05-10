@@ -39,8 +39,7 @@
               <template v-if="forms?.avatar_file?.file">
                 <NuxtImg
                   :src="forms?.avatar_file.blob_url"
-                  width="w-full"
-                  class="rounded-lg"
+                  class="rounded-lg w-full"
                 ></NuxtImg>
               </template>
               <template v-else>
@@ -59,7 +58,7 @@
                   size="small"
                   class="w-full"
                   @click="triggerAvatarChange"
-                  :disabled="loading"
+                  :disabled="loadingStore"
                 />
                 <template v-if="forms?.avatar_file?.file">
                   <Button
@@ -70,7 +69,7 @@
                     size="small"
                     class="w-full"
                     @click="cancelEditAvatar"
-                    :disabled="loading"
+                    :disabled="loadingStore"
                   />
                 </template>
               </div>
@@ -95,7 +94,7 @@
               placeholder="e.g. name"
               fluid
               variant="outlined"
-              :disabled="loading"
+              :disabled="loadingStore"
             />
             <div v-if="formErrors.name && formErrors.name.length > 0">
               <Message
@@ -120,7 +119,7 @@
             size="small"
             class="w-full"
             @click="$router.push('/adminz/author')"
-            :disabled="loading"
+            :disabled="loadingStore"
           />
         </div>
         <div
@@ -132,7 +131,7 @@
             label="Submit"
             size="small"
             class="w-full"
-            :disabled="loading"
+            :disabled="loadingStore"
           />
         </div>
       </form>
@@ -153,7 +152,6 @@ definePageMeta({
   middleware: "auth",
 });
 
-const loading = ref(false);
 const refAvatar = ref("");
 const forms = ref({
   name: "",
@@ -213,21 +211,18 @@ watch(
 );
 
 // Update author data
-const { storeAuthor } = useAuthorAPI();
+const { storeAuthor, loading: loadingStore } = useAuthorAPI();
 
 const onFormSubmit = async () => {
   const isValid = validateForm(formSchema, forms.value);
   const isValidAvatar = validateAvatar();
   if (isValid && isValidAvatar) {
-    loading.value = true;
-
     const formData = new FormData();
     formData.append("name", forms.value.name);
     const avatarNewFile = forms.value.avatar_file.file as unknown as File;
     formData.append("avatar_file", avatarNewFile);
 
     await storeAuthor(formData);
-    loading.value = false;
   }
 };
 </script>

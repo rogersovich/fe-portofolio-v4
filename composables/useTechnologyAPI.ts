@@ -1,30 +1,29 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
+import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type {
-  TBasePaginateResponse,
-  TBaseResponse,
-} from "~/types/base.type";
-import type { TAuthor, TBaseParamsAuthor } from "~/types/author.type";
+  TBaseParamsTechnology,
+  TTechnology,
+} from "~/types/technology.type";
 
-export const useAuthorAPI = () => {
+export const useTechnologyAPI = () => {
   const { $axios } = useNuxtApp();
   const loading = ref(false);
   const error = ref(null);
-  const authorData = ref<TAuthor | null>(null);
-  const authorListData = ref<TAuthor[]>([]);
+  const technologyData = ref<TTechnology | null>(null);
+  const technologyListData = ref<TTechnology[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
 
-  const fetchAuthor = async () => {
+  const fetchTechnology = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TAuthor>> = await $axios.get(
-        `/authors/${route.params.id}`
-      );
+      const { data }: AxiosResponse<TBaseResponse<TTechnology>> =
+        await $axios.get(`/technologies/${route.params.id}`);
 
-      authorData.value = data.data;
+      technologyData.value = data.data;
 
       loading.value = false;
     } catch (err: any) {
@@ -33,22 +32,22 @@ export const useAuthorAPI = () => {
     }
   };
 
-  const fetchAuthors = async (params: TBaseParamsAuthor) => {
+  const fetchTechnologies = async (params: TBaseParamsTechnology) => {
     loading.value = true;
     try {
       const {
         data,
-      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TAuthor[]>>> =
-        await $axios.get(`/authors`, {
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTechnology[]>>> =
+        await $axios.get(`/technologies`, {
           params: {
             ...params,
           },
         });
 
       const res = data.data;
-      
+
       if (res.items.length > 0) {
-        authorListData.value = res.items;
+        technologyListData.value = res.items;
         totalRecords.value = res.pagination.total;
       }
 
@@ -58,10 +57,10 @@ export const useAuthorAPI = () => {
     }
   };
 
-  const updateAuthor = async (payload: any) => {
+  const updateTechnology = async (payload: any) => {
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/authors/update",
+        "/technologies/update",
         payload,
         {
           headers: {
@@ -78,7 +77,7 @@ export const useAuthorAPI = () => {
         show_alert: true,
       });
 
-      navigateTo("/adminz/author");
+      navigateTo("/adminz/technology");
     } catch (error: any) {
       alertStore.setAlert({
         severity: "error",
@@ -88,11 +87,11 @@ export const useAuthorAPI = () => {
     }
   };
 
-  const storeAuthor = async (payload: any) => {
+  const storeTechnology = async (payload: any) => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/authors/store",
+        "/technologies/store",
         payload,
         {
           headers: {
@@ -110,18 +109,18 @@ export const useAuthorAPI = () => {
       });
 
       loading.value = false;
-      navigateTo("/adminz/author");
+      navigateTo("/adminz/technology");
     } catch (error: any) {
       resultErrMessage(error);
       loading.value = false;
     }
   };
 
-  const deleteAuthor = async (id: number) => {
+  const deleteTechnology = async (id: number) => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/authors/delete`,
+        `/technologies/delete`,
         {
           id,
         }
@@ -163,12 +162,12 @@ export const useAuthorAPI = () => {
     loading,
     error,
     totalRecords,
-    authorData,
-    authorListData,
-    fetchAuthor,
-    updateAuthor,
-    storeAuthor,
-    fetchAuthors,
-    deleteAuthor,
+    technologyData,
+    technologyListData,
+    fetchTechnology,
+    fetchTechnologies,
+    updateTechnology,
+    storeTechnology,
+    deleteTechnology,
   };
 };

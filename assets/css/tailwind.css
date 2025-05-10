@@ -50,15 +50,15 @@ body {
 }
 
 .tiptap-content {
-  @apply border border-solid !border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:!border-zinc-50/[.3]
+  @apply border border-solid !border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:!border-zinc-50/[.3] min-h-[100px];
 }
 
 .tiptap-content--error {
-  @apply border border-red-300 rounded-lg px-5 py-4 focus:outline-none focus:border-red-300
+  @apply border border-red-300 rounded-lg px-5 py-4 focus:outline-none focus:border-red-300 min-h-[100px];
 }
 
 .tiptap-content--disabled {
-  @apply border border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:border-zinc-50/[.3] bg-[#3f3f46]
+  @apply border border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:border-zinc-50/[.3] bg-[#3f3f46] min-h-[100px];
 }
 
 .btn-accept-dialog {

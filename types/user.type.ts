@@ -2,9 +2,8 @@ import type { TBasePaginateParams, TBaseSortingParams } from "./base.type"
 
 export interface TMasterUser {
   id: number
-  name: string
-  avatar_file_name: string
-  avatar_url: string
+  username: string
+  email: string
   created_at: string
 }
 

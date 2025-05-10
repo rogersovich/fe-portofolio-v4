@@ -181,9 +181,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { IconArrowLeft } from "@tabler/icons-vue";
-import type { TBaseResponse } from "~/types/base.type";
 import type { TAbout } from "~/types/about.type";
-import { type AxiosResponse } from "axios";
 
 useHead({
   title: "Admin - Edit About",
@@ -243,20 +241,6 @@ watch(aboutData, (newAbout) => {
     fillForm(newAbout);
   }
 });
-
-// const fetchAbout = async () => {
-//   try {
-//     const { data }: AxiosResponse<TBaseResponse<TAbout>> = await $axios.get(
-//       `/abouts/${route.params.id}`
-//     );
-
-//     const res = data.data;
-
-//     fillForm(res);
-//   } catch (error) {
-//     loading.value = false;
-//   }
-// };
 
 const fillForm = (data: TAbout) => {
   forms.value = {
@@ -320,37 +304,6 @@ const onFormSubmit = async () => {
     await updateAbout(formData);
   }
 };
-
-// const handleUpdateAbout = async (payload: any) => {
-//   try {
-//     const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-//       "/abouts/update",
-//       payload,
-//       {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//         },
-//       }
-//     );
-
-//     const message = toCapitalize(data.message);
-
-//     alertStore.setAlert({
-//       severity: "info",
-//       summary: message,
-//       show_alert: true,
-//     });
-
-//     navigateTo("/adminz/about");
-//   } catch (error: any) {
-//     loading.value = false;
-//     alertStore.setAlert({
-//       severity: "error",
-//       summary: error.message,
-//       show_alert: true,
-//     });
-//   }
-// };
 
 watch(
   () => [forms.value.description_html],

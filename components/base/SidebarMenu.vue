@@ -8,7 +8,7 @@
   >
     <template v-if="sidebarExpanded">
       <div
-        class="flex justify-between items-center gap-3 px-4 cursor-pointer mt-1 mb-1"
+        class="flex justify-between items-center gap-3 px-4 cursor-pointer mt-1 mb-1 h-full"
       >
         <div class="flex items-center gap-3">
           <NuxtImg src="/images/logo.png" class="w-[60px] h-[60px]" />

@@ -186,7 +186,7 @@ const calculateIndex = (rowIndex: number) => {
 
 const handleRefresh = () => {
   fetchUsers({
-    page: 0,
+    page: 1,
     limit: 5,
     sort: "ASC",
     order: "id",

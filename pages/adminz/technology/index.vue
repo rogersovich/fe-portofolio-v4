@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="mb-6">
-      <div class="text-3xl font-rethink font-bold">Page Author</div>
+      <div class="text-3xl font-rethink font-bold">Page Technology</div>
       <div class="text-muted-foreground font-light mt-2">
-        Create & List Author in here
+        Create & List Technology in here
       </div>
     </div>
     <div>
       <DataTable
-        :value="authors"
+        :value="technologies"
         :paginator="true"
         :rows="paginate.limit"
         :totalRecords="totalRecords"
@@ -17,19 +17,28 @@
         :rowsPerPageOptions="[5, 10, 20]"
         :sortField="sortField"
         :sortOrder="sortOrder"
-        :loading="loadingAuthor"
+        :loading="loadingTechnology"
         filterDisplay="row"
         v-model:filters="filters"
         ref="dt"
         @page="onPageChange"
         @sort="onSortChange"
         @filter="onFilter"
+        scroll-height="600px"
       >
         <template #header>
           <div class="flex flex-wrap items-center justify-between gap-2">
-            <span class="text-lg font-bold">List Author</span>
+            <span class="text-lg font-bold">List Technology</span>
             <div class="flex items-center justify-center gap-4">
-              <router-link to="author/create">
+              <div class="flex items-center gap-3">
+                <span>
+                  Total:
+                </span>
+                <span>
+                  {{ totalRecords }}
+                </span>
+              </div>
+              <router-link to="technology/create">
                 <Button
                   variant="filled"
                   class="py-2.5 bg-blue-600 !border-none hover:!bg-blue-700 !text-white"
@@ -47,8 +56,8 @@
             </div>
           </div>
         </template>
-        <template #empty> No authors found. </template>
-        <template #loading> Loading authors data. Please wait. </template>
+        <template #empty> No technologies found. </template>
+        <template #loading> Loading technologies data. Please wait. </template>
         <Column
           field="id"
           header="ID"
@@ -61,13 +70,17 @@
           </template></Column
         >
         <Column
-          field="avatar_url"
-          header="Avatar"
+          field="logo_url"
+          header="Logo"
           :showFilterMenu="false"
-          headerClass="w-[100px]"
+          headerClass="w-[80px]"
         >
           <template #body="{ data }">
-            <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md w-[70px]" />
+            <NuxtImg
+              :src="data.logo_url"
+              fit="cover"
+              class="rounded-md w-[40px]"
+            />
           </template>
         </Column>
         <Column field="name" header="Name" sortable :showFilterMenu="false">
@@ -84,6 +97,27 @@
               class="p-column-filter"
               placeholder="Name"
               fluid
+            />
+          </template>
+        </Column>
+        <Column
+          field="is_major"
+          header="Is Used"
+          sortable
+          :showFilterMenu="false"
+        >
+          <template #body="{ data }">
+            {{ data.is_major == "Y" ? "Yes" : "No" }}
+          </template>
+          <template #filter="{ filterModel, filterCallback }">
+            <Select
+              v-model="filterModel.value"
+              :options="is_major_options"
+              @change="filterCallback"
+              optionLabel="label"
+              option-value="value"
+              placeholder="Select"
+              class="w-full"
             />
           </template>
         </Column>
@@ -114,7 +148,7 @@
           <template #body="{ data }">
             <div class="flex items-center justify-center gap-4">
               <NuxtLink
-                :to="`/adminz/author/edit/${data.id}`"
+                :to="`/adminz/technology/edit/${data.id}`"
                 class="cursor-pointer hover:bg-zinc-50/[.05] p-2 rounded-md"
               >
                 <IconEdit class="size-6 text-orange-500" />
@@ -133,12 +167,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
-import type { TAuthor, TBaseParamsAuthor } from "~/types/author.type";
 import dayjs from "dayjs";
+import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
+import type {
+  TBaseParamsTechnology,
+  TTechnology,
+} from "~/types/technology.type";
 
 useHead({
-  title: "Admin - Author",
+  title: "Admin - Technology",
   titleTemplate: "%s | Portofolio",
 });
 
@@ -151,46 +188,52 @@ const confirm = useConfirm();
 
 const paginate = reactive({
   page: 0,
-  limit: 5,
+  limit: 10,
   first: 0,
-  total_records: 0,
 });
 const sorts = reactive({
-  sort: "ASC",
+  sort: "DESC",
   order: "id",
 });
 const sortField = ref("");
 const sortOrder = ref(1);
 const filters = ref<any>({
   name: { value: "", matchMode: "contains" },
+  description_html: { value: "", matchMode: "contains" },
+  is_major: { value: "all", matchMode: "contains" },
   created_at: { value: [], matchMode: "contains" },
 });
-const authors = ref<TAuthor[]>([]);
+const technologies = ref<TTechnology[]>([]);
+const is_major_options = ref([
+  { label: "All", value: "all" },
+  { label: "Yes", value: "Y" },
+  { label: "No", value: "N" },
+]);
 
 // Debounced filter callback function with a 500ms delay (adjust as needed)
 const debouncedFilterCallback = useDebounceFn(
   async ({ field, value }: { field: string; value: any }) => {
     filters.value[field].value = value;
 
-    await handleAPIFetchAuthors();
+    await handleAPIFetchTechnologies();
   },
   500
 );
 
-// Author API
+// API
 const {
-  loading: loadingAuthor,
-  authorListData,
+  loading: loadingTechnology,
+  technologyListData,
   totalRecords,
-  fetchAuthors,
-  deleteAuthor
-} = useAuthorAPI();
+  fetchTechnologies,
+  deleteTechnology,
+} = useTechnologyAPI();
 
-// Watch author list data
+// Watch data
 watch(
-  () => [authorListData.value],
+  () => [technologyListData.value],
   () => {
-    authors.value = authorListData.value;
+    technologies.value = technologyListData.value;
   }
 );
 
@@ -199,7 +242,7 @@ const onPageChange = async (event: any) => {
   paginate.first = event.first;
   paginate.limit = event.rows;
 
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTechnologies();
 };
 
 // Event handler for sorting
@@ -210,13 +253,13 @@ const onSortChange = async (event: any) => {
   sorts.order = event.sortField;
   sorts.sort = event.sortOrder == 1 ? "ASC" : "DESC";
 
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTechnologies();
 };
 
 const onFilter = async (event: any) => {
   filters.value = event.filters;
 
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTechnologies();
 };
 
 const calculateIndex = (rowIndex: number) => {
@@ -224,7 +267,7 @@ const calculateIndex = (rowIndex: number) => {
 };
 
 const handleRefresh = () => {
-  fetchAuthors({
+  fetchTechnologies({
     page: 1,
     limit: 5,
     sort: "ASC",
@@ -236,11 +279,11 @@ const clearFilterDate = async (field: string) => {
   filters.value[field].value = [];
 
   setTimeout(async () => {
-    await handleAPIFetchAuthors();
+    await handleAPIFetchTechnologies();
   }, 10);
 };
 
-const setFilters = (params: TBaseParamsAuthor) => {
+const setFilters = (params: TBaseParamsTechnology) => {
   if (filters.value.name) {
     const filterName = filters.value.name;
 
@@ -251,6 +294,36 @@ const setFilters = (params: TBaseParamsAuthor) => {
       };
     } else {
       delete params.name;
+    }
+  }
+
+  if (filters.value.description_html) {
+    const filterDescription = filters.value.description_html;
+
+    if (filterDescription.value) {
+      params = {
+        ...params,
+        description_html: filters.value.description_html.value,
+      };
+    } else {
+      delete params.description_html;
+    }
+  }
+
+  if (filters.value.is_major) {
+    const filterIsMajor = filters.value.is_major;
+
+    if (filterIsMajor.value) {
+      if(filterIsMajor.value == 'all') {
+        delete params.is_major;
+      }else{
+        params = {
+          ...params,
+          is_major: filters.value.is_major.value,
+        };
+      }
+    } else {
+      delete params.is_major;
     }
   }
 
@@ -284,17 +357,17 @@ const setFilters = (params: TBaseParamsAuthor) => {
   return params;
 };
 
-const handleAPIFetchAuthors = async () => {
+const handleAPIFetchTechnologies = async () => {
   let params = {
     page: paginate.page + 1,
     limit: paginate.limit,
     sort: sorts.sort,
     order: sorts.order,
-  } as TBaseParamsAuthor;
+  } as TBaseParamsTechnology;
 
   params = setFilters(params);
 
-  await fetchAuthors(params);
+  await fetchTechnologies(params);
 };
 
 const handleConfirmDelete = (id: number) => {
@@ -307,8 +380,8 @@ const handleConfirmDelete = (id: number) => {
     acceptLabel: "Yes",
     rejectLabel: "Cancel",
     accept: async () => {
-      await deleteAuthor(id);
-      await fetchAuthors({
+      await deleteTechnology(id);
+      await fetchTechnologies({
         page: paginate.page + 1,
         limit: paginate.limit,
       });
@@ -318,7 +391,7 @@ const handleConfirmDelete = (id: number) => {
 };
 
 onMounted(async () => {
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTechnologies();
 });
 </script>
 <style></style>
