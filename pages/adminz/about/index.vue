@@ -11,7 +11,7 @@
         <div class="border border-zinc-50/[.1] rounded-lg px-5 py-4">
           <div class="grid grid-cols-12 gap-8">
             <div class="col-span-4">
-              <template v-if="!loading && about">
+              <template v-if="!loadingAbout && about">
                 <div class="flex flex-col items-start justify-center gap-4">
                   <NuxtImg
                     :src="about?.avatar_url"
@@ -36,7 +36,7 @@
               </template>
             </div>
             <div class="col-span-8">
-              <template v-if="!loading && about">
+              <template v-if="!loadingAbout && about">
                 <div>
                   <div class="text-5xl text-zinc-50 font-rethink font-bold">
                     {{ about?.title }}
@@ -64,9 +64,7 @@
 </template>
 <script setup lang="ts">
 import { IconEdit } from "@tabler/icons-vue";
-import type { AxiosResponse } from "axios";
 import type { TAbout } from "~/types/about.type";
-import type { TBaseResponse } from "~/types/base.type";
 
 useHead({
   title: "Admin - About",
@@ -78,30 +76,18 @@ definePageMeta({
   middleware: "auth",
 });
 
-const { $axios } = useNuxtApp();
 const about = ref<TAbout | null>(null);
-const loading = ref(false);
 
-const fetchAbouts = async () => {
-  try {
-    const { data }: AxiosResponse<TBaseResponse<TAbout[]>> = await $axios.get(
-      `/abouts`
-    );
+const { fetchAbouts, loading: loadingAbout, aboutData } = useAboutAPI();
 
-    const res = data.data;
-
-    if (res.length > 0) {
-      about.value = res[0];
-    }
-  } catch (error) {
-    loading.value = false;
-  }
-};
+watch(
+  () => [aboutData.value],
+  () => {
+    about.value = aboutData.value;
+  })
 
 onMounted(async () => {
-  loading.value = true;
   await fetchAbouts();
-  loading.value = false;
 });
 </script>
 <style></style>

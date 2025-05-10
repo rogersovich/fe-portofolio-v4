@@ -2,12 +2,10 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
 import type {
-  TBasePaginateParams,
   TBasePaginateResponse,
   TBaseResponse,
-  TBaseSortingParams,
 } from "~/types/base.type";
-import type { TAuthor, TParamsFilterAuthor } from "~/types/author.type";
+import type { TAuthor, TBaseParamsAuthor } from "~/types/author.type";
 
 export const useAuthorAPI = () => {
   const { $axios } = useNuxtApp();
@@ -37,7 +35,7 @@ export const useAuthorAPI = () => {
     }
   };
 
-  const fetchAuthors = async (params: TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterAuthor>) => {
+  const fetchAuthors = async (params: TBaseParamsAuthor) => {
     loading.value = true;
     try {
       const {

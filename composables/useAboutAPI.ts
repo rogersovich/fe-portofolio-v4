@@ -2,7 +2,6 @@ import type { AxiosResponse } from "axios";
 import type { TAbout } from "~/types/about.type";
 import type { TBaseResponse } from "~/types/base.type";
 
-
 export const useAboutAPI = () => {
   const { $axios } = useNuxtApp();
   const loading = ref(false);
@@ -27,6 +26,24 @@ export const useAboutAPI = () => {
     }
   };
 
+  const fetchAbouts = async () => {
+    loading.value = true;
+    try {
+      const { data }: AxiosResponse<TBaseResponse<TAbout[]>> = await $axios.get(
+        `/abouts`
+      );
+
+      if (data.data.length > 0) {
+        aboutData.value = data.data[0];
+      }
+
+      loading.value = false;
+    } catch (err: any) {
+      error.value = err;
+      loading.value = false;
+    }
+  };
+
   const updateAbout = async (payload: any) => {
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
@@ -38,15 +55,15 @@ export const useAboutAPI = () => {
           },
         }
       );
-  
+
       const message = toCapitalize(data.message);
-  
+
       alertStore.setAlert({
         severity: "info",
         summary: message,
         show_alert: true,
       });
-  
+
       navigateTo("/adminz/about");
     } catch (error: any) {
       loading.value = false;
@@ -63,6 +80,7 @@ export const useAboutAPI = () => {
     error,
     aboutData,
     fetchAbout,
+    fetchAbouts,
     updateAbout,
   };
-}
+};

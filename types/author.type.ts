@@ -1,3 +1,5 @@
+import type { TBasePaginateParams, TBaseSortingParams } from "./base.type"
+
 export interface TAuthor {
   id: number
   name: string
@@ -8,4 +10,7 @@ export interface TAuthor {
 
 export interface TParamsFilterAuthor {
   name?: string
+  created_at?: string
 }
+
+export type TBaseParamsAuthor = TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterAuthor>;
