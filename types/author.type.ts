@@ -5,3 +5,7 @@ export interface TAuthor {
   avatar_url: string
   created_at: string
 }
+
+export interface TParamsFilterAuthor {
+  name?: string
+}

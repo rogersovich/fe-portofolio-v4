@@ -10,10 +10,11 @@
       <DataTable
         :value="authors"
         :paginator="true"
-        :rows="rows"
+        :rows="paginate.limit"
         :totalRecords="totalRecords"
         :lazy="true"
-        :first="first"
+        :first="paginate.first"
+        :rowsPerPageOptions="[5, 10, 20]"
         :sortField="sortField"
         :sortOrder="sortOrder"
         :loading="loadingAuthorDelete || loadingAuthor"
@@ -22,6 +23,7 @@
         ref="dt"
         @page="onPageChange"
         @sort="onSortChange"
+        @filter="onFilter"
       >
         <template #header>
           <div class="flex flex-wrap items-center justify-between gap-2">
@@ -40,7 +42,7 @@
                 class="!text-white bg-zinc-600 hover:!bg-zinc-700 !border-none"
                 rounded
                 raised
-                @click="fetchAuthors"
+                @click="handleRefresh()"
               />
             </div>
           </div>
@@ -52,8 +54,11 @@
           header="ID"
           headerClass="flex items-center justify-center"
           bodyClass="!text-center"
+          sortable
         >
-          <template #body="{ index }"> {{ index + 1 }} </template></Column
+          <template #body="{ index }">
+            {{ calculateIndex(index) }}
+          </template></Column
         >
         <Column
           field="avatar_url"
@@ -65,7 +70,7 @@
             <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md" />
           </template>
         </Column>
-        <Column field="name" header="Name" :showFilterMenu="false">
+        <Column field="name" header="Name" sortable :showFilterMenu="false">
           <template #filter="{ filterModel, field }">
             <InputText
               type="text"
@@ -79,7 +84,6 @@
               class="p-column-filter"
               placeholder="Name"
               fluid
-              disabled
             />
           </template>
         </Column>
@@ -89,20 +93,16 @@
           sortable
           :showFilterMenu="false"
         >
-          <template #filter="{ filterModel, field }">
-            <InputText
-              type="text"
+          <template #filter="{ filterModel, filterCallback, field }">
+            <DatePicker
               v-model="filterModel.value"
-              @input="
-                debouncedFilterCallback({
-                  field,
-                  value: filterModel.value,
-                })
-              "
-              class="p-column-filter"
-              placeholder="Code"
+              selectionMode="range"
+              :manualInput="false"
+              placeholder="Select Date"
               fluid
-              disabled
+              :show-button-bar="true"
+              @value-change="filterCallback"
+              @clear-click="clearFilterDate(field)"
             />
           </template>
         </Column>
@@ -135,6 +135,7 @@
 <script setup lang="ts">
 import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
 import type { TAuthor } from "~/types/author.type";
+import dayjs from "dayjs";
 
 useHead({
   title: "Admin - Author",
@@ -148,30 +149,46 @@ definePageMeta({
 
 const confirm = useConfirm();
 
-const first = ref(0);
-const rows = ref(5);
+const paginate = reactive({
+  page: 0,
+  limit: 5,
+  first: 0,
+  total_records: 0,
+});
+const sorts = reactive({
+  sort: "ASC",
+  order: "id",
+});
 const sortField = ref("");
 const sortOrder = ref(1);
-const filters = ref({
+const filters = ref<any>({
   name: { value: "", matchMode: "contains" },
-  created_at: { value: "", matchMode: "contains" },
+  created_at: { value: [], matchMode: "contains" },
 });
 const authors = ref<TAuthor[]>([]);
 
 // Debounced filter callback function with a 500ms delay (adjust as needed)
 const debouncedFilterCallback = useDebounceFn(
-  ({ field, value }: { field: string; value: any }) => {
-    console.log({ field, value });
+  async ({ field, value }: { field: string; value: any }) => {
+    filters.value[field].value = value;
+
+    await handleAPIFetchAuthors();
   },
   500
 );
 
 // Fetch author list data
-const { loading: loadingAuthor, authorListData, fetchAuthors, totalRecords } = useAuthorAPI();
+const {
+  loading: loadingAuthor,
+  authorListData,
+  fetchAuthors,
+  totalRecords,
+} = useAuthorAPI();
 
 // Delete author
-const { loading: loadingAuthorDelete, deleteAuthor} = useAuthorAPI();
+const { loading: loadingAuthorDelete, deleteAuthor } = useAuthorAPI();
 
+// Watch author list data
 watch(
   () => [authorListData.value],
   () => {
@@ -179,24 +196,108 @@ watch(
   }
 );
 
-const onPageChange = (event: any) => {
-  first.value = event.first;
-  rows.value = event.rows;
-  console.log(event);
+const onPageChange = async (event: any) => {
+  paginate.page = event.page;
+  paginate.first = event.first;
+  paginate.limit = event.rows;
+
+  await handleAPIFetchAuthors();
 };
 
 // Event handler for sorting
-const onSortChange = (event: any) => {
+const onSortChange = async (event: any) => {
   sortField.value = event.sortField;
   sortOrder.value = event.sortOrder;
-  console.log(event);
+
+  sorts.order = event.sortField;
+  sorts.sort = event.sortOrder == 1 ? "ASC" : "DESC";
+
+  await handleAPIFetchAuthors();
 };
 
-function onFilter(event: any) {
+const onFilter = async (event: any) => {
   filters.value = event.filters;
 
-  console.log(event);
-}
+  await handleAPIFetchAuthors();
+};
+
+const calculateIndex = (rowIndex: number) => {
+  return paginate.first + rowIndex + 1;
+};
+
+const handleRefresh = () => {
+  fetchAuthors({
+    page: 0,
+    limit: 5,
+    sort: "ASC",
+    order: "id",
+  });
+};
+
+const clearFilterDate = async (field: string) => {
+  filters.value[field].value = [];
+
+  setTimeout(async () => {
+    await handleAPIFetchAuthors();
+  }, 10);
+};
+
+const setFilters = (params: any) => {
+  if (filters.value.name) {
+    const filterName = filters.value.name;
+
+    if (filterName.value) {
+      params = {
+        ...params,
+        name: filters.value.name.value,
+      };
+    } else {
+      delete params.name;
+    }
+  }
+
+  if (filters.value.created_at) {
+    let created_at_arr = [] as any[];
+    const filterCreatedAt = filters.value.created_at;
+
+    if (!filterCreatedAt) {
+      delete params.created_at;
+    }
+
+    if (filterCreatedAt.value.length > 0) {
+      filterCreatedAt.value.forEach((date: any) => {
+        if (date) {
+          const formattedDate = dayjs(date).format("YYYY-MM-DD");
+          created_at_arr.push(formattedDate);
+        }
+      });
+
+      const created_at_string = created_at_arr.join(",");
+
+      params = {
+        ...params,
+        created_at: created_at_string,
+      };
+    } else {
+      delete params.created_at;
+    }
+  }
+
+  return params;
+};
+
+const handleAPIFetchAuthors = async () => {
+  let params = {
+    page: paginate.page + 1,
+    limit: paginate.limit,
+    sort: sorts.sort,
+    order: sorts.order,
+  } as any;
+
+  params = setFilters(params);
+
+  await fetchAuthors(params);
+};
 
 const handleConfirmDelete = (id: number) => {
   confirm.require({
@@ -209,14 +310,17 @@ const handleConfirmDelete = (id: number) => {
     rejectLabel: "Cancel",
     accept: async () => {
       await deleteAuthor(id);
-      await fetchAuthors();
+      await fetchAuthors({
+        page: paginate.page + 1,
+        limit: paginate.limit,
+      });
     },
     reject: () => {},
   });
 };
 
-onMounted(async() => {
-  await fetchAuthors();
+onMounted(async () => {
+  await handleAPIFetchAuthors();
 });
 </script>
 <style></style>

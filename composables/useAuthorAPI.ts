@@ -1,8 +1,13 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
-import type { TBaseResponse } from "~/types/base.type";
-import type { TAuthor } from "~/types/author.type";
+import type {
+  TBasePaginateParams,
+  TBasePaginateResponse,
+  TBaseResponse,
+  TBaseSortingParams,
+} from "~/types/base.type";
+import type { TAuthor, TParamsFilterAuthor } from "~/types/author.type";
 
 export const useAuthorAPI = () => {
   const { $axios } = useNuxtApp();
@@ -32,20 +37,25 @@ export const useAuthorAPI = () => {
     }
   };
 
-  const fetchAuthors = async () => {
+  const fetchAuthors = async (params: TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterAuthor>) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TAuthor[]>> = await $axios.get(
-        `/authors`
-      );
-  
+      const {
+        data,
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TAuthor[]>>> =
+        await $axios.get(`/authors`, {
+          params: {
+            ...params,
+          },
+        });
+
       const res = data.data;
-  
-      if (res.length > 0) {
-        authorListData.value = res;
-        totalRecords.value = res.length;
+      
+      if (res.items.length > 0) {
+        authorListData.value = res.items;
+        totalRecords.value = res.pagination.total;
       }
-  
+
       loading.value = false;
     } catch (error) {
       loading.value = false;
