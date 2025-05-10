@@ -59,6 +59,7 @@
         >
           <template #filter="{ filterModel, field }">
             <InputText
+              id="username"
               type="text"
               v-model="filterModel.value"
               @input="
@@ -69,6 +70,29 @@
               "
               class="p-column-filter"
               placeholder="Username"
+              fluid
+            />
+          </template>
+        </Column>
+        <Column
+          field="email"
+          header="Email"
+          sortable
+          :showFilterMenu="false"
+        >
+          <template #filter="{ filterModel, field }">
+            <InputText
+              id="email"
+              type="text"
+              v-model="filterModel.value"
+              @input="
+                debouncedFilterCallback({
+                  field,
+                  value: filterModel.value,
+                })
+              "
+              class="p-column-filter"
+              placeholder="Email"
               fluid
             />
           </template>
@@ -114,10 +138,9 @@ const paginate = reactive({
   page: 0,
   limit: 5,
   first: 0,
-  total_records: 0,
 });
 const sorts = reactive({
-  sort: "ASC",
+  sort: "DESC",
   order: "id",
 });
 const sortField = ref("");
@@ -188,7 +211,7 @@ const handleRefresh = () => {
   fetchUsers({
     page: 1,
     limit: 5,
-    sort: "ASC",
+    sort: "DESC",
     order: "id",
   });
 };

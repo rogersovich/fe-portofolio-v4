@@ -13,7 +13,7 @@
         <div>
           <Button
             variant="text"
-            @click="$router.push('/adminz/techtechnology')"
+            @click="$router.push('/adminz/technology')"
           >
             <IconArrowLeft class="size-5" />
             <span> Back </span>

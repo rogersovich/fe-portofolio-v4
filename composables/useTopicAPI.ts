@@ -5,26 +5,26 @@ import type {
   TBasePaginateResponse,
   TBaseResponse,
 } from "~/types/base.type";
-import type { TAuthor, TBaseParamsAuthor } from "~/types/author.type";
+import type { TBaseParamsTopic, TTopic } from "~/types/topic.type";
 
-export const useAuthorAPI = () => {
+export const useTopicAPI = () => {
   const { $axios } = useNuxtApp();
   const loading = ref(false);
   const error = ref(null);
-  const authorData = ref<TAuthor | null>(null);
-  const authorListData = ref<TAuthor[]>([]);
+  const topicData = ref<TTopic | null>(null);
+  const topicListData = ref<TTopic[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
 
-  const fetchAuthor = async () => {
+  const fetchTopic = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TAuthor>> = await $axios.get(
-        `/authors/${route.params.id}`
+      const { data }: AxiosResponse<TBaseResponse<TTopic>> = await $axios.get(
+        `/topics/${route.params.id}`
       );
 
-      authorData.value = data.data;
+      topicData.value = data.data;
 
       loading.value = false;
     } catch (err: any) {
@@ -33,13 +33,13 @@ export const useAuthorAPI = () => {
     }
   };
 
-  const fetchAuthors = async (params: TBaseParamsAuthor) => {
+  const fetchTopics = async (params: TBaseParamsTopic) => {
     loading.value = true;
     try {
       const {
         data,
-      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TAuthor[]>>> =
-        await $axios.get(`/authors`, {
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTopic[]>>> =
+        await $axios.get(`/topics`, {
           params: {
             ...params,
           },
@@ -48,7 +48,7 @@ export const useAuthorAPI = () => {
       const res = data.data;
       
       if (res.items.length > 0) {
-        authorListData.value = res.items;
+        topicListData.value = res.items;
         totalRecords.value = res.pagination.total;
       }
 
@@ -58,69 +58,59 @@ export const useAuthorAPI = () => {
     }
   };
 
-  const updateAuthor = async (payload: any) => {
-    try {
-      loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/authors/update",
-        payload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      const message = toCapitalize(data.message);
-
-      alertStore.setAlert({
-        severity: "info",
-        summary: message,
-        show_alert: true,
-      });
-
-      loading.value = false;
-      navigateTo("/adminz/author");
-    } catch (error: any) {
-      loading.value = false;
-      resultErrMessage(error);
-    }
-  };
-
-  const storeAuthor = async (payload: any) => {
-    try {
-      loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/authors/store",
-        payload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      const message = toCapitalize(data.message);
-
-      alertStore.setAlert({
-        severity: "info",
-        summary: message,
-        show_alert: true,
-      });
-
-      loading.value = false;
-      navigateTo("/adminz/author");
-    } catch (error: any) {
-      resultErrMessage(error);
-      loading.value = false;
-    }
-  };
-
-  const deleteAuthor = async (id: number) => {
+  const updateTopic = async (payload: any) => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/authors/delete`,
+        "/topics/update",
+        payload,
+      );
+
+      const message = toCapitalize(data.message);
+
+      alertStore.setAlert({
+        severity: "info",
+        summary: message,
+        show_alert: true,
+      });
+
+      loading.value = false;
+      navigateTo("/adminz/topic");
+    } catch (error: any) {
+      resultErrMessage(error);
+      loading.value = false;
+    }
+  };
+
+  const storeTopic = async (payload: any) => {
+    try {
+      loading.value = true;
+      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+        "/topics/store",
+        payload
+      );
+
+      const message = toCapitalize(data.message);
+
+      alertStore.setAlert({
+        severity: "info",
+        summary: message,
+        show_alert: true,
+      });
+
+      loading.value = false;
+      navigateTo("/adminz/topic");
+    } catch (error: any) {
+      resultErrMessage(error);
+      loading.value = false;
+    }
+  };
+
+  const deleteTopic = async (id: number) => {
+    loading.value = true;
+    try {
+      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+        `/topics/delete`,
         {
           id,
         }
@@ -162,12 +152,12 @@ export const useAuthorAPI = () => {
     loading,
     error,
     totalRecords,
-    authorData,
-    authorListData,
-    fetchAuthor,
-    updateAuthor,
-    storeAuthor,
-    fetchAuthors,
-    deleteAuthor,
+    topicData,
+    topicListData,
+    fetchTopic,
+    updateTopic,
+    storeTopic,
+    fetchTopics,
+    deleteTopic,
   };
 };

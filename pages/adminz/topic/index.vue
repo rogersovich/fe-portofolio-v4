@@ -1,14 +1,12 @@
 <template>
   <div>
     <div class="mb-6">
-      <div class="text-3xl font-rethink font-bold">Page Author</div>
-      <div class="text-muted-foreground font-light mt-2">
-        Create & List Author in here
-      </div>
+      <div class="text-3xl font-rethink font-bold">Page Topic</div>
+      <div class="text-muted-foreground font-light mt-2">List Topic in here</div>
     </div>
     <div>
       <DataTable
-        :value="authors"
+        :value="topics"
         :paginator="true"
         :rows="paginate.limit"
         :totalRecords="totalRecords"
@@ -17,7 +15,7 @@
         :rowsPerPageOptions="[5, 10, 20]"
         :sortField="sortField"
         :sortOrder="sortOrder"
-        :loading="loadingAuthor"
+        :loading="loading"
         filterDisplay="row"
         v-model:filters="filters"
         ref="dt"
@@ -27,9 +25,17 @@
       >
         <template #header>
           <div class="flex flex-wrap items-center justify-between gap-2">
-            <span class="text-lg font-bold">List Author</span>
+            <span class="text-lg font-bold">List Topic</span>
             <div class="flex items-center justify-center gap-4">
-              <router-link to="author/create">
+              <div class="flex items-center gap-3">
+                <span>
+                  Total:
+                </span>
+                <span>
+                  {{ totalRecords }}
+                </span>
+              </div>
+              <router-link to="topic/create">
                 <Button
                   variant="filled"
                   class="py-2.5 bg-blue-600 !border-none hover:!bg-blue-700 !text-white"
@@ -47,8 +53,8 @@
             </div>
           </div>
         </template>
-        <template #empty> No authors found. </template>
-        <template #loading> Loading authors data. Please wait. </template>
+        <template #empty> No topics found. </template>
+        <template #loading> Loading topics data. Please wait. </template>
         <Column
           field="id"
           header="ID"
@@ -60,19 +66,16 @@
             {{ calculateIndex(index) }}
           </template></Column
         >
+
         <Column
-          field="avatar_url"
-          header="Avatar"
+          field="name"
+          header="Name"
+          sortable
           :showFilterMenu="false"
-          headerClass="w-[100px]"
         >
-          <template #body="{ data }">
-            <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md w-[70px]" />
-          </template>
-        </Column>
-        <Column field="name" header="Name" sortable :showFilterMenu="false">
           <template #filter="{ filterModel, field }">
             <InputText
+              id="name"
               type="text"
               v-model="filterModel.value"
               @input="
@@ -114,7 +117,7 @@
           <template #body="{ data }">
             <div class="flex items-center justify-center gap-4">
               <NuxtLink
-                :to="`/adminz/author/edit/${data.id}`"
+                :to="`/adminz/topic/edit/${data.id}`"
                 class="cursor-pointer hover:bg-zinc-50/[.05] p-2 rounded-md"
               >
                 <IconEdit class="size-6 text-orange-500" />
@@ -133,12 +136,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
-import type { TAuthor, TBaseParamsAuthor } from "~/types/author.type";
 import dayjs from "dayjs";
+import type { TBaseParamsTopic, TTopic } from "~/types/topic.type";
+import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
 
 useHead({
-  title: "Admin - Author",
+  title: "Admin - Topic",
   titleTemplate: "%s | Portofolio",
 });
 
@@ -153,7 +156,6 @@ const paginate = reactive({
   page: 0,
   limit: 5,
   first: 0,
-  total_records: 0,
 });
 const sorts = reactive({
   sort: "DESC",
@@ -165,32 +167,32 @@ const filters = ref<any>({
   name: { value: "", matchMode: "contains" },
   created_at: { value: [], matchMode: "contains" },
 });
-const authors = ref<TAuthor[]>([]);
+const topics = ref<TTopic[]>([]);
 
 // Debounced filter callback function with a 500ms delay (adjust as needed)
 const debouncedFilterCallback = useDebounceFn(
   async ({ field, value }: { field: string; value: any }) => {
     filters.value[field].value = value;
 
-    await handleAPIFetchAuthors();
+    await handleAPIFetchTopics();
   },
   500
 );
 
-// Author API
+// User API
 const {
-  loading: loadingAuthor,
-  authorListData,
+  loading,
+  topicListData,
   totalRecords,
-  fetchAuthors,
-  deleteAuthor
-} = useAuthorAPI();
+  fetchTopics,
+  deleteTopic
+} = useTopicAPI();
 
-// Watch author list data
+// Watch user list data
 watch(
-  () => [authorListData.value],
+  () => [topicListData.value],
   () => {
-    authors.value = authorListData.value;
+    topics.value = topicListData.value;
   }
 );
 
@@ -199,7 +201,7 @@ const onPageChange = async (event: any) => {
   paginate.first = event.first;
   paginate.limit = event.rows;
 
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTopics();
 };
 
 // Event handler for sorting
@@ -210,13 +212,13 @@ const onSortChange = async (event: any) => {
   sorts.order = event.sortField;
   sorts.sort = event.sortOrder == 1 ? "ASC" : "DESC";
 
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTopics();
 };
 
 const onFilter = async (event: any) => {
   filters.value = event.filters;
 
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTopics();
 };
 
 const calculateIndex = (rowIndex: number) => {
@@ -224,7 +226,7 @@ const calculateIndex = (rowIndex: number) => {
 };
 
 const handleRefresh = () => {
-  fetchAuthors({
+  fetchTopics({
     page: 1,
     limit: 5,
     sort: "DESC",
@@ -236,11 +238,11 @@ const clearFilterDate = async (field: string) => {
   filters.value[field].value = [];
 
   setTimeout(async () => {
-    await handleAPIFetchAuthors();
+    await handleAPIFetchTopics();
   }, 10);
 };
 
-const setFilters = (params: TBaseParamsAuthor) => {
+const setFilters = (params: TBaseParamsTopic) => {
   if (filters.value.name) {
     const filterName = filters.value.name;
 
@@ -284,17 +286,17 @@ const setFilters = (params: TBaseParamsAuthor) => {
   return params;
 };
 
-const handleAPIFetchAuthors = async () => {
+const handleAPIFetchTopics = async () => {
   let params = {
     page: paginate.page + 1,
     limit: paginate.limit,
     sort: sorts.sort,
     order: sorts.order,
-  } as TBaseParamsAuthor;
+  } as TBaseParamsTopic;
 
   params = setFilters(params);
 
-  await fetchAuthors(params);
+  await fetchTopics(params);
 };
 
 const handleConfirmDelete = (id: number) => {
@@ -307,8 +309,8 @@ const handleConfirmDelete = (id: number) => {
     acceptLabel: "Yes",
     rejectLabel: "Cancel",
     accept: async () => {
-      await deleteAuthor(id);
-      await fetchAuthors({
+      await deleteTopic(id);
+      await fetchTopics({
         page: paginate.page + 1,
         limit: paginate.limit,
       });
@@ -318,7 +320,7 @@ const handleConfirmDelete = (id: number) => {
 };
 
 onMounted(async () => {
-  await handleAPIFetchAuthors();
+  await handleAPIFetchTopics();
 });
 </script>
-<style></style>
+<style lang=""></style>

@@ -270,7 +270,7 @@ const handleRefresh = () => {
   fetchTechnologies({
     page: 1,
     limit: 5,
-    sort: "ASC",
+    sort: "DESC",
     order: "id",
   });
 };
