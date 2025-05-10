@@ -18,7 +18,7 @@
     </div>
     <div class="pt-3">
       <div>
-        <form @submit.prevent="onFormSubmit" class="grid grid-cols-12 gap-6">
+        <form @submit.prevent="onFormSubmit" class="grid grid-cols-12 gap-10">
           <div class="col-span-12">
             <div class="text-2xl font-rethink font-bold">Form Edit</div>
             <hr class="border-zinc-50/[.15] mt-3" />
@@ -34,22 +34,20 @@
                 @change="handleAvatarChange"
               />
 
-              <template v-if="!loading">
+              <template v-if="!loadingDetail">
                 <div
                   class="flex flex-col items-start justify-center gap-3 mb-3"
                 >
                   <template v-if="!avatarNew.is_changed">
                     <NuxtImg
                       :src="forms?.avatar_old"
-                      width="w-full"
-                      class="rounded-lg"
+                      class="rounded-lg w-full"
                     ></NuxtImg>
                   </template>
                   <template v-else>
                     <NuxtImg
                       :src="avatarNew.blob_url"
-                      width="w-full"
-                      class="rounded-lg"
+                      class="rounded-lg w-full"
                     ></NuxtImg>
                   </template>
                   <div class="w-full flex flex-col items-center gap-3">
@@ -60,7 +58,7 @@
                       size="small"
                       class="w-full"
                       @click="triggerAvatarChange"
-                      :disabled="loading"
+                      :disabled="loadingDetail"
                     />
                     <template v-if="avatarNew.is_changed">
                       <Button
@@ -71,7 +69,7 @@
                         size="small"
                         class="w-full"
                         @click="cancelEditAvatar"
-                        :disabled="loading"
+                        :disabled="loadingDetail"
                       />
                     </template>
                   </div>
@@ -85,7 +83,7 @@
               </template>
             </div>
           </div>
-          <div class="col-span-8">
+          <div class="col-span-9">
             <div class="grid grid-cols-12 gap-6">
               <div class="col-span-7">
                 <div class="flex flex-col gap-1 text-left">
@@ -97,7 +95,7 @@
                     placeholder="e.g. Title"
                     fluid
                     variant="outlined"
-                    :disabled="loading"
+                    :disabled="loadingDetail"
                   />
                   <div v-if="formErrors.title && formErrors.title.length > 0">
                     <Message
@@ -125,7 +123,7 @@
                       placeholder="Select"
                       fluid
                       variant="outlined"
-                      :disabled="loading"
+                      :disabled="loadingDetail"
                     />
                   </div>
                 </div>
@@ -138,7 +136,7 @@
               <BaseCustomEditor
                 v-model="forms.description_html"
                 :errMessage="descriptionHtmlError"
-                :disabled="!loading"
+                :disabled="!loadingDetail"
               />
               <Message
                 v-if="descriptionHtmlError"
@@ -160,7 +158,7 @@
               size="small"
               class="w-full"
               @click="$router.push('/adminz/about')"
-              :disabled="loading"
+              :disabled="loadingDetail"
             />
           </div>
           <div
@@ -172,7 +170,7 @@
               label="Submit"
               size="small"
               class="w-full"
-              :disabled="loading"
+              :disabled="loadingDetail"
             />
           </div>
         </form>
@@ -208,11 +206,8 @@ const isUsedOptions = [
   },
 ];
 
-const { $axios } = useNuxtApp();
 const route = useRoute();
-const alertStore = useAlertStore();
 
-const loading = ref(false);
 const forms = ref({
   title: "",
   is_used: true,
@@ -236,19 +231,32 @@ const formSchema = z.object({
 
 const descriptionHtmlError = ref<string>("");
 
-const fetchAbout = async () => {
-  try {
-    const { data }: AxiosResponse<TBaseResponse<TAbout>> = await $axios.get(
-      `/abouts/${route.params.id}`
-    );
+const {
+  loading: loadingDetail,
+  aboutData,
+  fetchAbout,
+  updateAbout,
+} = useAboutAPI();
 
-    const res = data.data;
-
-    fillForm(res);
-  } catch (error) {
-    loading.value = false;
+watch(aboutData, (newAbout) => {
+  if (newAbout) {
+    fillForm(newAbout);
   }
-};
+});
+
+// const fetchAbout = async () => {
+//   try {
+//     const { data }: AxiosResponse<TBaseResponse<TAbout>> = await $axios.get(
+//       `/abouts/${route.params.id}`
+//     );
+
+//     const res = data.data;
+
+//     fillForm(res);
+//   } catch (error) {
+//     loading.value = false;
+//   }
+// };
 
 const fillForm = (data: TAbout) => {
   forms.value = {
@@ -279,7 +287,7 @@ const cancelEditAvatar = () => {
   avatarNew.is_changed = false;
 };
 
-const { formErrors,  validateForm } = useValidateForm();
+const { formErrors, validateForm } = useValidateForm();
 
 const validateDescriptionHtml = () => {
   const val = forms.value.description_html.trim();
@@ -290,15 +298,12 @@ const validateDescriptionHtml = () => {
   }
 };
 
-
 const onFormSubmit = async () => {
   validateDescriptionHtml();
 
   const isValid = validateForm(formSchema, forms.value);
 
   if (!descriptionHtmlError.value && isValid) {
-    loading.value = true;
-
     const id = route.params.id;
 
     const formData = new FormData();
@@ -312,42 +317,40 @@ const onFormSubmit = async () => {
       formData.append("avatar_file", avatarNewFile);
     }
 
-    await handleUpdateAbout(formData);
-
-    loading.value = false;
+    await updateAbout(formData);
   }
 };
 
-const handleUpdateAbout = async (payload: any) => {
-  try {
-    const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-      "/abouts/update",
-      payload,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+// const handleUpdateAbout = async (payload: any) => {
+//   try {
+//     const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+//       "/abouts/update",
+//       payload,
+//       {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//         },
+//       }
+//     );
 
-    const message = toCapitalize(data.message);
+//     const message = toCapitalize(data.message);
 
-    alertStore.setAlert({
-      severity: "info",
-      summary: message,
-      show_alert: true,
-    });
+//     alertStore.setAlert({
+//       severity: "info",
+//       summary: message,
+//       show_alert: true,
+//     });
 
-    navigateTo("/adminz/about");
-  } catch (error: any) {
-    loading.value = false;
-    alertStore.setAlert({
-      severity: "error",
-      summary: error.message,
-      show_alert: true,
-    });
-  }
-};
+//     navigateTo("/adminz/about");
+//   } catch (error: any) {
+//     loading.value = false;
+//     alertStore.setAlert({
+//       severity: "error",
+//       summary: error.message,
+//       show_alert: true,
+//     });
+//   }
+// };
 
 watch(
   () => [forms.value.description_html],
@@ -363,9 +366,7 @@ watch(
 );
 
 onMounted(async () => {
-  loading.value = true;
   await fetchAbout();
-  loading.value = false;
 });
 </script>
 <style lang=""></style>

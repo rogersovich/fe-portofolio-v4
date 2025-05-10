@@ -1,0 +1,68 @@
+import type { AxiosResponse } from "axios";
+import type { TAbout } from "~/types/about.type";
+import type { TBaseResponse } from "~/types/base.type";
+
+
+export const useAboutAPI = () => {
+  const { $axios } = useNuxtApp();
+  const loading = ref(false);
+  const error = ref(null);
+  const aboutData = ref<TAbout | null>(null);
+  const route = useRoute();
+  const alertStore = useAlertStore();
+
+  const fetchAbout = async () => {
+    loading.value = true;
+    try {
+      const { data }: AxiosResponse<TBaseResponse<TAbout>> = await $axios.get(
+        `/abouts/${route.params.id}`
+      );
+
+      aboutData.value = data.data;
+
+      loading.value = false;
+    } catch (err: any) {
+      error.value = err;
+      loading.value = false;
+    }
+  };
+
+  const updateAbout = async (payload: any) => {
+    try {
+      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+        "/abouts/update",
+        payload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+  
+      const message = toCapitalize(data.message);
+  
+      alertStore.setAlert({
+        severity: "info",
+        summary: message,
+        show_alert: true,
+      });
+  
+      navigateTo("/adminz/about");
+    } catch (error: any) {
+      loading.value = false;
+      alertStore.setAlert({
+        severity: "error",
+        summary: error.message,
+        show_alert: true,
+      });
+    }
+  };
+
+  return {
+    loading,
+    error,
+    aboutData,
+    fetchAbout,
+    updateAbout,
+  };
+}

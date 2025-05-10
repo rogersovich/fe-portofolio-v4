@@ -41,15 +41,13 @@
               <template v-if="!avatarNew.is_changed">
                 <NuxtImg
                   :src="forms?.avatar_url"
-                  width="w-full"
-                  class="rounded-lg"
+                  class="rounded-lg w-full"
                 ></NuxtImg>
               </template>
               <template v-else>
                 <NuxtImg
                   :src="avatarNew.blob_url"
-                  width="w-full"
-                  class="rounded-lg"
+                  class="rounded-lg w-full"
                 ></NuxtImg>
               </template>
               <div class="w-full flex flex-col items-center gap-3">
@@ -57,7 +55,6 @@
                   type="button"
                   variant="outlined"
                   label="Change Avatar"
-                  size="small"
                   class="w-full"
                   @click="triggerAvatarChange"
                   :disabled="loading || loadingAuthor"
@@ -68,7 +65,6 @@
                     variant="outlined"
                     severity="danger"
                     label="Cancel Avatar"
-                    size="small"
                     class="w-full"
                     @click="cancelEditAvatar"
                     :disabled="loading || loadingAuthor"
@@ -104,26 +100,24 @@
           </div>
         </div>
         <div
-          class="col-start-9 col-end-11 2xl:col-start-7 2xl:col-end-8 w-full"
+          class="col-start-6 col-end-8 2xl:col-start-8 2xl:col-end-9 w-full"
         >
           <Button
             type="button"
             variant="outlined"
             label="Cancel"
-            size="small"
             class="w-full"
             @click="$router.push('/adminz/author')"
             :disabled="loading"
           />
         </div>
         <div
-          class="col-start-11 col-end-13 2xl:col-start-8 2xl:col-end-9 w-full"
+          class="col-start-8 col-end-10 2xl:col-start-9 2xl:col-end-10 w-full"
         >
           <Button
             type="submit"
             severity="contrast"
             label="Submit"
-            size="small"
             class="w-full"
             :disabled="loading"
           />
@@ -231,5 +225,7 @@ const onFormSubmit = async () => {
 onMounted(async () => {
   await fetchAuthor();
 });
+
+onUnmounted(() => {});
 </script>
 <style lang=""></style>

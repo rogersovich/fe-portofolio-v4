@@ -42,7 +42,7 @@ body {
 }
 
 .tiptap-control-button {
-  @apply outline outline-1 outline-zinc-600 text-white px-[8px] py-[6px] rounded-md;
+  @apply outline outline-1 outline-zinc-600 text-white px-[8px] py-[6px] rounded-md bg-transparent border-0;
 }
 
 .tiptap-image-item {
@@ -50,7 +50,7 @@ body {
 }
 
 .tiptap-content {
-  @apply border border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:border-zinc-50/[.3]
+  @apply border border-solid !border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:!border-zinc-50/[.3]
 }
 
 .tiptap-content--error {

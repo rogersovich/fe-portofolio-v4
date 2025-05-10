@@ -10,6 +10,9 @@ module.exports = {
     './src/**/*.{ts,tsx,vue}',
 	],
   prefix: "",
+  corePlugins: {
+    preflight: false
+  },
   theme: {
     container: {
       center: true,

@@ -17,7 +17,7 @@
         :rowsPerPageOptions="[5, 10, 20]"
         :sortField="sortField"
         :sortOrder="sortOrder"
-        :loading="loadingAuthorDelete || loadingAuthor"
+        :loading="loadingAuthor"
         filterDisplay="row"
         v-model:filters="filters"
         ref="dt"
@@ -67,7 +67,7 @@
           headerClass="w-[100px]"
         >
           <template #body="{ data }">
-            <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md" />
+            <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md w-[70px]" />
           </template>
         </Column>
         <Column field="name" header="Name" sortable :showFilterMenu="false">
@@ -177,16 +177,14 @@ const debouncedFilterCallback = useDebounceFn(
   500
 );
 
-// Fetch author list data
+// Author API
 const {
   loading: loadingAuthor,
   authorListData,
-  fetchAuthors,
   totalRecords,
+  fetchAuthors,
+  deleteAuthor
 } = useAuthorAPI();
-
-// Delete author
-const { loading: loadingAuthorDelete, deleteAuthor } = useAuthorAPI();
 
 // Watch author list data
 watch(

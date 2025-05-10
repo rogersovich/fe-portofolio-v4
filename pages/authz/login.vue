@@ -35,7 +35,6 @@
               placeholder="Email"
               fluid
               variant="outlined"
-              size="small"
             />
             <Message
               v-if="$form.email?.invalid"
@@ -53,7 +52,6 @@
               placeholder="Password"
               fluid
               variant="outlined"
-              size="small"
             />
             <Message
               v-if="$form.password?.invalid"
@@ -68,7 +66,6 @@
               type="submit"
               severity="contrast"
               label="Submit"
-              size="small"
               class="w-full"
             />
           </div>
@@ -84,6 +81,7 @@ import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { useAuthStore } from "~/stores/useAuth";
 import type { TLoginResponse } from "~/types/auth.type";
 import type { TBaseResponse } from "~/types/base.type";
+import type { AxiosResponse } from "axios";
 
 useHead({
   title: "Auth Login",
@@ -94,7 +92,8 @@ definePageMeta({
   middleware: "auth",
 });
 
-const toast = useToast();
+const router = useRouter();
+const { $axios } = useNuxtApp();
 const authStore = useAuthStore();
 const sidebarStore = useSidebarStore();
 const alertStore = useAlertStore();
@@ -113,39 +112,27 @@ const formResolver = zodResolver(formSchema);
 const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
     try {
-      const { error, data } = await useAPI<TBaseResponse<TLoginResponse>>(
-        "/auth/login",
-        {
-          method: "POST",
-          body: {
-            email: values.email,
-            password: values.password,
-          },
-          lazy: true,
-          server: false,
-        }
-      );
-
-      if (error.value) {
-        const errMsg = toCapitalize(error.value.data.message);
-        throw new Error(errMsg);
-      }
-
-      if (data.value) {
-        authStore.setAuth(data.value.data);
-
-        const message = toCapitalize(data.value.message);
-
-        alertStore.setAlert({
-          severity: "info",
-          summary: message,
-          show_alert: true,
+      const { data }: AxiosResponse<TBaseResponse<TLoginResponse>> =
+        await $axios.post(`/auth/login`, {
+          email: values.email,
+          password: values.password,
         });
 
-        sidebarStore.setInitMenuList();
+      authStore.setAuth(data.data);
 
-        navigateTo("/adminz/dashboard");
-      }
+      const message = toCapitalize(data.message);
+
+      alertStore.setAlert({
+        severity: "info",
+        summary: message,
+        show_alert: true,
+      });
+
+      sidebarStore.setInitMenuList();
+
+      router.push("/adminz/dashboard").then(() => {
+        window.location.reload();
+      });
     } catch (error: any) {
       alertStore.setAlert({
         severity: "error",

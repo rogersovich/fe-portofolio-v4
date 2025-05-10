@@ -142,8 +142,6 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { IconArrowLeft, IconPhoto } from "@tabler/icons-vue";
-import type { TBaseResponse } from "~/types/base.type";
-import type { AxiosResponse } from "axios";
 
 useHead({
   title: "Admin - Create Author",
@@ -154,9 +152,6 @@ definePageMeta({
   layout: "admin",
   middleware: "auth",
 });
-
-const { $axios } = useNuxtApp();
-const alertStore = useAlertStore();
 
 const loading = ref(false);
 const refAvatar = ref("");

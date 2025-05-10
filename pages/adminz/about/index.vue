@@ -10,14 +10,12 @@
       <div class="col-span-12 2xl:col-span-10">
         <div class="border border-zinc-50/[.1] rounded-lg px-5 py-4">
           <div class="grid grid-cols-12 gap-8">
-            <div class="col-span-3">
+            <div class="col-span-4">
               <template v-if="!loading && about">
                 <div class="flex flex-col items-start justify-center gap-4">
                   <NuxtImg
                     :src="about?.avatar_url"
-                    height="350px"
-                    width="350px"
-                    class="rounded-lg"
+                    class="rounded-lg w-full"
                     densities="x1 x2"
                   />
                   <div class="w-full">
@@ -33,13 +31,11 @@
               <template v-else>
                 <div>
                   <Skeleton width="100%" height="250px" class="mb-3"></Skeleton>
-                  <div class="flex items-center justify-center gap-3 w-full">
-                    <Skeleton width="100px" height="100px"></Skeleton>
-                  </div>
+                  <Skeleton width="100%" height="50px"></Skeleton>
                 </div>
               </template>
             </div>
-            <div class="col-span-9">
+            <div class="col-span-8">
               <template v-if="!loading && about">
                 <div>
                   <div class="text-5xl text-zinc-50 font-rethink font-bold">

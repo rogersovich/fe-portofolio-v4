@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor">
     <div
-      class="control-group mb-3 border border-zinc-50/[.2] rounded-lg px-4 py-3"
+      class="control-group mb-3 rounded-lg py-3"
     >
       <div class="flex items-center gap-3">
         <button
