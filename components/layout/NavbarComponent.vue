@@ -10,7 +10,7 @@
           v-for="nav in listNavs"
           :key="nav.title"
           :to="nav.link"
-          class="py-3 px-2 font-rethink transition-colors cursor-pointer hover:text-[#9E7AFF]"
+          class="py-3 px-2 font-rethink transition-colors cursor-pointer text-white no-underline hover:underline hover:text-[#9E7AFF]"
         >
           {{ nav.title }}
         </NuxtLink>

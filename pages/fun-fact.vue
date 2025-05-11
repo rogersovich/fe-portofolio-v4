@@ -20,12 +20,12 @@
       class="layout pb-12 pt-12 md:pb-16 md:pt-8 flex flex-col justify-center gap-10"
     >
       <div
-        class="flex gap-8 items-start border border-zinc-50/[.05] rounded-xl px-6 py-8"
+        class="flex gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-6 py-8"
       >
         <div class="basis-[30%]">
           <div class="flex flex-col gap-3 items-start pb-2">
             <div
-              class="text-xl border border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
+              class="text-xl border border-solid border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
             >
               🎬
             </div>
@@ -58,12 +58,12 @@
                     <template v-if="!moviesOnHover[index]">
                       <NuxtImg
                         :src="movie.image"
-                        class="rounded-lg w-full h-[300px] border border-zinc-50/[.05] hover:border-zinc-50/[.15]"
+                        class="rounded-lg w-full h-[300px] border border-solid border-zinc-50/[.05] hover:border-zinc-50/[.15]"
                       />
                     </template>
                     <template v-else>
                       <div
-                        class="border border-zinc-50/[.15] w-full h-[300px] rounded-lg p-4 relative overflow-hidden"
+                        class="border border-solid border-zinc-50/[.15] w-full h-[300px] rounded-lg p-4 relative overflow-hidden"
                       >
                         <div class="">
                           <div class="font-rethink font-bold text-2xl mb-3">
@@ -131,11 +131,11 @@
         </div>
       </div>
       <div
-        class="flex flex-col gap-8 items-start border border-zinc-50/[.05] rounded-xl px-28 py-12"
+        class="flex flex-col gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-28 py-12"
       >
         <div class="flex gap-8 w-full pb-2">
           <div
-            class="basis-[25%] border border-zinc-50/[.05] rounded-xl flex items-center justify-center"
+            class="basis-[25%] border border-solid border-zinc-50/[.05] rounded-xl flex items-center justify-center"
           >
             <BaseIconSong
               width="150"
@@ -146,7 +146,7 @@
           </div>
           <div class="basis-[70%] flex flex-col justify-end gap-2">
             <div
-              class="text-xl border border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
+              class="text-xl border border-solid border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
             >
               🎧ྀི
             </div>
@@ -169,7 +169,7 @@
           <div class="text-xl font-rethink font-bold pb-6">List songs</div>
 
           <div
-            class="flex flex-col justify-center gap-10 border border-zinc-50/[.05] rounded-xl py-6 px-4"
+            class="flex flex-col justify-center gap-10 border border-solid border-zinc-50/[.05] rounded-xl py-6 px-4"
           >
             <template v-for="(song, index) in listFavoriteSongs" :key="index">
               <div class="flex gap-6">
@@ -181,7 +181,7 @@
                 <div class="basis-[7.5%] flex items-center justify-center">
                   <NuxtImg
                     :src="song.url_img"
-                    class="rounded w-[50px] h-[50px] border border-zinc-50/[.05]"
+                    class="rounded w-[50px] h-[50px] border border-solid border-zinc-50/[.05]"
                   />
                 </div>
                 <div
@@ -189,7 +189,7 @@
                 >
                   <div class="flex items-center gap-1">
                     <NuxtLink
-                      class="text-base font-rethink hover:underline"
+                      class="text-base font-rethink no-underline text-white hover:text-orange-500 hover:underline"
                       :to="song.song_url"
                       target="_blank"
                     >

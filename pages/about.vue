@@ -44,7 +44,7 @@
             Front-end Developer at <span>Elabram</span>
           </div>
           <div class="pt-8 text-muted-foreground font-light">
-            <p class="tracking-wide">
+            <p class="tracking-wide leading-normal">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -71,7 +71,7 @@
       <div class="flex flex-col gap-12">
         <div class="flex flex-row gap-4 items-center">
           <div
-            class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
+            class="border border-solid border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
           >
             🏹
           </div>
@@ -81,7 +81,7 @@
           <template v-for="(skill, index) in listSkills" :key="index">
             <div class="col-span-3">
               <div
-                class="border border-zinc-50/[.15] rounded-lg p-4 min-h-[200px] flex items-center justify-center flex-col gap-2"
+                class="border border-solid border-zinc-50/[.15] rounded-lg p-4 min-h-[200px] flex items-center justify-center flex-col gap-2"
               >
                 <div class="text-2xl">
                   <component :is="skill.icon" v-bind="skill.iconProps" />
@@ -101,7 +101,7 @@
       <div class="flex flex-col gap-12">
         <div class="flex flex-row gap-4 items-center">
           <div
-            class="border border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
+            class="border border-solid border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
           >
             💼
           </div>
