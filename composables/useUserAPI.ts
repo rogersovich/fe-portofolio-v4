@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TBaseParamsUser, TMasterUser } from "~/types/user.type";
 
 export const useUserAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const userData = ref<TMasterUser | null>(null);

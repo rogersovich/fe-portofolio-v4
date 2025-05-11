@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TBaseParamsStatistic, TStatistic } from "~/types/statistic.type";
 
 export const useStatisticAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const statisticData = ref<TStatistic | null>(null);

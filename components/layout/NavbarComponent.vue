@@ -28,7 +28,7 @@ export default {
       },
       {
         title: "Projects",
-        link: "/",
+        link: "/project",
       },
       {
         title: "Fun Facts",

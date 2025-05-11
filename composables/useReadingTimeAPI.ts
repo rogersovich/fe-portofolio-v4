@@ -8,7 +8,7 @@ import type {
 } from "~/types/reading_time.type";
 
 export const useReadingTimeAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const readingTimeData = ref<TReadingTime | null>(null);

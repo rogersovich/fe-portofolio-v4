@@ -8,7 +8,7 @@ import type {
 import type { TBaseParamsExperience, TExperience } from "~/types/experience.type";
 
 export const useExperienceAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const experienceData = ref<TExperience | null>(null);

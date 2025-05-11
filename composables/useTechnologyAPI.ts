@@ -9,7 +9,7 @@ import type {
 } from "~/types/technology.type";
 
 export const useTechnologyAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const technologyData = ref<TTechnology | null>(null);

@@ -8,7 +8,7 @@ import type {
 } from "~/types/testimonial.type";
 
 export const useTestimonialAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const testimonialData = ref<TTestimonial | null>(null);

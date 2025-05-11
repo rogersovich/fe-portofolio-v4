@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TAuthor, TBaseParamsAuthor, TPublicAuthor } from "~/types/author.type";
 
 export const useAuthorAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const authorData = ref<TAuthor | null>(null);

@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TBaseParamsBlog, TBlog, TBlogDetail } from "~/types/blog.type";
 
 export const useBlogAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const blogData = ref<TBlogDetail | null>(null);

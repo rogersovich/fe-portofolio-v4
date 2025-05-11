@@ -2,14 +2,15 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
 import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
-import type { TBaseParamsProject, TProject, TProjectDetail } from "~/types/project.type";
+import type { TBaseParamsProject, TParamsFilterPublicProject, TProject, TProjectDetail, TPublicProject } from "~/types/project.type";
 
 export const useProjectAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const projectData = ref<TProjectDetail | null>(null);
   const projectListData = ref<TProject[]>([]);
+  const projectListPublicData = ref<TPublicProject[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
@@ -127,6 +128,29 @@ export const useProjectAPI = () => {
         summary: message,
         show_alert: true,
       });
+
+      loading.value = false;
+    } catch (error) {
+      loading.value = false;
+    }
+  };
+  
+  const fetchPublicProjects = async (params: TParamsFilterPublicProject) => {
+    loading.value = true;
+    try {
+      const {
+        data,
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TProject[]>>> =
+        await $axios.get(`/api/projects`, {
+          params: {
+            ...params,
+          },
+        });
+
+      const res = data.data;
+
+      projectListData.value = res.items;
+      totalRecords.value = res.pagination.total;
 
       loading.value = false;
     } catch (error) {

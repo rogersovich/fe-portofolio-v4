@@ -53,3 +53,28 @@ export interface TParamsFilterProject {
 }
 
 export type TBaseParamsProject = TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterProject>
+
+export interface TPublicProject {
+  id: number
+  title: string
+  summary: string
+  image_url: string
+  image_file_name: string
+  repository_url: string
+  slug: string
+  published_at: string
+  technologies: {
+    tech_id: number
+    tech_name: string
+    tech_logo_url: string
+    tech_link: string
+  }[]
+}
+
+export interface TParamsFilterPublicProject {
+  page: string
+  limit: string
+  sort?: string
+  order?: string
+  search?: string
+}

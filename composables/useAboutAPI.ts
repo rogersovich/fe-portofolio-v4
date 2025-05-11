@@ -3,7 +3,7 @@ import type { TAbout } from "~/types/about.type";
 import type { TBaseResponse } from "~/types/base.type";
 
 export const useAboutAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const aboutData = ref<TAbout | null>(null);

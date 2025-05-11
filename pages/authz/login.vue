@@ -93,7 +93,7 @@ definePageMeta({
 });
 
 const router = useRouter();
-const { $axios } = useNuxtApp();
+const { $axios } = useNuxtApp() as unknown as any;
 const authStore = useAuthStore();
 const sidebarStore = useSidebarStore();
 const alertStore = useAlertStore();

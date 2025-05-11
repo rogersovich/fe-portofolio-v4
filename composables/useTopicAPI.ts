@@ -8,7 +8,7 @@ import type {
 import type { TBaseParamsTopic, TPublicTopic, TTopic } from "~/types/topic.type";
 
 export const useTopicAPI = () => {
-  const { $axios } = useNuxtApp();
+  const { $axios } = useNuxtApp() as unknown as any;
   const loading = ref(false);
   const error = ref(null);
   const topicData = ref<TTopic | null>(null);

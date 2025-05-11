@@ -1,7 +1,8 @@
 import axios, { type AxiosInstance } from "axios";
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(() => {
   const authStore = useAuthStore();
+  const nuxtApp = useNuxtApp();
   const config = useRuntimeConfig()
 
   // Function to create the axios instance
@@ -48,9 +49,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     return axiosInstance;
   };
 
-  // Create the axios instance
-  const axiosInstance = createAxiosInstance();
+  // Check if $axios is already provided
+  if (!nuxtApp.$axios) {
+    // Create the axios instance only if it hasn't been provided yet
+    const axiosInstance = createAxiosInstance();
 
-  // Make this axios instance available globally
-  nuxtApp.provide("axios", axiosInstance);
+    // Make this axios instance available globally
+    nuxtApp.provide('axios', axiosInstance);
+  }
 });
