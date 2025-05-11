@@ -2,13 +2,13 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
 import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
-import type { TBaseParamsProject, TProject } from "~/types/project.type";
+import type { TBaseParamsProject, TProject, TProjectDetail } from "~/types/project.type";
 
 export const useProjectAPI = () => {
   const { $axios } = useNuxtApp();
   const loading = ref(false);
   const error = ref(null);
-  const projectData = ref<TProject | null>(null);
+  const projectData = ref<TProjectDetail | null>(null);
   const projectListData = ref<TProject[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
@@ -17,7 +17,7 @@ export const useProjectAPI = () => {
   const fetchProject = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TProject>> =
+      const { data }: AxiosResponse<TBaseResponse<TProjectDetail>> =
         await $axios.get(`/api/projects/${route.params.id}`);
 
       projectData.value = data.data;

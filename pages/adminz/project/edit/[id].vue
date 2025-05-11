@@ -3,11 +3,9 @@
     <div class="mb-6">
       <div class="flex justify-between">
         <div>
-          <div class="text-3xl font-rethink font-bold">
-            Create - Page Project
-          </div>
+          <div class="text-3xl font-rethink font-bold">Edit - Page Project</div>
           <div class="text-muted-foreground font-light mt-2">
-            Create reliable Project in here
+            Edit reliable Project in here
           </div>
         </div>
         <div>
@@ -22,7 +20,7 @@
       <form @submit.prevent="onFormSubmit" class="grid grid-cols-12 gap-6">
         <div class="col-span-12">
           <div class="flex justify-between">
-            <div class="text-2xl font-rethink font-bold">Form Create</div>
+            <div class="text-2xl font-rethink font-bold">Form Edit</div>
           </div>
           <hr class="border-zinc-50/[.15] mt-3" />
         </div>
@@ -38,19 +36,17 @@
             />
 
             <div class="flex flex-col items-center justify-center gap-3 mb-3">
-              <template v-if="forms?.image_file?.file">
+              <template v-if="!imageNew.is_changed">
                 <NuxtImg
-                  :src="forms?.image_file.blob_url"
+                  :src="forms?.image_url"
                   class="rounded-lg w-full"
                 ></NuxtImg>
               </template>
               <template v-else>
-                <div
-                  class="w-full h-[200px] border border-dashed border-zinc-50/[.2] rounded-md flex flex-col items-center justify-center gap-3"
-                >
-                  <IconPhoto class="size-10 text-zinc-50" />
-                  <span class="text-zinc-50"> Select a image </span>
-                </div>
+                <NuxtImg
+                  :src="imageNew.blob_url"
+                  class="rounded-lg w-full"
+                ></NuxtImg>
               </template>
               <div class="w-full flex flex-col items-center gap-3">
                 <Button
@@ -61,7 +57,7 @@
                   @click="triggerImageChange"
                   :disabled="loading || loadingTech"
                 />
-                <template v-if="forms?.image_file?.file">
+                <template v-if="imageNew.is_changed">
                   <Button
                     type="button"
                     variant="outlined"
@@ -285,11 +281,11 @@
 </template>
 <script setup lang="ts">
 import { z } from "zod";
-import { IconArrowLeft, IconPhoto } from "@tabler/icons-vue";
+import { IconArrowLeft } from "@tabler/icons-vue";
 import type { TPublicTechnology } from "~/types/technology.type";
 
 useHead({
-  title: "Admin - Create Project",
+  title: "Admin - Edit Project",
   titleTemplate: "%s | Portofolio",
 });
 
@@ -298,8 +294,14 @@ definePageMeta({
   middleware: "auth",
 });
 
+const route = useRoute();
 const refImage = ref("");
-const forms = ref({
+const imageNew = ref({
+  file: null,
+  blob_url: "",
+  is_changed: false,
+});
+const forms = ref<any>({
   title: "",
   slug: "",
   description: "",
@@ -307,10 +309,7 @@ const forms = ref({
   repository_url: "",
   is_published: "N",
   technology_ids: [],
-  image_file: {
-    file: null,
-    blob_url: "",
-  },
+  image_url: "",
 });
 const is_published_options = ref([
   { label: "Published", value: "Y" },
@@ -328,8 +327,9 @@ const formSchema = z.object({
 const handleImageChange = (event: any) => {
   const file = event.target.files[0];
   if (file) {
-    forms.value.image_file.blob_url = URL.createObjectURL(file);
-    forms.value.image_file.file = file;
+    imageNew.value.blob_url = URL.createObjectURL(file);
+    imageNew.value.file = file;
+    imageNew.value.is_changed = true;
   }
 };
 
@@ -339,8 +339,9 @@ const triggerImageChange = () => {
 };
 
 const cancelImage = () => {
-  forms.value.image_file.file = null;
-  forms.value.image_file.blob_url = "";
+  imageNew.value.file = null;
+  imageNew.value.blob_url = "";
+  imageNew.value.is_changed = false;
 };
 
 const { formErrors, validateForm } = useValidateForm();
@@ -364,27 +365,11 @@ const validateSummaryHtml = () => {
   }
 };
 
-const validateImage = () => {
-  imageError.value = "";
-  if (!forms.value.image_file.file) {
-    imageError.value = "Logo is required.";
-    return false;
-  }
-
-  return true;
-};
-
 watch(
   () => [forms.value.description, forms.value.summary],
   () => {
     validateDescriptionHtml();
     validateSummaryHtml();
-  }
-);
-watch(
-  () => [forms.value.image_file.file],
-  () => {
-    validateImage();
   }
 );
 
@@ -396,7 +381,7 @@ watch(
 );
 
 // API
-const { storeProject, loading } = useProjectAPI();
+const { updateProject, fetchProject, loading, projectData } = useProjectAPI();
 const {
   fetchPublicTechnologies,
   loading: loadingTech,
@@ -405,12 +390,40 @@ const {
 
 const technologies_options = ref<TPublicTechnology[]>([]);
 
+const { slugToString } = useSlugify();
+
 watch(
   () => technologyPublicListData.value,
   (newValue) => {
     technologies_options.value = newValue || [];
   }
 );
+
+watch(projectData, (newData) => {
+  if (newData) {
+    forms.value = {
+      title: newData.title,
+      slug: slugToString(newData.slug),
+      description: newData.description,
+      summary: newData.summary,
+      repository_url: newData.repository_url,
+      is_published: newData.status == "Published" ? "Y" : "N",
+      technology_ids: newData.technologies.map((tech) => tech.tech_id),
+      image_url: newData.image_url,
+    };
+  } else {
+    forms.value = {
+      title: "",
+      slug: "",
+      description: "",
+      summary: "",
+      repository_url: "",
+      is_published: "N",
+      technology_ids: [],
+      image_url: "",
+    };
+  }
+});
 
 const getImageUrlsFromHTML = (html: string) => {
   const regex = /<img [^>]*src="([^"]+)"/g;
@@ -423,50 +436,48 @@ const getImageUrlsFromHTML = (html: string) => {
   }
 
   return imageUrls;
-}
+};
 
 const onFormSubmit = async () => {
   validateDescriptionHtml();
   validateSummaryHtml();
 
   const isValid = validateForm(formSchema, forms.value);
-  const isValidLogo = validateImage();
 
-  if (
-    !descriptionHtmlError.value &&
-    !summaryHtmlError.value &&
-    isValid &&
-    isValidLogo
-  ) {
+  if (!descriptionHtmlError.value && !summaryHtmlError.value && isValid) {
     const contentImageUrls = getImageUrlsFromHTML(forms.value.description);
+    const id = route.params.id as string;
 
     const formData = new FormData();
+    formData.append("id", id);
     formData.append("title", forms.value.title);
     formData.append("slug", forms.value.slug);
     formData.append("description", forms.value.description);
     formData.append("summary", forms.value.summary);
-    if (forms.value.repository_url){
+    if (forms.value.repository_url) {
       formData.append("repository_url", forms.value.repository_url);
     }
     formData.append("is_published", forms.value.is_published);
 
-    const techIdsStringify = JSON.stringify(forms.value.technology_ids);
+    const formattedTechIds = forms.value.technology_ids.map((id: number) => ({ tech_id: id }));
+    const techIdsStringify = JSON.stringify(formattedTechIds);
     formData.append("technology_ids", techIdsStringify);
 
-    if (contentImageUrls.length > 0) {
-      const contentImageUrlsStringify = JSON.stringify(contentImageUrls);
-      formData.append("project_images", contentImageUrlsStringify);
+    const contentImageUrlsStringify = JSON.stringify(contentImageUrls);
+    formData.append("project_images", contentImageUrlsStringify);
+
+    const imageNewFile = imageNew.value.file as unknown as File;
+    if (imageNew.value.is_changed && imageNewFile) {
+      formData.append("image_file", imageNewFile);
     }
 
-    const avatarNewFile = forms.value.image_file.file as unknown as File;
-    formData.append("image_file", avatarNewFile);
-
-    await storeProject(formData);
+    await updateProject(formData);
   }
 };
 
 onMounted(async () => {
   await fetchPublicTechnologies();
+  await fetchProject();
 });
 </script>
 <style lang=""></style>
