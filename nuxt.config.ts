@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_API_BASE || "http://localhost:4000/api",
+      apiBase: process.env.NUXT_API_BASE || "http://localhost:4000",
     },
   },
   plugins: ["~/plugins/axios.ts"],

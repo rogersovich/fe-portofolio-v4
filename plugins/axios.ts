@@ -1,13 +1,13 @@
 import axios, { type AxiosInstance } from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  // Access authStore to get the token
-  const authStore = useAuthStore(); // Adjust this if your store has a different name
+  const authStore = useAuthStore();
+  const config = useRuntimeConfig()
 
   // Function to create the axios instance
   const createAxiosInstance = (): AxiosInstance => {
     const axiosInstance = axios.create({
-      baseURL: process.env.NUXT_API_BASE || "http://localhost:4000/api", // Replace with your API base URL
+      baseURL: config.public.apiBase,
       headers: {
         Authorization: `Bearer ${authStore.getToken()}`,
       },

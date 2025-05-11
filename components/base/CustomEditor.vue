@@ -1,8 +1,6 @@
 <template>
   <div v-if="editor">
-    <div
-      class="control-group mb-3 rounded-lg py-3"
-    >
+    <div class="control-group mb-3 rounded-lg py-3">
       <div class="flex items-center gap-3">
         <button
           type="button"
@@ -249,16 +247,18 @@
         >
           <IconLinkOff class="size-5" />
         </button>
-        <button
-          type="button"
-          @click="selectImage()"
-          class="tiptap-control-button"
-        >
-          <IconPhotoFilled class="size-5" />
-        </button>
+        <template v-if="!$props.exclude.includes('image')">
+          <button
+            type="button"
+            @click="selectImage()"
+            class="tiptap-control-button"
+          >
+            <IconPhotoFilled class="size-5" />
+          </button>
+        </template>
       </div>
     </div>
-    <editor-content :editor="editor"/>
+    <editor-content :editor="editor" />
   </div>
 </template>
 
@@ -350,7 +350,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
-    }
+    },
+    exclude: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   emits: ["update:modelValue"],
@@ -366,16 +370,56 @@ export default {
         const file = input.files?.[0];
         if (file) {
           // Handle the image upload
-          // const imageUrl = await uploadImage(file);
-          const imageUrl =
-            "http://localhost:9000/portofolio-v4/blog/1745223221_44a8a312-d6d8-42af-8eab-7a8f01ad02ad.jpg";
 
-          // Insert the image into the editor
-          this.insertImage(imageUrl);
+          const uploadedImage = await this.uploadImage(file);
+          if(uploadedImage) {
+            // const imageUrl =
+            //   "http://localhost:9000/portofolio-v4/blog/1745223221_44a8a312-d6d8-42af-8eab-7a8f01ad02ad.jpg";
+            const imageUrl = uploadedImage.image_url
+  
+            // Insert the image into the editor
+            this.insertImage(imageUrl);
+          }
         }
       };
 
       input.click();
+    },
+    async uploadImage(file) {
+      const { $axios } = useNuxtApp();
+      const alertStore = useAlertStore();
+      const authStore = useAuthStore();
+
+      const formData = new FormData();
+      formData.append("image_file", file);
+
+      try {
+        const { data } = await $axios.post(
+          "/api/project-content-images/store",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${authStore.getToken()}`,
+            },
+          }
+        );
+
+        const res = data.data;
+        
+        return {
+          image_file_name: res.image_file_name,
+          image_url: res.image_url,
+        }
+      } catch (error) {
+        const errData = error.response.data;
+        alertStore.setAlert({
+          severity: "error",
+          summary: errData.message,
+          show_alert: true,
+        })
+        return null
+      }
     },
     insertImage(url) {
       if (this.editor) {

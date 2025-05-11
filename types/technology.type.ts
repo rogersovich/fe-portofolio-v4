@@ -19,3 +19,11 @@ export interface TParamsFilterTechnology {
 }
 
 export type TBaseParamsTechnology = TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterTechnology>
+
+export interface TPublicTechnology {
+  id: number
+  name: string
+  logo_url: string
+  logo_file_name: string
+  is_major: string
+}

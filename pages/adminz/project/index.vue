@@ -122,7 +122,14 @@
           style="width: 6rem"
         >
           <template #body="{ data }">
-            <a :href="data.repository_url" target="_blank" class="underline text-blue-500"> Repository </a>
+            <a
+              v-if="data.repository_url"
+              :href="data.repository_url"
+              target="_blank"
+              class="underline text-blue-500"
+            >
+              Repository
+            </a>
           </template>
         </Column>
         <Column

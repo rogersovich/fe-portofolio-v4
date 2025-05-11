@@ -4,6 +4,7 @@ import type { AxiosResponse } from "axios";
 import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type {
   TBaseParamsTechnology,
+  TPublicTechnology,
   TTechnology,
 } from "~/types/technology.type";
 
@@ -13,6 +14,7 @@ export const useTechnologyAPI = () => {
   const error = ref(null);
   const technologyData = ref<TTechnology | null>(null);
   const technologyListData = ref<TTechnology[]>([]);
+  const technologyPublicListData = ref<TPublicTechnology[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
@@ -156,16 +158,36 @@ export const useTechnologyAPI = () => {
     }
   };
 
+  const fetchPublicTechnologies = async () => {
+    loading.value = true;
+    try {
+      const {
+        data,
+      }: AxiosResponse<TBaseResponse<TPublicTechnology[]>> =
+        await $axios.get(`/api-public/technologies`);
+
+      const res = data.data;
+
+      technologyPublicListData.value = res;
+
+      loading.value = false;
+    } catch (error) {
+      loading.value = false;
+    }
+  };
+
   return {
     loading,
     error,
     totalRecords,
     technologyData,
     technologyListData,
+    technologyPublicListData,
     fetchTechnology,
     fetchTechnologies,
     updateTechnology,
     storeTechnology,
     deleteTechnology,
+    fetchPublicTechnologies,
   };
 };

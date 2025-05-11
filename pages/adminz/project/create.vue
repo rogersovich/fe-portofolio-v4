@@ -11,10 +11,7 @@
           </div>
         </div>
         <div>
-          <Button
-            variant="text"
-            @click="$router.push('/adminz/project')"
-          >
+          <Button variant="text" @click="$router.push('/adminz/project')">
             <IconArrowLeft class="size-5" />
             <span> Back </span>
           </Button>
@@ -24,7 +21,12 @@
     <div class="pt-3">
       <form @submit.prevent="onFormSubmit" class="grid grid-cols-12 gap-6">
         <div class="col-span-12">
-          <div class="text-2xl font-rethink font-bold">Form Create</div>
+          <div class="flex justify-between">
+            <div class="text-2xl font-rethink font-bold">Form Create</div>
+            <Button type="button" @click="checkImageContent">
+              Check Image
+            </Button>
+          </div>
           <hr class="border-zinc-50/[.15] mt-3" />
         </div>
         <div class="col-span-3">
@@ -42,9 +44,7 @@
               <template v-if="forms?.image_file?.file">
                 <NuxtImg
                   :src="forms?.image_file.blob_url"
-                  height="100"
-                  width="100"
-                  class="rounded-lg"
+                  class="rounded-lg w-full"
                 ></NuxtImg>
               </template>
               <template v-else>
@@ -62,7 +62,7 @@
                   label="Select Image"
                   class="w-full"
                   @click="triggerImageChange"
-                  :disabled="loading"
+                  :disabled="loading || loadingTech"
                 />
                 <template v-if="forms?.image_file?.file">
                   <Button
@@ -72,7 +72,7 @@
                     label="Cancel Image"
                     class="w-full"
                     @click="cancelImage"
-                    :disabled="loading"
+                    :disabled="loading || loadingTech"
                   />
                 </template>
               </div>
@@ -89,21 +89,7 @@
         </div>
         <div class="col-span-9 2xl:col-span-6">
           <div class="grid grid-cols-12 gap-6">
-            <div class="col-span-4">
-              <div class="flex flex-col gap-1 text-left">
-                <label for="is_published" class="mb-1">Status</label>
-                <Select
-                  v-model="forms.is_published"
-                  :options="is_published_options"
-                  optionLabel="label"
-                  option-value="value"
-                  placeholder="Select"
-                  class="w-full"
-                />
-              </div>
-            </div>
-            
-            <div class="col-span-8">
+            <div class="col-span-12">
               <div class="flex flex-col gap-1 text-left">
                 <label for="title" class="mb-1">Title</label>
                 <InputText
@@ -113,7 +99,7 @@
                   placeholder="e.g. title"
                   fluid
                   variant="outlined"
-                  :disabled="loading"
+                  :disabled="loading || loadingTech"
                 />
                 <div v-if="formErrors.title && formErrors.title.length > 0">
                   <Message
@@ -129,6 +115,106 @@
               </div>
             </div>
 
+            <div class="col-span-4">
+              <div class="flex flex-col gap-1 text-left">
+                <label for="is_published" class="mb-1">Status</label>
+                <Select
+                  v-model="forms.is_published"
+                  :options="is_published_options"
+                  optionLabel="label"
+                  option-value="value"
+                  placeholder="Select"
+                  class="w-full"
+                />
+              </div>
+            </div>
+
+            <div class="col-span-8">
+              <div class="flex flex-col gap-1 text-left">
+                <label for="slug" class="mb-1">Slug</label>
+                <InputText
+                  v-model="forms.slug"
+                  id="slug"
+                  type="text"
+                  placeholder="e.g. slug"
+                  fluid
+                  variant="outlined"
+                  :disabled="loading || loadingTech"
+                />
+                <div v-if="formErrors.slug && formErrors.slug.length > 0">
+                  <Message
+                    v-for="(message, index) in formErrors.slug"
+                    :key="index"
+                    severity="error"
+                    size="small"
+                    variant="simple"
+                  >
+                    {{ message }}
+                  </Message>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="flex flex-col gap-1 text-left">
+                <label for="technology" class="mb-1">Technology</label>
+                <MultiSelect
+                  v-model="forms.technology_ids"
+                  :options="technologies_options"
+                  optionLabel="name"
+                  optionValue="id"
+                  filter
+                  placeholder="Select Technology"
+                  :maxSelectedLabels="5"
+                  class="w-full"
+                  :disabled="loading || loadingTech"
+                >
+                  <template #option="slotProps">
+                    <div class="flex items-center">
+                      <img
+                        :alt="slotProps.option.name"
+                        :src="slotProps.option.logo_url"
+                        class="mr-2 w-[22px]"
+                      />
+                      <div>{{ slotProps.option.name }}</div>
+                    </div>
+                  </template>
+                </MultiSelect>
+
+                <div
+                  v-if="
+                    formErrors.technology_ids &&
+                    formErrors.technology_ids.length > 0
+                  "
+                >
+                  <Message
+                    v-for="(message, index) in formErrors.technology_ids"
+                    :key="index"
+                    severity="error"
+                    size="small"
+                    variant="simple"
+                  >
+                    {{ message }}
+                  </Message>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="flex flex-col gap-1 text-left">
+                <label for="repository_url" class="mb-1">Repository</label>
+                <InputText
+                  v-model="forms.repository_url"
+                  id="repository_url"
+                  type="text"
+                  placeholder="e.g. repository_url"
+                  fluid
+                  variant="outlined"
+                  :disabled="loading || loadingTech"
+                />
+              </div>
+            </div>
+
             <div
               class="col-start-1 col-span-12 2xl:col-start-1 2xl:col-span-12"
             >
@@ -137,7 +223,8 @@
                 <BaseCustomEditor
                   v-model="forms.summary"
                   :errMessage="summaryHtmlError"
-                  :disabled="true"
+                  :disabled="!loadingTech"
+                  :exclude="['image']"
                 />
                 <Message
                   v-if="summaryHtmlError"
@@ -158,7 +245,7 @@
                 <BaseCustomEditor
                   v-model="forms.description"
                   :errMessage="descriptionHtmlError"
-                  :disabled="true"
+                  :disabled="!loadingTech"
                 />
                 <Message
                   v-if="descriptionHtmlError"
@@ -170,7 +257,6 @@
                 </Message>
               </div>
             </div>
-
           </div>
         </div>
         <div
@@ -182,7 +268,7 @@
             label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/project')"
-            :disabled="loading"
+            :disabled="loading || loadingTech"
           />
         </div>
         <div
@@ -193,7 +279,7 @@
             severity="contrast"
             label="Submit"
             class="w-full"
-            :disabled="loading"
+            :disabled="loading || loadingTech"
           />
         </div>
       </form>
@@ -203,6 +289,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { IconArrowLeft, IconPhoto } from "@tabler/icons-vue";
+import type { TPublicTechnology } from "~/types/technology.type";
 
 useHead({
   title: "Admin - Create Project",
@@ -217,10 +304,12 @@ definePageMeta({
 const refImage = ref("");
 const forms = ref({
   title: "",
+  slug: "",
   description: "",
   summary: "",
   repository_url: "",
   is_published: "N",
+  technology_ids: [],
   image_file: {
     file: null,
     blob_url: "",
@@ -235,7 +324,8 @@ const descriptionHtmlError = ref<string>("");
 const summaryHtmlError = ref<string>("");
 const formSchema = z.object({
   title: z.string().nonempty("Title is required."),
-  repository_url: z.string().nonempty("Repository URL is required."),
+  slug: z.string().nonempty("Slug is required."),
+  technology_ids: z.array(z.number()).min(1, "Technology is required."),
 });
 
 const handleImageChange = (event: any) => {
@@ -268,6 +358,15 @@ const validateDescriptionHtml = () => {
   }
 };
 
+const validateSummaryHtml = () => {
+  const val = forms.value.summary.trim();
+  if (val == "" || val == "<p></p>") {
+    summaryHtmlError.value = "summary HTML is required.";
+  } else {
+    summaryHtmlError.value = "";
+  }
+};
+
 const validateImage = () => {
   imageError.value = "";
   if (!forms.value.image_file.file) {
@@ -279,9 +378,10 @@ const validateImage = () => {
 };
 
 watch(
-  () => [forms.value.description],
+  () => [forms.value.description, forms.value.summary],
   () => {
     validateDescriptionHtml();
+    validateSummaryHtml();
   }
 );
 watch(
@@ -292,31 +392,92 @@ watch(
 );
 
 watch(
-  () => [forms.value.title, forms.value.repository_url],
+  () => [forms.value.title, forms.value.slug, forms.value.technology_ids],
   () => {
     validateForm(formSchema, forms.value);
   }
 );
 
-// Update author data
+// API
 const { storeProject, loading } = useProjectAPI();
+const {
+  fetchPublicTechnologies,
+  loading: loadingTech,
+  technologyPublicListData,
+} = useTechnologyAPI();
+
+const technologies_options = ref<TPublicTechnology[]>([]);
+
+watch(
+  () => technologyPublicListData.value,
+  (newValue) => {
+    technologies_options.value = newValue || [];
+  }
+);
+
+const checkImageContent = () => {
+  const imageUrls = getImageUrlsFromHTML(forms.value.description);
+  console.log(imageUrls)
+}
+
+const getImageUrlsFromHTML = (html: string) => {
+  const regex = /<img [^>]*src="([^"]+)"/g;
+  let matches;
+  const imageUrls = [];
+
+  // Loop through all matches in the HTML string
+  while ((matches = regex.exec(html)) !== null) {
+    imageUrls.push(matches[1]); // Capture the src value (image URL)
+  }
+
+  return imageUrls;
+}
 
 const onFormSubmit = async () => {
   validateDescriptionHtml();
+  validateSummaryHtml();
 
   const isValid = validateForm(formSchema, forms.value);
   const isValidLogo = validateImage();
 
-  if (!descriptionHtmlError.value && isValid && isValidLogo) {
+  if (
+    !descriptionHtmlError.value &&
+    !summaryHtmlError.value &&
+    isValid &&
+    isValidLogo
+  ) {
+    const contentImageUrls = getImageUrlsFromHTML(forms.value.description);
+
     const formData = new FormData();
     formData.append("title", forms.value.title);
-    formData.append("is_published", forms.value.is_published);
+    formData.append("slug", forms.value.slug);
     formData.append("description", forms.value.description);
+    formData.append("summary", forms.value.summary);
+    if (forms.value.repository_url){
+      formData.append("repository_url", forms.value.repository_url);
+    }
+    formData.append("is_published", forms.value.is_published);
+
+    const techIdsStringify = JSON.stringify(forms.value.technology_ids);
+    formData.append("technology_ids", techIdsStringify);
+
+    if (contentImageUrls.length > 0) {
+      const contentImageUrlsStringify = JSON.stringify(contentImageUrls);
+      formData.append("content_image_urls", contentImageUrlsStringify);
+    }
+
     const avatarNewFile = forms.value.image_file.file as unknown as File;
     formData.append("image_file", avatarNewFile);
 
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
     await storeProject(formData);
   }
 };
+
+onMounted(async () => {
+  await fetchPublicTechnologies();
+});
 </script>
 <style lang=""></style>

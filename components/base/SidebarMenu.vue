@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col justify-start gap-2 min-h-screen relative py-4"
+    class="flex flex-col justify-start gap-2 min-h-screen relative py-4 h-full"
     :class="{
       'gap-2': sidebarExpanded,
       'gap-3': !sidebarExpanded,
@@ -8,7 +8,7 @@
   >
     <template v-if="sidebarExpanded">
       <div
-        class="flex justify-between items-center gap-3 px-4 cursor-pointer mt-1 mb-1 h-full"
+        class="flex justify-between items-center gap-3 px-4 cursor-pointer mt-1 mb-1 h-full max-h-[100px]"
       >
         <div class="flex items-center gap-3">
           <NuxtImg src="/images/logo.png" class="w-[60px] h-[60px]" />

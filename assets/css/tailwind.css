@@ -42,11 +42,11 @@ body {
 }
 
 .tiptap-control-button {
-  @apply outline outline-1 outline-zinc-600 text-white px-[8px] py-[6px] rounded-md bg-transparent border-0;
+  @apply outline outline-1 outline-zinc-600 text-white px-[8px] py-[6px] rounded-md bg-transparent border-0 cursor-pointer;
 }
 
 .tiptap-image-item {
-  @apply h-[300px] object-cover;
+  @apply max-h-[200px] object-cover;
 }
 
 .tiptap-content {
@@ -54,11 +54,11 @@ body {
 }
 
 .tiptap-content--error {
-  @apply border border-red-300 rounded-lg px-5 py-4 focus:outline-none focus:border-red-300 min-h-[100px];
+  @apply border border-solid border-red-300 rounded-lg px-5 py-4 focus:outline-none focus:border-red-300 min-h-[100px];
 }
 
 .tiptap-content--disabled {
-  @apply border border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:border-zinc-50/[.3] bg-[#3f3f46] min-h-[100px];
+  @apply border border-solid border-zinc-50/[.2] rounded-lg px-5 py-4 focus:outline-none focus:border-zinc-50/[.3] bg-[#3f3f46] min-h-[100px];
 }
 
 .btn-accept-dialog {
