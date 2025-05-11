@@ -77,11 +77,7 @@ export const useProjectAPI = () => {
       navigateTo("/adminz/project");
     } catch (error: any) {
       loading.value = false;
-      alertStore.setAlert({
-        severity: "error",
-        summary: error.message,
-        show_alert: true,
-      });
+      resultErrMessage(error);
     }
   };
 
@@ -141,12 +137,14 @@ export const useProjectAPI = () => {
   const resultErrMessage = (error: any) => {
     const errData = error.response.data;
 
-    if (errData.errors.length > 0) {
-      alertStore.setAlert({
-        severity: "error",
-        summary: errData.errors[0].message,
-        show_alert: true,
-      });
+    if (errData.errors) {
+      if (errData.errors.length > 0) {
+        alertStore.setAlert({
+          severity: "error",
+          summary: errData.errors[0].message,
+          show_alert: true,
+        });
+      }
     } else {
       alertStore.setAlert({
         severity: "error",

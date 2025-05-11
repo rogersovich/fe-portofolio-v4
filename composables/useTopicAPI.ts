@@ -76,8 +76,8 @@ export const useTopicAPI = () => {
       loading.value = false;
       navigateTo("/adminz/topic");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 
@@ -100,8 +100,8 @@ export const useTopicAPI = () => {
       loading.value = false;
       navigateTo("/adminz/topic");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 
@@ -129,24 +129,6 @@ export const useTopicAPI = () => {
     }
   };
 
-  const resultErrMessage = (error: any) => {
-    const errData = error.response.data;
-
-    if (errData.errors.length > 0) {
-      alertStore.setAlert({
-        severity: "error",
-        summary: errData.errors[0].message,
-        show_alert: true,
-      });
-    } else {
-      alertStore.setAlert({
-        severity: "error",
-        summary: errData.message,
-        show_alert: true,
-      });
-    }
-  };
-
   const fetchPublicTopics = async () => {
     loading.value = true;
     try {
@@ -162,6 +144,26 @@ export const useTopicAPI = () => {
       loading.value = false;
     } catch (error) {
       loading.value = false;
+    }
+  };
+
+  const resultErrMessage = (error: any) => {
+    const errData = error.response.data;
+
+    if (errData.errors) {
+      if (errData.errors.length > 0) {
+        alertStore.setAlert({
+          severity: "error",
+          summary: errData.errors[0].message,
+          show_alert: true,
+        });
+      }
+    } else {
+      alertStore.setAlert({
+        severity: "error",
+        summary: errData.message,
+        show_alert: true,
+      });
     }
   };
 

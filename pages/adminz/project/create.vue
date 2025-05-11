@@ -84,7 +84,7 @@
             {{ imageError }}
           </Message>
         </div>
-        <div class="col-span-9 2xl:col-span-6">
+        <div class="col-span-9">
           <div class="grid grid-cols-12 gap-6">
             <div class="col-span-12">
               <div class="flex flex-col gap-1 text-left">
@@ -243,6 +243,7 @@
                   v-model="forms.description"
                   :errMessage="descriptionHtmlError"
                   :disabled="!loadingTech"
+                  uploadUrlAPI="project-content-images/store"
                 />
                 <Message
                   v-if="descriptionHtmlError"
@@ -257,7 +258,7 @@
           </div>
         </div>
         <div
-          class="col-start-9 col-end-11 2xl:col-start-8 2xl:col-end-9 w-full"
+          class="col-start-9 col-end-11 w-full"
         >
           <Button
             type="button"
@@ -269,7 +270,7 @@
           />
         </div>
         <div
-          class="col-start-11 col-end-13 2xl:col-start-9 2xl:col-end-10 w-full"
+          class="col-start-11 col-end-13 w-full"
         >
           <Button
             type="submit"

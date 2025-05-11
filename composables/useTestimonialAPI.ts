@@ -74,8 +74,8 @@ export const useTestimonialAPI = () => {
       loading.value = false;
       navigateTo("/adminz/testimonial");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 
@@ -98,8 +98,8 @@ export const useTestimonialAPI = () => {
       loading.value = false;
       navigateTo("/adminz/testimonial");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 
@@ -130,12 +130,14 @@ export const useTestimonialAPI = () => {
   const resultErrMessage = (error: any) => {
     const errData = error.response.data;
 
-    if (errData.errors.length > 0) {
-      alertStore.setAlert({
-        severity: "error",
-        summary: errData.errors[0].message,
-        show_alert: true,
-      });
+    if (errData.errors) {
+      if (errData.errors.length > 0) {
+        alertStore.setAlert({
+          severity: "error",
+          summary: errData.errors[0].message,
+          show_alert: true,
+        });
+      }
     } else {
       alertStore.setAlert({
         severity: "error",

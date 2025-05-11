@@ -58,6 +58,7 @@ export const useTechnologyAPI = () => {
   };
 
   const updateTechnology = async (payload: any) => {
+    loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
         "/api/technologies/update",
@@ -77,13 +78,11 @@ export const useTechnologyAPI = () => {
         show_alert: true,
       });
 
+      loading.value = false;
       navigateTo("/adminz/technology");
     } catch (error: any) {
-      alertStore.setAlert({
-        severity: "error",
-        summary: error.message,
-        show_alert: true,
-      });
+      loading.value = false;
+      resultErrMessage(error);
     }
   };
 
@@ -111,8 +110,8 @@ export const useTechnologyAPI = () => {
       loading.value = false;
       navigateTo("/adminz/technology");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 
@@ -140,24 +139,6 @@ export const useTechnologyAPI = () => {
     }
   };
 
-  const resultErrMessage = (error: any) => {
-    const errData = error.response.data;
-
-    if (errData.errors.length > 0) {
-      alertStore.setAlert({
-        severity: "error",
-        summary: errData.errors[0].message,
-        show_alert: true,
-      });
-    } else {
-      alertStore.setAlert({
-        severity: "error",
-        summary: errData.message,
-        show_alert: true,
-      });
-    }
-  };
-
   const fetchPublicTechnologies = async () => {
     loading.value = true;
     try {
@@ -173,6 +154,26 @@ export const useTechnologyAPI = () => {
       loading.value = false;
     } catch (error) {
       loading.value = false;
+    }
+  };
+
+  const resultErrMessage = (error: any) => {
+    const errData = error.response.data;
+
+    if (errData.errors) {
+      if (errData.errors.length > 0) {
+        alertStore.setAlert({
+          severity: "error",
+          summary: errData.errors[0].message,
+          show_alert: true,
+        });
+      }
+    } else {
+      alertStore.setAlert({
+        severity: "error",
+        summary: errData.message,
+        show_alert: true,
+      });
     }
   };
 
