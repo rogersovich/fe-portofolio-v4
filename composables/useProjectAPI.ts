@@ -140,8 +140,8 @@ export const useProjectAPI = () => {
     try {
       const {
         data,
-      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TProject[]>>> =
-        await $axios.get(`/api/projects`, {
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TPublicProject[]>>> =
+        await $axios.get(`/api-public/projects`, {
           params: {
             ...params,
           },
@@ -149,7 +149,7 @@ export const useProjectAPI = () => {
 
       const res = data.data;
 
-      projectListData.value = res.items;
+      projectListPublicData.value = res.items;
       totalRecords.value = res.pagination.total;
 
       loading.value = false;
@@ -184,10 +184,12 @@ export const useProjectAPI = () => {
     totalRecords,
     projectData,
     projectListData,
+    projectListPublicData,
     fetchProject,
     fetchProjects,
     updateProject,
     storeProject,
     deleteProject,
+    fetchPublicProjects,
   };
 };

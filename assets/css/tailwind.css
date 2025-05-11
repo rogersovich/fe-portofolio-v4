@@ -68,3 +68,7 @@ body {
 .btn-reject-dialog {
   @apply !text-white px-5 py-2 rounded-md !bg-transparent !border !border-zinc-50/[.2] focus:outline-none;
 }
+
+.p-paginator {
+  @apply border border-solid border-zinc-50/[.05] py-4 bg-transparent;
+}
