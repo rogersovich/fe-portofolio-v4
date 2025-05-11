@@ -14,3 +14,10 @@ export interface TParamsFilterAuthor {
 }
 
 export type TBaseParamsAuthor = TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterAuthor>;
+
+export interface TPublicAuthor {
+  id: number
+  name: string
+  avatar_url: string
+  avatar_file_name: string
+}

@@ -12,3 +12,8 @@ export interface TParamsFilterTopic {
 }
 
 export type TBaseParamsTopic = TBasePaginateParams & Partial<TBaseSortingParams> & Partial<TParamsFilterTopic>
+
+export interface TPublicTopic {
+  id: number
+  name: string
+}

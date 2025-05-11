@@ -355,6 +355,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    uploadUrlAPI:{
+      type: String,
+      default: "",
+    }
   },
 
   emits: ["update:modelValue"],
@@ -395,7 +399,7 @@ export default {
 
       try {
         const { data } = await $axios.post(
-          "/api/project-content-images/store",
+          `/api/${this.$props.uploadUrlAPI}`,
           formData,
           {
             headers: {
@@ -412,6 +416,7 @@ export default {
           image_url: res.image_url,
         }
       } catch (error) {
+        console.error(error)
         const errData = error.response.data;
         alertStore.setAlert({
           severity: "error",

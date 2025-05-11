@@ -42,7 +42,7 @@ export interface TProjectDetail {
     project_image_id: number,
     image_url: string
     image_file_name: string
-  }
+  }[]
 }
 
 export interface TParamsFilterProject {

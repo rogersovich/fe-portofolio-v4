@@ -53,6 +53,7 @@ export const useProjectAPI = () => {
   };
 
   const updateProject = async (payload: any) => {
+    loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
         "/api/projects/update",
@@ -72,8 +73,10 @@ export const useProjectAPI = () => {
         show_alert: true,
       });
 
+      loading.value = false;
       navigateTo("/adminz/project");
     } catch (error: any) {
+      loading.value = false;
       alertStore.setAlert({
         severity: "error",
         summary: error.message,
@@ -106,8 +109,8 @@ export const useProjectAPI = () => {
       loading.value = false;
       navigateTo("/adminz/project");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 

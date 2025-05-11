@@ -1,31 +1,26 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
-import type {
-  TBasePaginateResponse,
-  TBaseResponse,
-} from "~/types/base.type";
-import type { TBaseParamsTopic, TPublicTopic, TTopic } from "~/types/topic.type";
+import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
+import type { TBaseParamsBlog, TBlog, TBlogDetail } from "~/types/blog.type";
 
-export const useTopicAPI = () => {
+export const useBlogAPI = () => {
   const { $axios } = useNuxtApp();
   const loading = ref(false);
   const error = ref(null);
-  const topicData = ref<TTopic | null>(null);
-  const topicListData = ref<TTopic[]>([]);
-  const topicPublicListData = ref<TPublicTopic[]>([]);
+  const blogData = ref<TBlogDetail | null>(null);
+  const blogListData = ref<TBlog[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
 
-  const fetchTopic = async () => {
+  const fetchBlog = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TTopic>> = await $axios.get(
-        `/api/topics/${route.params.id}`
-      );
+      const { data }: AxiosResponse<TBaseResponse<TBlogDetail>> =
+        await $axios.get(`/api/blogs/${route.params.id}`);
 
-      topicData.value = data.data;
+      blogData.value = data.data;
 
       loading.value = false;
     } catch (err: any) {
@@ -34,21 +29,21 @@ export const useTopicAPI = () => {
     }
   };
 
-  const fetchTopics = async (params: TBaseParamsTopic) => {
+  const fetchBlogs = async (params: TBaseParamsBlog) => {
     loading.value = true;
     try {
       const {
         data,
-      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTopic[]>>> =
-        await $axios.get(`/api/topics`, {
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TBlog[]>>> =
+        await $axios.get(`/api/blogs`, {
           params: {
             ...params,
           },
         });
 
       const res = data.data;
-      
-      topicListData.value = res.items;
+
+      blogListData.value = res.items;
       totalRecords.value = res.pagination.total;
 
       loading.value = false;
@@ -57,12 +52,17 @@ export const useTopicAPI = () => {
     }
   };
 
-  const updateTopic = async (payload: any) => {
+  const updateBlog = async (payload: any) => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/api/topics/update",
+        "/api/blogs/update",
         payload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       const message = toCapitalize(data.message);
@@ -74,19 +74,24 @@ export const useTopicAPI = () => {
       });
 
       loading.value = false;
-      navigateTo("/adminz/topic");
+      navigateTo("/adminz/blog");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 
-  const storeTopic = async (payload: any) => {
+  const storeBlog = async (payload: any) => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/api/topics/store",
-        payload
+        "/api/blogs/store",
+        payload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       const message = toCapitalize(data.message);
@@ -98,18 +103,18 @@ export const useTopicAPI = () => {
       });
 
       loading.value = false;
-      navigateTo("/adminz/topic");
+      navigateTo("/adminz/blog");
     } catch (error: any) {
-      resultErrMessage(error);
       loading.value = false;
+      resultErrMessage(error);
     }
   };
 
-  const deleteTopic = async (id: number) => {
+  const deleteBlog = async (id: number) => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/api/topics/delete`,
+        `/api/blogs/delete`,
         {
           id,
         }
@@ -132,12 +137,14 @@ export const useTopicAPI = () => {
   const resultErrMessage = (error: any) => {
     const errData = error.response.data;
 
-    if (errData.errors.length > 0) {
-      alertStore.setAlert({
-        severity: "error",
-        summary: errData.errors[0].message,
-        show_alert: true,
-      });
+    if (errData.errors) {
+      if (errData.errors.length > 0) {
+        alertStore.setAlert({
+          severity: "error",
+          summary: errData.errors[0].message,
+          show_alert: true,
+        });
+      }
     } else {
       alertStore.setAlert({
         severity: "error",
@@ -147,37 +154,16 @@ export const useTopicAPI = () => {
     }
   };
 
-  const fetchPublicTopics = async () => {
-    loading.value = true;
-    try {
-      const {
-        data,
-      }: AxiosResponse<TBaseResponse<TPublicTopic[]>> =
-        await $axios.get(`/api-public/topics`);
-
-      const res = data.data;
-
-      topicPublicListData.value = res;
-
-      loading.value = false;
-    } catch (error) {
-      loading.value = false;
-    }
-  };
-
-
   return {
     loading,
     error,
     totalRecords,
-    topicData,
-    topicListData,
-    topicPublicListData,
-    fetchTopic,
-    updateTopic,
-    storeTopic,
-    fetchTopics,
-    deleteTopic,
-    fetchPublicTopics,
+    blogData,
+    blogListData,
+    fetchBlog,
+    fetchBlogs,
+    updateBlog,
+    storeBlog,
+    deleteBlog,
   };
 };

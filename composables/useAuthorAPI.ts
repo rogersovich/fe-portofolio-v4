@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
 import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
-import type { TAuthor, TBaseParamsAuthor } from "~/types/author.type";
+import type { TAuthor, TBaseParamsAuthor, TPublicAuthor } from "~/types/author.type";
 
 export const useAuthorAPI = () => {
   const { $axios } = useNuxtApp();
@@ -10,6 +10,7 @@ export const useAuthorAPI = () => {
   const error = ref(null);
   const authorData = ref<TAuthor | null>(null);
   const authorListData = ref<TAuthor[]>([]);
+  const authorPublicListData = ref<TPublicAuthor[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
@@ -135,6 +136,24 @@ export const useAuthorAPI = () => {
     }
   };
 
+  const fetchPublicAuthors = async () => {
+    loading.value = true;
+    try {
+      const {
+        data,
+      }: AxiosResponse<TBaseResponse<TPublicAuthor[]>> =
+        await $axios.get(`/api-public/authors`);
+
+      const res = data.data;
+
+      authorPublicListData.value = res;
+
+      loading.value = false;
+    } catch (error) {
+      loading.value = false;
+    }
+  };
+
   const resultErrMessage = (error: any) => {
     const errData = error.response.data;
 
@@ -159,10 +178,12 @@ export const useAuthorAPI = () => {
     totalRecords,
     authorData,
     authorListData,
+    authorPublicListData,
     fetchAuthor,
     updateAuthor,
     storeAuthor,
     fetchAuthors,
     deleteAuthor,
+    fetchPublicAuthors,
   };
 };
