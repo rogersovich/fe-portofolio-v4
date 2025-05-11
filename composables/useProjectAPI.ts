@@ -1,29 +1,26 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosResponse } from "axios";
-import type {
-  TBasePaginateResponse,
-  TBaseResponse,
-} from "~/types/base.type";
-import type { TBaseParamsExperience, TExperience } from "~/types/experience.type";
+import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
+import type { TBaseParamsProject, TProject } from "~/types/project.type";
 
-export const useExperienceAPI = () => {
+export const useProjectAPI = () => {
   const { $axios } = useNuxtApp();
   const loading = ref(false);
   const error = ref(null);
-  const experienceData = ref<TExperience | null>(null);
-  const experienceListData = ref<TExperience[]>([]);
+  const projectData = ref<TProject | null>(null);
+  const projectListData = ref<TProject[]>([]);
   const totalRecords = ref(0);
   const route = useRoute();
   const alertStore = useAlertStore();
 
-  const fetchExperience = async () => {
+  const fetchProject = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TExperience>> = await $axios.get(
-        `/api/experiences/${route.params.id}`
-      );
-      experienceData.value = data.data;
+      const { data }: AxiosResponse<TBaseResponse<TProject>> =
+        await $axios.get(`/api/projects/${route.params.id}`);
+
+      projectData.value = data.data;
 
       loading.value = false;
     } catch (err: any) {
@@ -32,21 +29,21 @@ export const useExperienceAPI = () => {
     }
   };
 
-  const fetchExperiences = async (params: TBaseParamsExperience) => {
+  const fetchProjects = async (params: TBaseParamsProject) => {
     loading.value = true;
     try {
       const {
         data,
-      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TExperience[]>>> =
-        await $axios.get(`/api/experiences`, {
+      }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TProject[]>>> =
+        await $axios.get(`/api/projects`, {
           params: {
             ...params,
           },
         });
 
       const res = data.data;
-      
-      experienceListData.value = res.items;
+
+      projectListData.value = res.items;
       totalRecords.value = res.pagination.total;
 
       loading.value = false;
@@ -55,12 +52,16 @@ export const useExperienceAPI = () => {
     }
   };
 
-  const updateExperience = async (payload: any) => {
-    loading.value = true;
+  const updateProject = async (payload: any) => {
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/api/experiences/update",
+        "/api/projects/update",
         payload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       const message = toCapitalize(data.message);
@@ -71,20 +72,27 @@ export const useExperienceAPI = () => {
         show_alert: true,
       });
 
-      loading.value = false;
-      navigateTo("/adminz/experience");
+      navigateTo("/adminz/project");
     } catch (error: any) {
-      resultErrMessage(error);
-      loading.value = false;
+      alertStore.setAlert({
+        severity: "error",
+        summary: error.message,
+        show_alert: true,
+      });
     }
   };
 
-  const storeExperience = async (payload: any) => {
+  const storeProject = async (payload: any) => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/api/experiences/store",
-        payload
+        "/api/projects/store",
+        payload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       const message = toCapitalize(data.message);
@@ -96,18 +104,18 @@ export const useExperienceAPI = () => {
       });
 
       loading.value = false;
-      navigateTo("/adminz/experience");
+      navigateTo("/adminz/project");
     } catch (error: any) {
       resultErrMessage(error);
       loading.value = false;
     }
   };
 
-  const deleteExperience = async (id: number) => {
+  const deleteProject = async (id: number) => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/api/experiences/delete`,
+        `/api/projects/delete`,
         {
           id,
         }
@@ -149,12 +157,12 @@ export const useExperienceAPI = () => {
     loading,
     error,
     totalRecords,
-    experienceData,
-    experienceListData,
-    fetchExperience,
-    updateExperience,
-    storeExperience,
-    fetchExperiences,
-    deleteExperience,
+    projectData,
+    projectListData,
+    fetchProject,
+    fetchProjects,
+    updateProject,
+    storeProject,
+    deleteProject,
   };
 };

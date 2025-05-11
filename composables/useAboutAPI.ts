@@ -14,7 +14,7 @@ export const useAboutAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TAbout>> = await $axios.get(
-        `/abouts/${route.params.id}`
+        `/api/abouts/${route.params.id}`
       );
 
       aboutData.value = data.data;
@@ -30,7 +30,7 @@ export const useAboutAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TAbout[]>> = await $axios.get(
-        `/abouts`
+        `/api/abouts`
       );
 
       if (data.data.length > 0) {
@@ -47,7 +47,7 @@ export const useAboutAPI = () => {
   const updateAbout = async (payload: any) => {
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/abouts/update",
+        "/api/abouts/update",
         payload,
         {
           headers: {

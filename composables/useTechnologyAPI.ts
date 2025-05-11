@@ -21,7 +21,7 @@ export const useTechnologyAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TTechnology>> =
-        await $axios.get(`/technologies/${route.params.id}`);
+        await $axios.get(`/api/technologies/${route.params.id}`);
 
       technologyData.value = data.data;
 
@@ -38,7 +38,7 @@ export const useTechnologyAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTechnology[]>>> =
-        await $axios.get(`/technologies`, {
+        await $axios.get(`/api/technologies`, {
           params: {
             ...params,
           },
@@ -58,7 +58,7 @@ export const useTechnologyAPI = () => {
   const updateTechnology = async (payload: any) => {
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/technologies/update",
+        "/api/technologies/update",
         payload,
         {
           headers: {
@@ -89,7 +89,7 @@ export const useTechnologyAPI = () => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/technologies/store",
+        "/api/technologies/store",
         payload,
         {
           headers: {
@@ -118,7 +118,7 @@ export const useTechnologyAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/technologies/delete`,
+        `/api/technologies/delete`,
         {
           id,
         }

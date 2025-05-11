@@ -113,7 +113,7 @@ const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
     try {
       const { data }: AxiosResponse<TBaseResponse<TLoginResponse>> =
-        await $axios.post(`/auth/login`, {
+        await $axios.post(`/api/auth/login`, {
           email: values.email,
           password: values.password,
         });

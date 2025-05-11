@@ -18,7 +18,7 @@ export const useAuthorAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TAuthor>> = await $axios.get(
-        `/authors/${route.params.id}`
+        `/api/authors/${route.params.id}`
       );
 
       authorData.value = data.data;
@@ -36,7 +36,7 @@ export const useAuthorAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TAuthor[]>>> =
-        await $axios.get(`/authors`, {
+        await $axios.get(`/api/authors`, {
           params: {
             ...params,
           },
@@ -57,7 +57,7 @@ export const useAuthorAPI = () => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/authors/update",
+        "/api/authors/update",
         payload,
         {
           headers: {
@@ -86,7 +86,7 @@ export const useAuthorAPI = () => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/authors/store",
+        "/api/authors/store",
         payload,
         {
           headers: {
@@ -115,7 +115,7 @@ export const useAuthorAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/authors/delete`,
+        `/api/authors/delete`,
         {
           id,
         }

@@ -21,7 +21,7 @@ export const useTestimonialAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TTestimonial>> =
-        await $axios.get(`/testimonials/${route.params.id}`);
+        await $axios.get(`/api/testimonials/${route.params.id}`);
 
       testimonialData.value = data.data;
 
@@ -38,7 +38,7 @@ export const useTestimonialAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTestimonial[]>>> =
-        await $axios.get(`/testimonials`, {
+        await $axios.get(`/api/testimonials`, {
           params: {
             ...params,
           },
@@ -59,7 +59,7 @@ export const useTestimonialAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/testimonials/update",
+        "/api/testimonials/update",
         payload
       );
 
@@ -83,7 +83,7 @@ export const useTestimonialAPI = () => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/testimonials/store",
+        "/api/testimonials/store",
         payload
       );
 
@@ -107,7 +107,7 @@ export const useTestimonialAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/testimonials/delete`,
+        `/api/testimonials/delete`,
         {
           id,
         }

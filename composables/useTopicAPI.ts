@@ -21,7 +21,7 @@ export const useTopicAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TTopic>> = await $axios.get(
-        `/topics/${route.params.id}`
+        `/api/topics/${route.params.id}`
       );
 
       topicData.value = data.data;
@@ -39,7 +39,7 @@ export const useTopicAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTopic[]>>> =
-        await $axios.get(`/topics`, {
+        await $axios.get(`/api/topics`, {
           params: {
             ...params,
           },
@@ -60,7 +60,7 @@ export const useTopicAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/topics/update",
+        "/api/topics/update",
         payload,
       );
 
@@ -84,7 +84,7 @@ export const useTopicAPI = () => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/topics/store",
+        "/api/topics/store",
         payload
       );
 
@@ -108,7 +108,7 @@ export const useTopicAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        `/topics/delete`,
+        `/api/topics/delete`,
         {
           id,
         }

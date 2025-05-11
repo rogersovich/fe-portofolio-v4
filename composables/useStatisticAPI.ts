@@ -18,7 +18,7 @@ export const useStatisticAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TStatistic>> =
-        await $axios.get(`/statistics/${route.params.id}`);
+        await $axios.get(`/api/statistics/${route.params.id}`);
 
       statisticData.value = data.data;
 
@@ -35,7 +35,7 @@ export const useStatisticAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TStatistic[]>>> =
-        await $axios.get(`/statistics`, {
+        await $axios.get(`/api/statistics`, {
           params: {
             ...params,
           },
@@ -56,7 +56,7 @@ export const useStatisticAPI = () => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/statistics/update",
+        "/api/statistics/update",
         payload
       );
 

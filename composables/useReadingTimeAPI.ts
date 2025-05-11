@@ -21,7 +21,7 @@ export const useReadingTimeAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TReadingTime>> =
-        await $axios.get(`/reading-times/${route.params.id}`);
+        await $axios.get(`/api/reading-times/${route.params.id}`);
 
       readingTimeData.value = data.data;
 
@@ -38,7 +38,7 @@ export const useReadingTimeAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TReadingTime[]>>> =
-        await $axios.get(`/reading-times`, {
+        await $axios.get(`/api/reading-times`, {
           params: {
             ...params,
           },
@@ -59,7 +59,7 @@ export const useReadingTimeAPI = () => {
     try {
       loading.value = true;
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/reading-times/update",
+        "/api/reading-times/update",
         payload
       );
 

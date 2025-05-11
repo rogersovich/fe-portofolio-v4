@@ -18,7 +18,7 @@ export const useUserAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TMasterUser>> =
-        await $axios.get(`/users/${route.params.id}`);
+        await $axios.get(`/api/users/${route.params.id}`);
 
       userData.value = data.data;
 
@@ -35,7 +35,7 @@ export const useUserAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TMasterUser[]>>> =
-        await $axios.get(`/users`, {
+        await $axios.get(`/api/users`, {
           params: {
             ...params,
           },
@@ -55,7 +55,7 @@ export const useUserAPI = () => {
   const updateUser = async (payload: any) => {
     try {
       const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
-        "/users/update",
+        "/api/users/update",
         payload,
         {
           headers: {
