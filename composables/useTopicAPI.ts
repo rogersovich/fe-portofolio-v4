@@ -8,7 +8,7 @@ import type {
 import type { TBaseParamsTopic, TPublicTopic, TTopic } from "~/types/topic.type";
 
 export const useTopicAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const topicData = ref<TTopic | null>(null);
@@ -21,7 +21,7 @@ export const useTopicAPI = () => {
   const fetchTopic = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TTopic>> = await $axios.get(
+      const { data }: AxiosResponse<TBaseResponse<TTopic>> = await axios.get(
         `/api/topics/${route.params.id}`
       );
 
@@ -40,7 +40,7 @@ export const useTopicAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTopic[]>>> =
-        await $axios.get(`/api/topics`, {
+        await axios.get(`/api/topics`, {
           params: {
             ...params,
           },
@@ -60,7 +60,7 @@ export const useTopicAPI = () => {
   const updateTopic = async (payload: any) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/topics/update",
         payload,
       );
@@ -84,7 +84,7 @@ export const useTopicAPI = () => {
   const storeTopic = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/topics/store",
         payload
       );
@@ -108,7 +108,7 @@ export const useTopicAPI = () => {
   const deleteTopic = async (id: number) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         `/api/topics/delete`,
         {
           id,
@@ -135,7 +135,7 @@ export const useTopicAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TPublicTopic[]>> =
-        await $axios.get(`/api-public/topics`);
+        await axios.get(`/api-public/topics`);
 
       const res = data.data;
 

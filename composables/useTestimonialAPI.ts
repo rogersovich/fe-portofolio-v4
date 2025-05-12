@@ -8,7 +8,7 @@ import type {
 } from "~/types/testimonial.type";
 
 export const useTestimonialAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const testimonialData = ref<TTestimonial | null>(null);
@@ -21,7 +21,7 @@ export const useTestimonialAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TTestimonial>> =
-        await $axios.get(`/api/testimonials/${route.params.id}`);
+        await axios.get(`/api/testimonials/${route.params.id}`);
 
       testimonialData.value = data.data;
 
@@ -38,7 +38,7 @@ export const useTestimonialAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTestimonial[]>>> =
-        await $axios.get(`/api/testimonials`, {
+        await axios.get(`/api/testimonials`, {
           params: {
             ...params,
           },
@@ -58,7 +58,7 @@ export const useTestimonialAPI = () => {
   const updateTestimonial = async (payload: any) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/testimonials/update",
         payload
       );
@@ -82,7 +82,7 @@ export const useTestimonialAPI = () => {
   const storeTestimonial = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/testimonials/store",
         payload
       );
@@ -106,7 +106,7 @@ export const useTestimonialAPI = () => {
   const deleteTestimonial = async (id: number) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         `/api/testimonials/delete`,
         {
           id,

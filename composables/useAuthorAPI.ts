@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TAuthor, TBaseParamsAuthor, TPublicAuthor } from "~/types/author.type";
 
 export const useAuthorAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const authorData = ref<TAuthor | null>(null);
@@ -18,7 +18,7 @@ export const useAuthorAPI = () => {
   const fetchAuthor = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TAuthor>> = await $axios.get(
+      const { data }: AxiosResponse<TBaseResponse<TAuthor>> = await axios.get(
         `/api/authors/${route.params.id}`
       );
 
@@ -37,7 +37,7 @@ export const useAuthorAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TAuthor[]>>> =
-        await $axios.get(`/api/authors`, {
+        await axios.get(`/api/authors`, {
           params: {
             ...params,
           },
@@ -57,7 +57,7 @@ export const useAuthorAPI = () => {
   const updateAuthor = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/authors/update",
         payload,
         {
@@ -86,7 +86,7 @@ export const useAuthorAPI = () => {
   const storeAuthor = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/authors/store",
         payload,
         {
@@ -115,7 +115,7 @@ export const useAuthorAPI = () => {
   const deleteAuthor = async (id: number) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         `/api/authors/delete`,
         {
           id,
@@ -142,7 +142,7 @@ export const useAuthorAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TPublicAuthor[]>> =
-        await $axios.get(`/api-public/authors`);
+        await axios.get(`/api-public/authors`);
 
       const res = data.data;
 

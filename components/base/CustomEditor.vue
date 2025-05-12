@@ -390,7 +390,7 @@ export default {
       input.click();
     },
     async uploadImage(file) {
-      const { $axios } = useNuxtApp();
+      const axios = useAxios();
       const alertStore = useAlertStore();
       const authStore = useAuthStore();
 
@@ -398,7 +398,7 @@ export default {
       formData.append("image_file", file);
 
       try {
-        const { data } = await $axios.post(
+        const { data } = await axios.post(
           `/api/${this.$props.uploadUrlAPI}`,
           formData,
           {

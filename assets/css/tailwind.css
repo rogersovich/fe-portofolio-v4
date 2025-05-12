@@ -74,7 +74,7 @@ body {
 }
 
 #toc {
-  @apply border border-solid border-zinc-50/[.05] py-4 px-3 rounded-md bg-transparent sticky top-20 right-0;
+  @apply border border-solid border-zinc-50/[.05] py-4 px-3 rounded-md bg-transparent;
 }
 
 p {

@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TBaseParamsProject, TParamsFilterPublicProject, TProject, TProjectDetail, TPublicProject } from "~/types/project.type";
 
 export const useProjectAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const projectData = ref<TProjectDetail | null>(null);
@@ -19,7 +19,7 @@ export const useProjectAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TProjectDetail>> =
-        await $axios.get(`/api/projects/${route.params.id}`);
+        await axios.get(`/api/projects/${route.params.id}`);
 
       projectData.value = data.data;
 
@@ -36,7 +36,7 @@ export const useProjectAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TProject[]>>> =
-        await $axios.get(`/api/projects`, {
+        await axios.get(`/api/projects`, {
           params: {
             ...params,
           },
@@ -56,7 +56,7 @@ export const useProjectAPI = () => {
   const updateProject = async (payload: any) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/projects/update",
         payload,
         {
@@ -85,7 +85,7 @@ export const useProjectAPI = () => {
   const storeProject = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/projects/store",
         payload,
         {
@@ -114,7 +114,7 @@ export const useProjectAPI = () => {
   const deleteProject = async (id: number) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         `/api/projects/delete`,
         {
           id,
@@ -141,7 +141,7 @@ export const useProjectAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TPublicProject[]>>> =
-        await $axios.get(`/api-public/projects`, {
+        await axios.get(`/api-public/projects`, {
           params: {
             ...params,
           },

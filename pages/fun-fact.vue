@@ -8,7 +8,7 @@
           <span> Fun </span>
           <BaseTextHighlight
             :duration="500"
-            class="rounded-lg bg-gradient-to-r from-[#9E7AFF] to-[#FE8BBB]"
+            class="rounded-lg bg-gradient-to-r from-[#fb923c] to-[#f87171]"
           >
             Facts
           </BaseTextHighlight>

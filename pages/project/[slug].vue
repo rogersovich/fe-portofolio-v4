@@ -30,7 +30,10 @@
                 class="size-4 text-zinc-500 group-hover:text-orange-400"
               />
               <span class="text-[12px] text-zinc-300"
-                >{{ projects.data.statistic.views }} views
+                >{{
+                  projects.data.statistic ? projects.data.statistic.views : 0
+                }}
+                views
               </span>
             </div>
             <div class="flex items-center gap-2 group">
@@ -38,7 +41,10 @@
                 class="size-4 text-zinc-500 group-hover:text-orange-400"
               />
               <span class="text-[12px] text-zinc-300">
-                {{ projects.data.statistic.likes }} likes
+                {{
+                  projects.data.statistic ? projects.data.statistic.likes : 0
+                }}
+                likes
               </span>
             </div>
           </div>
@@ -73,21 +79,52 @@
         </template>
       </div>
       <div class="col-span-3">
-        <div v-if="projects" id="toc">
-          <div class="text-[16px] font-rethink font-bold mb-3">
-            Table of Contents
-          </div>
-          <ul id="toc-list">
-            <li v-for="link in tocLinks" :key="link.id">
-              <a
-                :href="'#' + link.id"
-                class="text-[13px] no-underline text-muted-foreground font-light"
-                :class="{ 'text-orange-400 font-bold': activeId === link.id }"
-                @click.prevent="onClickTOC(link.id)"
-                >{{ link.text }}</a
+        <div class="sticky top-20 right-0">
+          <div class="mb-3">
+            <router-link to="/project">
+              <Button
+                type="button"
+                fluid
+                variant="text"
+                class="text-sm justify-start"
               >
-            </li>
-          </ul>
+                <IconArrowLeft class="size-4" />
+                <span> Back to Project </span>
+              </Button>
+            </router-link>
+          </div>
+          <div v-if="projects" id="toc">
+            <div class="text-[16px] font-rethink font-bold mb-3">
+              Table of Contents
+            </div>
+            <ul id="toc-list">
+              <li v-for="link in tocLinks" :key="link.id">
+                <a
+                  :href="'#' + link.id"
+                  class="text-[13px] no-underline text-muted-foreground font-light"
+                  :class="{ 'text-orange-400 font-bold': activeId === link.id }"
+                  @click.prevent="onClickTOC(link.id)"
+                  >{{ link.text }}</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-12">
+        <hr class="border-zinc-50/[.05]" />
+
+        <div class="mt-8 text-center">
+          <router-link to="/project">
+            <Button
+              type="button"
+              variant="outlined"
+              class="text-sm justify-start"
+            >
+              <IconArrowLeft class="size-4" />
+              <span> Back to Project </span>
+            </Button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -99,10 +136,11 @@ import {
   IconEye,
   IconHeart,
   IconBrandGithub,
+  IconArrowLeft,
 } from "@tabler/icons-vue";
 import type { TBaseResponse } from "~/types/base.type";
 import type { TPublicProjectDetail } from "~/types/project.type";
-import "./../../assets/css/editor-content.css"
+import "./../../assets/css/editor-content.css";
 const route = useRoute();
 const { slugToStringUppercase } = useSlugify();
 

@@ -11,7 +11,7 @@
             <span> Welcome to </span>
             <BaseTextHighlight
               :duration="500"
-              class="rounded-lg bg-gradient-to-r from-[#9E7AFF] to-[#FE8BBB]"
+              class="rounded-lg bg-gradient-to-r from-[#fb923c] to-[#f87171]"
             >
               Login
             </BaseTextHighlight>
@@ -93,7 +93,7 @@ definePageMeta({
 });
 
 const router = useRouter();
-const { $axios } = useNuxtApp() as unknown as any;
+const axios = useAxios();
 const authStore = useAuthStore();
 const sidebarStore = useSidebarStore();
 const alertStore = useAlertStore();
@@ -113,7 +113,7 @@ const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
     try {
       const { data }: AxiosResponse<TBaseResponse<TLoginResponse>> =
-        await $axios.post(`/api/auth/login`, {
+        await axios.post(`/api/auth/login`, {
           email: values.email,
           password: values.password,
         });

@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TBaseParamsUser, TMasterUser } from "~/types/user.type";
 
 export const useUserAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const userData = ref<TMasterUser | null>(null);
@@ -18,7 +18,7 @@ export const useUserAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TMasterUser>> =
-        await $axios.get(`/api/users/${route.params.id}`);
+        await axios.get(`/api/users/${route.params.id}`);
 
       userData.value = data.data;
 
@@ -35,7 +35,7 @@ export const useUserAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TMasterUser[]>>> =
-        await $axios.get(`/api/users`, {
+        await axios.get(`/api/users`, {
           params: {
             ...params,
           },
@@ -55,7 +55,7 @@ export const useUserAPI = () => {
   const updateUser = async (payload: any) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/users/update",
         payload,
         {

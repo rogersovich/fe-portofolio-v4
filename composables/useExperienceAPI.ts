@@ -8,7 +8,7 @@ import type {
 import type { TBaseParamsExperience, TExperience } from "~/types/experience.type";
 
 export const useExperienceAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const experienceData = ref<TExperience | null>(null);
@@ -20,7 +20,7 @@ export const useExperienceAPI = () => {
   const fetchExperience = async () => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<TExperience>> = await $axios.get(
+      const { data }: AxiosResponse<TBaseResponse<TExperience>> = await axios.get(
         `/api/experiences/${route.params.id}`
       );
       experienceData.value = data.data;
@@ -38,7 +38,7 @@ export const useExperienceAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TExperience[]>>> =
-        await $axios.get(`/api/experiences`, {
+        await axios.get(`/api/experiences`, {
           params: {
             ...params,
           },
@@ -58,7 +58,7 @@ export const useExperienceAPI = () => {
   const updateExperience = async (payload: any) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/experiences/update",
         payload,
       );
@@ -82,7 +82,7 @@ export const useExperienceAPI = () => {
   const storeExperience = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/experiences/store",
         payload
       );
@@ -106,7 +106,7 @@ export const useExperienceAPI = () => {
   const deleteExperience = async (id: number) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         `/api/experiences/delete`,
         {
           id,

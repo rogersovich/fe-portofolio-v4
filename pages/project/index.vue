@@ -8,7 +8,7 @@
           <span> Featured </span>
           <BaseTextHighlight
             :duration="500"
-            class="rounded-lg bg-gradient-to-r from-[#9E7AFF] to-[#FE8BBB]"
+            class="rounded-lg bg-gradient-to-r from-[#fb923c] to-[#f87171]"
           >
             Projects
           </BaseTextHighlight>
@@ -20,12 +20,22 @@
       class="layout pb-12 pt-12 md:pb-16 md:pt-8 flex flex-col justify-center gap-10"
     >
       <div class="flex flex-col gap-6">
-        <div v-if="pending">Loading project...</div>
+        <div class="text-center">
+          <InputText
+            size="large"
+            v-model="searchQuery"
+            @input="debouncedFilterCallback"
+            placeholder="Search project"
+            class="w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
+          />
+        </div>
+        <div v-if="pending">
+          <template v-for="i in 3" :key="i">
+            <Skeleton width="100%" height="8rem" class="mb-2"></Skeleton>
+          </template>
+        </div>
         <template v-else-if="dataProjects">
-          <template
-            v-for="project in dataProjects.data.items"
-            :key="project.id"
-          >
+          <template v-for="project in dataProjects.items" :key="project.id">
             <div
               class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
             >
@@ -47,7 +57,9 @@
                         v-for="tech in project.technologies"
                         :key="tech.tech_id"
                       >
-                        <div class="bg-zinc-50/[.075] p-1 flex items-center rounded-full">
+                        <div
+                          class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
+                        >
                           <NuxtImg
                             :src="tech.tech_logo_url"
                             height="20px"
@@ -60,16 +72,16 @@
                   </div>
                   <div class="flex items-center justify-between mt-8">
                     <RouterLink :to="`/project/${project.slug}`">
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      class="text-sm text-white group hover:!border-orange-500/[.2]"
-                    >
-                      <span> View Project </span>
-                      <IconChevronRight
-                        class="size-[18px] text-muted-foreground group-hover:text-orange-400"
-                      />
-                    </Button>
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        class="text-sm text-white group hover:!border-orange-500/[.2]"
+                      >
+                        <span> View Project </span>
+                        <IconChevronRight
+                          class="size-[18px] text-muted-foreground group-hover:text-orange-400"
+                        />
+                      </Button>
                     </RouterLink>
                     <template v-if="project.repository_url">
                       <a
@@ -101,24 +113,49 @@
               </div>
             </div>
           </template>
-          <div>
-            <ClientOnly fallback-tag="span" fallback="Loading pagination...">
-              <Paginator :rows="rows" :totalRecords="totalRecords"> </Paginator>
-            </ClientOnly>
-          </div>
+          <Paginator
+            :first="first"
+            :rows="rows"
+            :totalRecords="dataProjects.pagination.total"
+            @page="onPageChange"
+          >
+          </Paginator>
         </template>
-        <div v-else-if="error">Failed to load posts.</div>
+        <div
+          v-else
+          class="flex flex-col items-center justify-center gap-4 border border-solid border-zinc-50/[.05] rounded-xl p-4 min-h-[16rem]"
+        >
+          <IconMoodSad class="size-10 text-muted-foreground" />
+          <div class="flex flex-col gap-2 items-center">
+            <div class="text-2xl font-rethink font-bold">Project not found</div>
+            <div class="text-muted-foreground text-sm">
+              Im sorry the project you are looking for is not found
+            </div>
+          </div>
+          <Button
+            type="button"
+            variant="outlined"
+            class="text-sm justify-start"
+            @click="onClearSearch"
+          >
+            <IconRefresh class="size-4" />
+            <span> Clear Search </span>
+          </Button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { IconLink, IconChevronRight } from "@tabler/icons-vue";
-import type { AxiosResponse } from "axios";
-import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
+import {
+  IconLink,
+  IconChevronRight,
+  IconMoodSad,
+  IconRefresh,
+} from "@tabler/icons-vue";
 import type {
   TParamsFilterPublicProject,
-  TPublicProject,
+  TPublicProjectListResponse,
 } from "~/types/project.type";
 
 useHead({
@@ -128,34 +165,55 @@ useHead({
 
 const params = reactive<TParamsFilterPublicProject>({
   page: "1",
-  limit: "5",
+  limit: "3",
   sort: "DESC",
   order: "updated_at",
   search: "",
 });
-const totalRecords = ref(0);
-const rows = ref(5);
-const { $axios } = useNuxtApp() as unknown as any;
+const rows = ref(2);
+const first = ref(1);
+const searchQuery = ref("");
+
+const debouncedFilterCallback = useDebounceFn(async () => {
+  params.search = searchQuery.value;
+}, 500);
 
 const {
   data: dataProjects,
   pending,
   error,
-} = await useAsyncData("publicProjects", async () => {
-  try {
-    const response: AxiosResponse<
-      TBaseResponse<TBasePaginateResponse<TPublicProject[]>>
-    > = await $axios.get("/api-public/projects", {
-      params: {
-        ...params,
-      },
-    });
-    totalRecords.value = response.data.data.pagination.total;
-    return response.data;
-  } catch (err) {
-    console.error("Error fetching data:", err);
-    return null;
+} = await useAsyncData(
+  "publicProjects",
+  async () => {
+    try {
+      const response = await $fetch<TPublicProjectListResponse>(
+        `http://localhost:4000/api-public/projects`,
+        {
+          params: {
+            ...params,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      return null;
+    }
+  },
+  {
+    watch: [params],
   }
-});
+);
+
+const onClearSearch = () => {
+  params.search = "";
+  searchQuery.value = "";
+};
+
+const onPageChange = (event: any) => {
+  params.page = event.page + 1;
+  first.value = event.first;
+};
 </script>
 <style lang=""></style>

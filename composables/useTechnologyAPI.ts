@@ -9,7 +9,7 @@ import type {
 } from "~/types/technology.type";
 
 export const useTechnologyAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const technologyData = ref<TTechnology | null>(null);
@@ -23,7 +23,7 @@ export const useTechnologyAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TTechnology>> =
-        await $axios.get(`/api/technologies/${route.params.id}`);
+        await axios.get(`/api/technologies/${route.params.id}`);
 
       technologyData.value = data.data;
 
@@ -40,7 +40,7 @@ export const useTechnologyAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TTechnology[]>>> =
-        await $axios.get(`/api/technologies`, {
+        await axios.get(`/api/technologies`, {
           params: {
             ...params,
           },
@@ -60,7 +60,7 @@ export const useTechnologyAPI = () => {
   const updateTechnology = async (payload: any) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/technologies/update",
         payload,
         {
@@ -89,7 +89,7 @@ export const useTechnologyAPI = () => {
   const storeTechnology = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/technologies/store",
         payload,
         {
@@ -118,7 +118,7 @@ export const useTechnologyAPI = () => {
   const deleteTechnology = async (id: number) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         `/api/technologies/delete`,
         {
           id,
@@ -145,7 +145,7 @@ export const useTechnologyAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TPublicTechnology[]>> =
-        await $axios.get(`/api-public/technologies`);
+        await axios.get(`/api-public/technologies`);
 
       const res = data.data;
 

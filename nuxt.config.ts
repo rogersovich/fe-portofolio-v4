@@ -21,7 +21,7 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_API_BASE || "http://localhost:4000",
     },
   },
-  plugins: ["~/plugins/axios.ts"],
+  plugins: [],
   routeRules: {
     "/adminz/**": { ssr: false },
     "/authz/**": { ssr: false },

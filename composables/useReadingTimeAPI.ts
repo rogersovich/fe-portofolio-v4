@@ -8,7 +8,7 @@ import type {
 } from "~/types/reading_time.type";
 
 export const useReadingTimeAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const readingTimeData = ref<TReadingTime | null>(null);
@@ -21,7 +21,7 @@ export const useReadingTimeAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TReadingTime>> =
-        await $axios.get(`/api/reading-times/${route.params.id}`);
+        await axios.get(`/api/reading-times/${route.params.id}`);
 
       readingTimeData.value = data.data;
 
@@ -38,7 +38,7 @@ export const useReadingTimeAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TReadingTime[]>>> =
-        await $axios.get(`/api/reading-times`, {
+        await axios.get(`/api/reading-times`, {
           params: {
             ...params,
           },
@@ -58,7 +58,7 @@ export const useReadingTimeAPI = () => {
   const updateReadingTime = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/reading-times/update",
         payload
       );

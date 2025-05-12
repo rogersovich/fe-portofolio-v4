@@ -7,7 +7,7 @@
         <BaseSparklesText
           text="Dimas Roger W"
           class="text-foreground font-rethink text-6xl"
-          :colors="{ first: '#9E7AFF', second: '#FE8BBB' }"
+          :colors="{ first: '#fb923c', second: '#f87171' }"
           :sparkles-count="8"
         >
         </BaseSparklesText>

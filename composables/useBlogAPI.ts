@@ -5,7 +5,7 @@ import type { TBasePaginateResponse, TBaseResponse } from "~/types/base.type";
 import type { TBaseParamsBlog, TBlog, TBlogDetail } from "~/types/blog.type";
 
 export const useBlogAPI = () => {
-  const { $axios } = useNuxtApp() as unknown as any;
+  const axios = useAxios();
   const loading = ref(false);
   const error = ref(null);
   const blogData = ref<TBlogDetail | null>(null);
@@ -18,7 +18,7 @@ export const useBlogAPI = () => {
     loading.value = true;
     try {
       const { data }: AxiosResponse<TBaseResponse<TBlogDetail>> =
-        await $axios.get(`/api/blogs/${route.params.id}`);
+        await axios.get(`/api/blogs/${route.params.id}`);
 
       blogData.value = data.data;
 
@@ -35,7 +35,7 @@ export const useBlogAPI = () => {
       const {
         data,
       }: AxiosResponse<TBaseResponse<TBasePaginateResponse<TBlog[]>>> =
-        await $axios.get(`/api/blogs`, {
+        await axios.get(`/api/blogs`, {
           params: {
             ...params,
           },
@@ -55,7 +55,7 @@ export const useBlogAPI = () => {
   const updateBlog = async (payload: any) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/blogs/update",
         payload,
         {
@@ -84,7 +84,7 @@ export const useBlogAPI = () => {
   const storeBlog = async (payload: any) => {
     try {
       loading.value = true;
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         "/api/blogs/store",
         payload,
         {
@@ -113,7 +113,7 @@ export const useBlogAPI = () => {
   const deleteBlog = async (id: number) => {
     loading.value = true;
     try {
-      const { data }: AxiosResponse<TBaseResponse<any>> = await $axios.post(
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
         `/api/blogs/delete`,
         {
           id,

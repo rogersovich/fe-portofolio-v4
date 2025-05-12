@@ -1,4 +1,4 @@
-import type { TBasePaginateParams, TBaseSortingParams } from "./base.type"
+import type { TBasePaginateParams, TBasePaginateResponse, TBaseResponse, TBaseSortingParams } from "./base.type"
 
 export interface TProject {
   id: number
@@ -108,3 +108,7 @@ export interface TPublicProjectDetail {
     file_name: string
   }[]
 }
+
+type TPublicProjectPaginateResponse = TBasePaginateResponse<TPublicProject[]>;
+
+export type TPublicProjectListResponse = TBaseResponse<TPublicProjectPaginateResponse>;
