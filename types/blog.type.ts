@@ -99,8 +99,26 @@ export interface TParamsFilterPublicBlog {
   sort?: string;
   order?: string;
   search?: string;
+  topics?: string;
 }
 
 type TPublicBlogPaginateResponse = TBasePaginateResponse<TPublicBlog[]>;
 
 export type TPublicBlogListResponse = TBaseResponse<TPublicBlogPaginateResponse>;
+
+export interface TPublicBlogDetail {
+  id: number
+  title: string
+  description_html: string
+  summary: string
+  banner_url: string
+  banner_file_name: string
+  slug: string
+  status: string
+  published_at: string
+  author: TBlogAuthor;
+  reading_time: TBlogReadingTime;
+  statistic: TBlogStatistic;
+  topics: TBlogTopic[];
+  content_image: TBlogImage[];
+}

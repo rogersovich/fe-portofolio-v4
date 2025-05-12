@@ -35,84 +35,130 @@
           </template>
         </div>
         <template v-else-if="dataBlogs">
-          <template v-for="blog in dataBlogs.items" :key="blog.id">
-            <div
-              class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
-            >
-              <div class="col-span-9 xl:col-span-9">
+          <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-9">
+              <template v-for="(blog, index) in dataBlogs.items" :key="blog.id">
                 <div
-                  class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
+                  class="w-full mb-6"
+                  :class="{
+                    'mb-0': index === dataBlogs.items.length - 1,
+                  }"
                 >
-                  <h1 class="mt-0 group-hover:text-orange-400 font-rethink">
-                    {{ blog.title }}
-                  </h1>
                   <div
-                    class="text-muted-foreground font-light"
-                    v-html="blog.summary"
-                  ></div>
-                  <div class="flex items-center gap-3 mt-5">
-                    <div class="text-muted-foreground text-sm">Stack:</div>
+                    class="border border-solid border-zinc-50/[.05] rounded-xl p-6 w-full"
+                  >
                     <div class="flex items-center gap-2">
-                      <!-- <template
-                        v-for="tech in blog.technologies"
-                        :key="tech.tech_id"
-                      >
-                        <div
-                          class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
-                        >
-                          <NuxtImg
-                            :src="tech.tech_logo_url"
-                            height="20px"
-                            width="20px"
-                            densities="x1 x2"
-                          />
+                      <IconCalendar
+                        class="h-[18px] w-[18px] text-muted-foreground"
+                      />
+                      <span class="text-[13px]">
+                        {{ formatDate(blog.published_at) }}
+                      </span>
+                    </div>
+                    <h2 class="mt-4 font-rethink mb-0">
+                      {{ blog.title }}
+                    </h2>
+                    <div
+                      class="text-muted-foreground font-light"
+                      v-html="blog.summary"
+                    ></div>
+                    <div class="flex justify-between pb-5">
+                      <div class="flex items-center gap-5">
+                        <div class="flex items-center gap-2">
+                          <IconEye class="size-4 text-orange-400" />
+                          <span class="text-[12px] text-zinc-300"
+                            >{{ blog.statistic.views }}
+                            views
+                          </span>
                         </div>
-                      </template> -->
+                        <div class="flex items-center gap-2">
+                          <IconBook class="size-4 text-orange-400" />
+                          <span class="text-[12px] text-zinc-300"
+                            >{{
+                              blog.reading_time
+                                ? formatReadingTime(
+                                    blog.reading_time.estimated_seconds
+                                  )
+                                : formatReadingTime(0)
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <template v-for="topic in blog.topics" :key="topic.id">
+                          <Chip
+                            :label="topic.name"
+                            class="text-[12px] text-muted-foreground px-2.5 py-1.5"
+                            :class="{
+                          'text-white bg-orange-500/[.3]': filterTopics.includes(
+                            topic.id as never
+                          ),
+                        }"
+                          />
+                        </template>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <RouterLink :to="`/blog/${blog.slug}`">
+                        <Button
+                          variant="outlined"
+                          size="large"
+                          class="text-sm text-white group hover:!border-orange-500/[.2] group"
+                        >
+                          <span> View blog </span>
+                          <IconChevronRight
+                            class="size-[18px] text-muted-foreground group-hover:text-orange-400"
+                          />
+                        </Button>
+                      </RouterLink>
                     </div>
                   </div>
-                  <div class="flex items-center justify-between mt-8">
-                    <RouterLink :to="`/blog/${blog.slug}`">
-                      <Button
-                        variant="outlined"
-                        size="large"
-                        class="text-sm text-white group hover:!border-orange-500/[.2]"
-                      >
-                        <span> View blog </span>
-                        <IconChevronRight
-                          class="size-[18px] text-muted-foreground group-hover:text-orange-400"
-                        />
-                      </Button>
-                    </RouterLink>
-                    <!-- <template v-if="blog.repository_url">
-                      <a
-                        :href="blog.repository_url"
-                        target="_blank"
-                        class="flex items-center gap-2 group cursor-pointer"
-                      >
-                        <IconLink
-                          class="size-[20px] text-zinc-500 group-hover:text-orange-400"
-                        />
-                        <span
-                          class="text-[14px] font-light text-white group-hover:underline"
-                          >Open Repository</span
-                        >
-                      </a>
-                    </template> -->
+                </div>
+              </template>
+            </div>
+            <div class="col-span-3">
+              <div
+                class="py-4 px-4 border border-solid border-zinc-50/[.05] rounded-xl"
+              >
+                <div class="mb-6">
+                  <div class="mb-3 text-[14px] tracking-wider">
+                    Filter by date
+                  </div>
+                  <div>
+                    <DatePicker
+                      v-model="filterDate"
+                      variant="outlined"
+                      selectionMode="range"
+                      fluid
+                      showButtonBar
+                      placeholder="Select date"
+                      inputClass="!border-zinc-50/[.05] text-sm"
+                    />
                   </div>
                 </div>
-              </div>
-              <div class="col-span-3 xl:col-span-3">
-                <div
-                  class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
-                >
-                  <NuxtImg
-                    :src="blog.banner_url"
-                    class="rounded-lg w-full max-h-[200px] object-cover grayscale hover:grayscale-0"
-                  />
+                <template v-if="pendingTopic"> loading topic... </template>
+                <div v-else-if="dataTopics">
+                  <div class="mb-3 text-[14px] tracking-wider">
+                    Filter by topic
+                  </div>
+                  <div class="flex flex-wrap gap-2">
+                    <template v-for="topic in dataTopics" :key="topic.id">
+                      <Chip
+                        @click="onClickTopic(topic.id)"
+                        :label="topic.name"
+                        class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-white"
+                        :class="{
+                          'text-white bg-orange-500/[.3]': filterTopics.includes(
+                            topic.id as never
+                          ),
+                        }"
+                      />
+                    </template>
+                  </div>
                 </div>
               </div>
             </div>
-          </template>
+          </div>
           <Paginator
             :first="first"
             :rows="rows"
@@ -148,15 +194,20 @@
 </template>
 <script setup lang="ts">
 import {
-  IconLink,
+  IconCalendar,
   IconChevronRight,
   IconMoodSad,
   IconRefresh,
+  IconEye,
+  IconBook,
 } from "@tabler/icons-vue";
+import dayjs from "dayjs";
+import type { TBaseResponse } from "~/types/base.type";
 import type {
   TParamsFilterPublicBlog,
   TPublicBlogListResponse,
 } from "~/types/blog.type";
+import type { TPublicTopic } from "~/types/topic.type";
 
 useHead({
   title: "Blog",
@@ -169,10 +220,13 @@ const params = reactive<TParamsFilterPublicBlog>({
   sort: "DESC",
   order: "updated_at",
   search: "",
+  topics: "[]",
 });
 const rows = ref(2);
 const first = ref(1);
 const searchQuery = ref("");
+const filterDate = ref(null);
+const filterTopics = ref([]);
 
 const debouncedFilterCallback = useDebounceFn(async () => {
   params.search = searchQuery.value;
@@ -202,6 +256,24 @@ const { data: dataBlogs, pending } = await useAsyncData(
   }
 );
 
+const { data: dataTopics, pending: pendingTopic } = await useAsyncData(
+  "public-topics",
+  async () => {
+    try {
+      const response = await $fetch<TBaseResponse<TPublicTopic[]>>(
+        `http://localhost:4000/api-public/topics`
+      );
+      return response.data;
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      return null;
+    }
+  },
+  {
+    watch: [params],
+  }
+);
+
 const onClearSearch = () => {
   params.search = "";
   searchQuery.value = "";
@@ -210,6 +282,33 @@ const onClearSearch = () => {
 const onPageChange = (event: any) => {
   params.page = event.page + 1;
   first.value = event.first;
+};
+
+const formatDate = (dateString: string, format: string = "MMM DD, YYYY") => {
+  return dayjs(dateString).format(format);
+};
+
+const formatReadingTime = (estimated_seconds: number) => {
+  const minutes = Math.floor(estimated_seconds / 60);
+  const seconds = estimated_seconds % 60;
+
+  if (minutes > 0) {
+    return `${minutes} min read`;
+  } else if (seconds > 0) {
+    return `${seconds} sec read`;
+  } else {
+    return "0 sec read";
+  }
+};
+
+const onClickTopic = (topicId: number) => {
+  if (filterTopics.value.includes(topicId as never)) {
+    filterTopics.value = filterTopics.value.filter((id) => id !== topicId);
+  } else {
+    filterTopics.value.push(topicId as never);
+  }
+
+  params.topics = JSON.stringify(filterTopics.value);
 };
 </script>
 <style lang=""></style>

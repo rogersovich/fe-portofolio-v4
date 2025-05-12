@@ -1,9 +1,11 @@
 <template>
   <NuxtLayout>
-    <Toast position="top-right" />
+    <ClientOnly>
+      <Toast position="top-right" />
+      <ConfirmDialog />
+    </ClientOnly>
     <NuxtRouteAnnouncer />
     <NuxtPage />
-    <ConfirmDialog />
   </NuxtLayout>
 </template>
 

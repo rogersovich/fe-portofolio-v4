@@ -646,7 +646,7 @@ export default {
           placeholder: "Write something …",
         }),
         CodeBlockLowlight.configure({
-          lowlight: createLowlight(common),
+          lowlight,
         }),
       ],
       content: this.modelValue,
