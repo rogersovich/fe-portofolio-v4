@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10">
+    <div class="absolute bottom-0 left-8 z-[-1]">
+      <div
+        class="uppercase text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+      >
+        Projects
+      </div>
+    </div>
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
@@ -178,11 +185,7 @@ const debouncedFilterCallback = useDebounceFn(async () => {
   params.search = searchQuery.value;
 }, 500);
 
-const {
-  data: dataProjects,
-  pending,
-  error,
-} = await useAsyncData(
+const { data: dataProjects, pending } = await useAsyncData(
   "publicProjects",
   async () => {
     try {

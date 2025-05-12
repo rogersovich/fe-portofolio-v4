@@ -36,6 +36,12 @@ const listNavs = reactive([
     active: false,
   },
   {
+    title: "Blog",
+    key: "blog",
+    link: "/blog",
+    active: false,
+  },
+  {
     title: "Fun Fact",
     key: "fun-fact",
     link: "/fun-fact",
