@@ -16,11 +16,200 @@
         <div class="text-muted-foreground">A story of growth and discovery</div>
       </div>
     </div>
+    <div
+      class="layout pb-12 pt-12 md:pb-16 md:pt-8 flex flex-col justify-center gap-10"
+    >
+      <div class="flex flex-col gap-6">
+        <div class="text-center">
+          <InputText
+            size="large"
+            v-model="searchQuery"
+            @input="debouncedFilterCallback"
+            placeholder="Search Blog"
+            class="w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
+          />
+        </div>
+        <div v-if="pending">
+          <template v-for="i in 3" :key="i">
+            <Skeleton width="100%" height="8rem" class="mb-2"></Skeleton>
+          </template>
+        </div>
+        <template v-else-if="dataBlogs">
+          <template v-for="blog in dataBlogs.items" :key="blog.id">
+            <div
+              class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
+            >
+              <div class="col-span-9 xl:col-span-9">
+                <div
+                  class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
+                >
+                  <h1 class="mt-0 group-hover:text-orange-400 font-rethink">
+                    {{ blog.title }}
+                  </h1>
+                  <div
+                    class="text-muted-foreground font-light"
+                    v-html="blog.summary"
+                  ></div>
+                  <div class="flex items-center gap-3 mt-5">
+                    <div class="text-muted-foreground text-sm">Stack:</div>
+                    <div class="flex items-center gap-2">
+                      <!-- <template
+                        v-for="tech in blog.technologies"
+                        :key="tech.tech_id"
+                      >
+                        <div
+                          class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
+                        >
+                          <NuxtImg
+                            :src="tech.tech_logo_url"
+                            height="20px"
+                            width="20px"
+                            densities="x1 x2"
+                          />
+                        </div>
+                      </template> -->
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between mt-8">
+                    <RouterLink :to="`/blog/${blog.slug}`">
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        class="text-sm text-white group hover:!border-orange-500/[.2]"
+                      >
+                        <span> View blog </span>
+                        <IconChevronRight
+                          class="size-[18px] text-muted-foreground group-hover:text-orange-400"
+                        />
+                      </Button>
+                    </RouterLink>
+                    <!-- <template v-if="blog.repository_url">
+                      <a
+                        :href="blog.repository_url"
+                        target="_blank"
+                        class="flex items-center gap-2 group cursor-pointer"
+                      >
+                        <IconLink
+                          class="size-[20px] text-zinc-500 group-hover:text-orange-400"
+                        />
+                        <span
+                          class="text-[14px] font-light text-white group-hover:underline"
+                          >Open Repository</span
+                        >
+                      </a>
+                    </template> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-3 xl:col-span-3">
+                <div
+                  class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
+                >
+                  <NuxtImg
+                    :src="blog.banner_url"
+                    class="rounded-lg w-full max-h-[200px] object-cover grayscale hover:grayscale-0"
+                  />
+                </div>
+              </div>
+            </div>
+          </template>
+          <Paginator
+            :first="first"
+            :rows="rows"
+            :totalRecords="dataBlogs?.pagination.total"
+            @page="onPageChange"
+          >
+          </Paginator>
+        </template>
+        <div
+          v-else
+          class="flex flex-col items-center justify-center gap-4 border border-solid border-zinc-50/[.05] rounded-xl p-4 min-h-[16rem]"
+        >
+          <IconMoodSad class="size-10 text-muted-foreground" />
+          <div class="flex flex-col gap-2 items-center">
+            <div class="text-2xl font-rethink font-bold">Blogs not found</div>
+            <div class="text-muted-foreground text-sm">
+              Im sorry the Blogs you are looking for is not found
+            </div>
+          </div>
+          <Button
+            type="button"
+            variant="outlined"
+            class="text-sm justify-start"
+            @click="onClearSearch"
+          >
+            <IconRefresh class="size-4" />
+            <span> Clear Search </span>
+          </Button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
+import {
+  IconLink,
+  IconChevronRight,
+  IconMoodSad,
+  IconRefresh,
+} from "@tabler/icons-vue";
+import type {
+  TParamsFilterPublicBlog,
+  TPublicBlogListResponse,
+} from "~/types/blog.type";
 
+useHead({
+  title: "Blog",
+  titleTemplate: "%s | Portofolio",
+});
+
+const params = reactive<TParamsFilterPublicBlog>({
+  page: "1",
+  limit: "3",
+  sort: "DESC",
+  order: "updated_at",
+  search: "",
+});
+const rows = ref(2);
+const first = ref(1);
+const searchQuery = ref("");
+
+const debouncedFilterCallback = useDebounceFn(async () => {
+  params.search = searchQuery.value;
+}, 500);
+
+const { data: dataBlogs, pending } = await useAsyncData(
+  "public-blogs",
+  async () => {
+    try {
+      const response = await $fetch<TPublicBlogListResponse>(
+        `http://localhost:4000/api-public/blogs`,
+        {
+          params: {
+            ...params,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      return null;
+    }
+  },
+  {
+    watch: [params],
+  }
+);
+
+const onClearSearch = () => {
+  params.search = "";
+  searchQuery.value = "";
+};
+
+const onPageChange = (event: any) => {
+  params.page = event.page + 1;
+  first.value = event.first;
+};
 </script>
-<style lang="">
-  
-</style>
+<style lang=""></style>

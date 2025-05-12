@@ -247,6 +247,26 @@
         >
           <IconLinkOff class="size-5" />
         </button>
+        <button
+          type="button"
+          @click="editor.chain().focus().toggleCodeBlock().run()"
+          :class="{
+            'tiptap-control-button--active': editor.isActive('codeBlock'),
+          }"
+          class="tiptap-control-button"
+        >
+          Code
+        </button>
+        <select v-model="codeBlockLanguage" @change="updateCodeBlockLanguage">
+          <option value="javascript">JavaScript</option>
+          <option value="go">Go</option>
+          <option value="html">HTML</option>
+          <option value="nginx">nginx</option>
+          <option value="ts">ts</option>
+          <option value="sql">sql</option>
+          <option value="clean">clean</option>
+          <option value="php">php</option>
+        </select>
         <template v-if="!$props.exclude.includes('image')">
           <button
             type="button"
@@ -282,6 +302,19 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import css from "highlight.js/lib/languages/css";
+import js from "highlight.js/lib/languages/javascript";
+import ts from "highlight.js/lib/languages/typescript";
+import html from "highlight.js/lib/languages/xml";
+import go from "highlight.js/lib/languages/go";
+import nginx from "highlight.js/lib/languages/nginx";
+import dockerfile from "highlight.js/lib/languages/dockerfile";
+import yaml from "highlight.js/lib/languages/yaml";
+import sql from "highlight.js/lib/languages/sql";
+import php from "highlight.js/lib/languages/php";
+import clean from "highlight.js/lib/languages/clean";
+import { all, createLowlight, common } from "lowlight";
 import {
   IconQuoteFilled,
   IconH1,
@@ -308,6 +341,21 @@ import {
   IconLink,
   IconLinkOff,
 } from "@tabler/icons-vue";
+
+const lowlight = createLowlight(all);
+
+// you can also register languages
+lowlight.register("html", html);
+lowlight.register("css", css);
+lowlight.register("js", js);
+lowlight.register("ts", ts);
+lowlight.register("go", go);
+lowlight.register("nginx", nginx);
+lowlight.register("dockerfile", dockerfile);
+lowlight.register("yaml", yaml);
+lowlight.register("sql", sql);
+lowlight.register("php", php);
+lowlight.register("clean", clean);
 
 export default {
   components: {
@@ -355,10 +403,10 @@ export default {
       type: Array,
       default: () => [],
     },
-    uploadUrlAPI:{
+    uploadUrlAPI: {
       type: String,
       default: "",
-    }
+    },
   },
 
   emits: ["update:modelValue"],
@@ -376,11 +424,11 @@ export default {
           // Handle the image upload
 
           const uploadedImage = await this.uploadImage(file);
-          if(uploadedImage) {
+          if (uploadedImage) {
             // const imageUrl =
             //   "http://localhost:9000/portofolio-v4/blog/1745223221_44a8a312-d6d8-42af-8eab-7a8f01ad02ad.jpg";
-            const imageUrl = uploadedImage.image_url
-  
+            const imageUrl = uploadedImage.image_url;
+
             // Insert the image into the editor
             this.insertImage(imageUrl);
           }
@@ -410,20 +458,20 @@ export default {
         );
 
         const res = data.data;
-        
+
         return {
           image_file_name: res.image_file_name,
           image_url: res.image_url,
-        }
+        };
       } catch (error) {
-        console.error(error)
+        console.error(error);
         const errData = error.response.data;
         alertStore.setAlert({
           severity: "error",
           summary: errData.message,
           show_alert: true,
-        })
-        return null
+        });
+        return null;
       }
     },
     insertImage(url) {
@@ -510,6 +558,12 @@ export default {
         },
       });
     },
+
+    updateCodeBlockLanguage() {
+      if (this.editor && this.editor.isActive('codeBlock')) {
+        this.editor.commands.updateAttributes('codeBlock', { language: this.codeBlockLanguage });
+      }
+    },
   },
 
   data() {
@@ -518,6 +572,7 @@ export default {
       opHeading: null,
       opTextFormat: null,
       opTextAlign: null,
+      codeBlockLanguage: "javascript",
     };
   },
 
@@ -589,6 +644,9 @@ export default {
         }),
         Placeholder.configure({
           placeholder: "Write something …",
+        }),
+        CodeBlockLowlight.configure({
+          lowlight: createLowlight(common),
         }),
       ],
       content: this.modelValue,
@@ -739,6 +797,75 @@ export default {
     float: left;
     height: 0;
     pointer-events: none;
+  }
+
+  pre {
+    background: #18181b;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-family: "JetBrainsMono", monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+
+    code {
+      background: none;
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
+    }
+
+    /* Code styling */
+    .hljs-comment,
+    .hljs-quote {
+      color: #616161;
+    }
+
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-attribute,
+    .hljs-tag,
+    .hljs-name,
+    .hljs-regexp,
+    .hljs-link,
+    .hljs-name,
+    .hljs-selector-id,
+    .hljs-selector-class {
+      color: #f98181;
+    }
+
+    .hljs-number,
+    .hljs-meta,
+    .hljs-built_in,
+    .hljs-builtin-name,
+    .hljs-literal,
+    .hljs-type,
+    .hljs-params {
+      color: #fbbc88;
+    }
+
+    .hljs-string,
+    .hljs-symbol,
+    .hljs-bullet {
+      color: #b9f18d;
+    }
+
+    .hljs-title,
+    .hljs-section {
+      color: #faf594;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+      color: #70cff8;
+    }
+
+    .hljs-emphasis {
+      font-style: italic;
+    }
+
+    .hljs-strong {
+      font-weight: 700;
+    }
   }
 }
 </style>

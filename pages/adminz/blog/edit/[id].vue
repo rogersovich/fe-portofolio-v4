@@ -508,10 +508,8 @@ const onFormSubmit = async () => {
     const topicIdsStringify = JSON.stringify(formattedTopicIds);
     formData.append("topic_ids", topicIdsStringify);
 
-    if (contentImageUrls.length > 0) {
-      const contentImageUrlsStringify = JSON.stringify(contentImageUrls);
-      formData.append("content_images", contentImageUrlsStringify);
-    }
+    const contentImageUrlsStringify = JSON.stringify(contentImageUrls);
+    formData.append("content_images", contentImageUrlsStringify);
 
     const bannerNewFile = bannerNew.value.file as unknown as File;
     if (bannerNew.value.is_changed && bannerNewFile) {
