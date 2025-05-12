@@ -72,3 +72,11 @@ body {
 .p-paginator {
   @apply border border-solid border-zinc-50/[.05] py-4 bg-transparent;
 }
+
+#toc {
+  @apply border border-solid border-zinc-50/[.05] py-4 px-3 rounded-md bg-transparent sticky top-20 right-0;
+}
+
+p {
+  @apply mt-0 mb-[1rem] leading-8 font-normal;
+}

@@ -27,13 +27,13 @@
             :key="project.id"
           >
             <div
-              class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 h-[250px]"
+              class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
             >
               <div class="col-span-9 xl:col-span-9">
                 <div
-                  class="border border-solid border-zinc-50/[.05] rounded-xl px-6 py-6 group h-full w-full"
+                  class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
                 >
-                  <h1 class="mt-0 group-hover:text-orange-500 font-rethink">
+                  <h1 class="mt-0 group-hover:text-orange-400 font-rethink">
                     {{ project.title }}
                   </h1>
                   <div
@@ -59,16 +59,18 @@
                     </div>
                   </div>
                   <div class="flex items-center justify-between mt-8">
+                    <RouterLink :to="`/project/${project.slug}`">
                     <Button
                       variant="outlined"
                       size="large"
-                      class="text-sm text-white group"
+                      class="text-sm text-white group hover:!border-orange-500/[.2]"
                     >
                       <span> View Project </span>
                       <IconChevronRight
-                        class="size-[18px] text-muted-foreground group-hover:text-orange-500"
+                        class="size-[18px] text-muted-foreground group-hover:text-orange-400"
                       />
                     </Button>
+                    </RouterLink>
                     <template v-if="project.repository_url">
                       <a
                         :href="project.repository_url"
@@ -76,7 +78,7 @@
                         class="flex items-center gap-2 group cursor-pointer"
                       >
                         <IconLink
-                          class="size-[20px] text-zinc-500 group-hover:text-orange-500"
+                          class="size-[20px] text-zinc-500 group-hover:text-orange-400"
                         />
                         <span
                           class="text-[14px] font-light text-white group-hover:underline"
@@ -93,7 +95,7 @@
                 >
                   <NuxtImg
                     :src="project.image_url"
-                    class="rounded-lg w-full h-[200px] object-cover grayscale hover:grayscale-0"
+                    class="rounded-lg w-full max-h-[200px] object-cover grayscale hover:grayscale-0"
                   />
                 </div>
               </div>
@@ -118,6 +120,7 @@ import type {
   TParamsFilterPublicProject,
   TPublicProject,
 } from "~/types/project.type";
+
 useHead({
   title: "Project",
   titleTemplate: "%s | Portofolio",

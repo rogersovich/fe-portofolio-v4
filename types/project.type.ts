@@ -78,3 +78,33 @@ export interface TParamsFilterPublicProject {
   order?: string
   search?: string
 }
+
+export interface TPublicProjectDetail {
+  id: number
+  title: string
+  description: string
+  summary: string
+  image_url: string
+  image_file_name: string
+  repository_url: string
+  slug: string
+  status: string
+  published_at: string
+  statistic: {
+    id: number
+    likes: number
+    views: number
+    type: string
+  }
+  technologies: {
+    tech_id: number
+    tech_name: string
+    tech_logo_url: string
+    tech_link: string
+  }[]
+  images: {
+    id: number,
+    url: string
+    file_name: string
+  }[]
+}

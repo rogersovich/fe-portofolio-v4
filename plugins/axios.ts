@@ -38,8 +38,8 @@ export default defineNuxtPlugin(() => {
 
         // Example: handle 401 (Unauthorized) errors, perhaps redirect to login
         if (error.response && error.response.status === 401) {
-          // Optionally, you can redirect to the login page
-          // nuxtApp.router.push('/login'); // Uncomment if you're using Vue Router
+          authStore.logout();
+          navigateTo("/authz/login");
         }
 
         return Promise.reject(error); // Always return the rejected promise for proper error handling
