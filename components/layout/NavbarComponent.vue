@@ -55,6 +55,8 @@ const listNavs = reactive([
   },
 ]);
 
+const menuStore = useMenuStore();
+
 const onClickNav = (key: string) => {
   listNavs.forEach((nav) => {
     nav.active = false;
@@ -62,6 +64,7 @@ const onClickNav = (key: string) => {
   const nav = listNavs.find((nav) => nav.key === key);
   if (nav) {
     nav.active = true;
+    menuStore.setActivePath(nav.link);
     router.push(nav.link);
   }
 };
@@ -70,12 +73,29 @@ const setActivePath = () => {
   listNavs.forEach((nav) => {
     nav.active = false;
     if (route.path.includes(nav.key)) {
+      menuStore.setActivePath(nav.link);
       nav.active = true;
-    }else if (route.path === "/" && nav.key === "home") {
+    } else if (route.path === "/" && nav.key === "home") {
+      menuStore.setActivePath(nav.link);
       nav.active = true;
     }
   });
 };
+
+const setStoreMenuPath = (active_path: string) => {
+  listNavs.forEach((nav) => {
+    nav.active = false;
+  });
+  const nav = listNavs.find((nav) => nav.link === active_path);
+  if (nav) {
+    nav.active = true;
+  }
+}
+
+
+menuStore.$subscribe((mutation, state) => {
+  setStoreMenuPath(state.active_path);
+});
 
 onMounted(() => {
   setActivePath();

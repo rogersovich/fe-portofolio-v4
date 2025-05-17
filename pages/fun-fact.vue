@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10">
+    <div class="absolute bottom-0 left-8 z-[-1]">
+      <div
+        class="uppercase text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+      >
+       Fun Facts
+      </div>
+    </div>
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
@@ -13,7 +20,7 @@
             Facts
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground">A story of growth and discovery</div>
+        <div class="text-muted-foreground mt-3">Discovery my Hobbies and Fun facts</div>
       </div>
     </div>
     <div

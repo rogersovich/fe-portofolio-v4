@@ -1,10 +1,17 @@
 <template>
-  <div>
+  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10">
+    <div class="absolute bottom-0 left-8 z-[-1]">
+      <div
+        class="uppercase text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+      >
+        My Blogs
+      </div>
+    </div>
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
       <div class="flex flex-col gap-2">
-        <div class="text-6xl font-rethink font-bold mb-3">
+        <div class="text-6xl font-rethink font-bold">
           <span> My </span>
           <BaseTextHighlight
             :duration="500"
@@ -13,7 +20,7 @@
             Blogs
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground">A story of growth and discovery</div>
+        <div class="text-muted-foreground mt-3">Insights, tutorials, and stories from my journey</div>
       </div>
     </div>
     <div

@@ -11,7 +11,7 @@
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
       <div class="flex flex-col gap-2">
-        <div class="text-6xl font-rethink font-bold mb-3">
+        <div class="text-6xl font-rethink font-bold">
           <span> Featured </span>
           <BaseTextHighlight
             :duration="500"
@@ -20,7 +20,7 @@
             Projects
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground">A story of growth and discovery</div>
+        <div class="text-muted-foreground mt-3">Showcasing my best work and creative projects</div>
       </div>
     </div>
     <div

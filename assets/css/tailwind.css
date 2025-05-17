@@ -84,3 +84,7 @@ p {
 ul > li > p {
   @apply mt-0 mb-[0.5rem] leading-[1.5rem];
 }
+
+.text-link {
+  @apply font-light text-white cursor-pointer no-underline hover:text-orange-500 hover:underline;
+}
