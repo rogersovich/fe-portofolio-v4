@@ -267,19 +267,19 @@
           </div>
         </div>
         <div
-          class="col-start-9 col-end-11 w-full"
+          class="col-start-9 col-end-11 w-full sticky bottom-2 z-1"
         >
           <Button
             type="button"
             variant="outlined"
             label="Cancel"
-            class="w-full"
+            class="w-full bg-zinc-950 hover:!bg-zinc-800"
             @click="$router.push('/adminz/blog')"
             :disabled="loading || loadingTopic || loadingAuthor"
           />
         </div>
         <div
-          class="col-start-11 col-end-13 w-full"
+          class="col-start-11 col-end-13 w-full sticky bottom-2 z-1"
         >
           <Button
             type="submit"

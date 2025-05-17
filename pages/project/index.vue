@@ -115,7 +115,7 @@
                   >
                     <NuxtImg
                       :src="project.image_url"
-                      class="rounded-lg w-full max-h-[200px] object-cover grayscale hover:grayscale-0"
+                      class="rounded-lg w-full max-h-[200px] object-cover"
                     />
                   </div>
                 </div>

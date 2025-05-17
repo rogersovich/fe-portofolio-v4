@@ -346,19 +346,19 @@
           </div>
         </div>
         <div
-          class="col-start-9 col-end-11 2xl:col-start-9 2xl:col-end-10 w-full"
+          class="col-start-9 col-end-11 2xl:col-start-9 2xl:col-end-10 w-full sticky bottom-2 z-1"
         >
           <Button
             type="button"
             variant="outlined"
-            label="Cancel"
+            label="Cancel bg-zinc-950 hover:!bg-zinc-800"
             class="w-full"
             @click="$router.push('/adminz/experience')"
             :disabled="loading"
           />
         </div>
         <div
-          class="col-start-11 col-end-13 2xl:col-start-10 2xl:col-end-11 w-full"
+          class="col-start-11 col-end-13 2xl:col-start-10 2xl:col-end-11 w-full sticky bottom-2 z-1"
         >
           <Button
             type="submit"

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="editor">
+  <div v-if="editor" class="relative">
     <div class="control-group mb-3 rounded-lg py-3">
       <div class="flex items-center gap-3">
         <button
