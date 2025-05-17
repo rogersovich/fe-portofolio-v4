@@ -71,6 +71,8 @@ const setActivePath = () => {
     nav.active = false;
     if (route.path.includes(nav.key)) {
       nav.active = true;
+    }else if (route.path === "/" && nav.key === "home") {
+      nav.active = true;
     }
   });
 };

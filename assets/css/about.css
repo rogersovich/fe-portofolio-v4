@@ -1,15 +1,69 @@
 .exp-description-content {
   p {
-    @apply text-muted-foreground font-light text-[14px];
+    @apply text-muted-foreground text-[14px];
   }
 
   ul {
-    @apply list-disc list-outside text-muted-foreground font-light text-[14px] pl-3;
+    @apply list-disc list-outside text-muted-foreground text-[14px] pl-3;
 
     li {
-      @apply mb-2;
+      @apply mb-2 text-white;
     }
   }
 
+  ol li {
+    @apply mb-2 text-white;
+  }
+}
 
+/* Heading styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1px;
+  font-family: 'Rethink Sans', sans-serif;
+}
+
+h1 {
+  font-size: 2.25rem; /* text-4xl */
+}
+
+h2 {
+  font-size: 1.875rem; /* text-3xl */
+}
+
+h3 {
+  font-size: 1.5rem; /* text-2xl */
+}
+
+h4 {
+  font-size: 1.25rem; /* text-xl */
+}
+
+h5 {
+  font-size: 1.125rem; /* text-lg */
+}
+
+h6 {
+  font-size: 1rem; /* text-base */
+}
+
+a {
+  @apply text-orange-500;
+}
+
+p > strong {
+  @apply font-semibold text-white;
+}
+
+li {
+  @apply text-white;
 }

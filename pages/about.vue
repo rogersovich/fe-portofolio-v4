@@ -136,7 +136,7 @@
                     <span>
                       {{
                         experience.to_date
-                          ? formatDate(experience.from_date)
+                          ? formatDate(experience.to_date)
                           : "PRESENT"
                       }}
                     </span>

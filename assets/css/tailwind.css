@@ -46,7 +46,7 @@ body {
 }
 
 .tiptap-image-item {
-  @apply max-h-[200px] object-cover;
+  @apply min-h-[200px] object-cover;
 }
 
 .tiptap-content {
@@ -78,5 +78,9 @@ body {
 }
 
 p {
-  @apply mt-0 mb-[1rem] leading-8 font-normal;
+  @apply mt-0 mb-[0.5rem] leading-[1.75rem];
+}
+
+ul > li > p {
+  @apply mt-0 mb-[0.5rem] leading-[1.5rem];
 }

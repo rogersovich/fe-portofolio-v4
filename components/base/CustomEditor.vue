@@ -255,18 +255,8 @@
           }"
           class="tiptap-control-button"
         >
-          Code
+          <IconBracketsAngle class="size-5" />
         </button>
-        <select v-model="codeBlockLanguage" @change="updateCodeBlockLanguage">
-          <option value="javascript">JavaScript</option>
-          <option value="go">Go</option>
-          <option value="html">HTML</option>
-          <option value="nginx">nginx</option>
-          <option value="ts">ts</option>
-          <option value="sql">sql</option>
-          <option value="clean">clean</option>
-          <option value="php">php</option>
-        </select>
         <template v-if="!$props.exclude.includes('image')">
           <button
             type="button"
@@ -314,7 +304,7 @@ import yaml from "highlight.js/lib/languages/yaml";
 import sql from "highlight.js/lib/languages/sql";
 import php from "highlight.js/lib/languages/php";
 import clean from "highlight.js/lib/languages/clean";
-import { all, createLowlight, common } from "lowlight";
+import { all, createLowlight } from "lowlight";
 import {
   IconQuoteFilled,
   IconH1,
@@ -340,6 +330,7 @@ import {
   IconLetterT,
   IconLink,
   IconLinkOff,
+  IconBracketsAngle
 } from "@tabler/icons-vue";
 
 const lowlight = createLowlight(all);
@@ -384,6 +375,7 @@ export default {
     IconLetterT,
     IconLink,
     IconLinkOff,
+    IconBracketsAngle,
   },
 
   props: {

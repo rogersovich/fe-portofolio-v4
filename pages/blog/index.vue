@@ -37,83 +37,94 @@
         <template v-else-if="dataBlogs">
           <div class="grid grid-cols-12 gap-6">
             <div class="col-span-9">
-              <template v-for="(blog, index) in dataBlogs.items" :key="blog.id">
-                <div
-                  class="w-full mb-6"
-                  :class="{
-                    'mb-0': index === dataBlogs.items.length - 1,
-                  }"
+              <template v-if="dataBlogs.items.length > 0">
+                <template
+                  v-for="(blog, index) in dataBlogs.items"
+                  :key="blog.id"
                 >
                   <div
-                    class="border border-solid border-zinc-50/[.05] rounded-xl p-6 w-full"
+                    class="w-full mb-6"
+                    :class="{
+                      'mb-0': index === dataBlogs.items.length - 1,
+                    }"
                   >
-                    <div class="flex items-center gap-2">
-                      <IconCalendar
-                        class="h-[18px] w-[18px] text-muted-foreground"
-                      />
-                      <span class="text-[13px]">
-                        {{ formatDate(blog.published_at) }}
-                      </span>
-                    </div>
-                    <h2 class="mt-4 font-rethink mb-0">
-                      {{ blog.title }}
-                    </h2>
                     <div
-                      class="text-muted-foreground font-light"
-                      v-html="blog.summary"
-                    ></div>
-                    <div class="flex justify-between pb-5">
-                      <div class="flex items-center gap-5">
-                        <div class="flex items-center gap-2">
-                          <IconEye class="size-4 text-orange-400" />
-                          <span class="text-[12px] text-zinc-300"
-                            >{{ blog.statistic.views }}
-                            views
-                          </span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                          <IconBook class="size-4 text-orange-400" />
-                          <span class="text-[12px] text-zinc-300"
-                            >{{
-                              blog.reading_time
-                                ? formatReadingTime(
-                                    blog.reading_time.estimated_seconds
-                                  )
-                                : formatReadingTime(0)
-                            }}
-                          </span>
-                        </div>
-                      </div>
+                      class="border border-solid border-zinc-50/[.05] rounded-xl p-6 w-full"
+                    >
                       <div class="flex items-center gap-2">
-                        <template v-for="topic in blog.topics" :key="topic.id">
-                          <Chip
-                            :label="topic.name"
-                            class="text-[12px] text-muted-foreground px-2.5 py-1.5"
-                            :class="{
-                          'text-white bg-orange-500/[.3]': filterTopics.includes(
-                            topic.id as never
-                          ),
-                        }"
-                          />
-                        </template>
+                        <IconCalendar
+                          class="h-[18px] w-[18px] text-muted-foreground"
+                        />
+                        <span class="text-[13px]">
+                          {{ formatDate(blog.published_at) }}
+                        </span>
                       </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <RouterLink :to="`/blog/${blog.slug}`">
-                        <Button
-                          variant="outlined"
-                          size="large"
-                          class="text-sm text-white group hover:!border-orange-500/[.2] group"
-                        >
-                          <span> View blog </span>
-                          <IconChevronRight
-                            class="size-[18px] text-muted-foreground group-hover:text-orange-400"
-                          />
-                        </Button>
-                      </RouterLink>
+                      <h2 class="mt-4 font-rethink mb-0">
+                        {{ blog.title }}
+                      </h2>
+                      <div
+                        class="text-muted-foreground font-light"
+                        v-html="blog.summary"
+                      ></div>
+                      <div class="flex justify-between pb-5">
+                        <div class="flex items-center gap-5">
+                          <div class="flex items-center gap-2">
+                            <IconEye class="size-4 text-orange-400" />
+                            <span class="text-[12px] text-zinc-300"
+                              >{{ blog.statistic.views }}
+                              views
+                            </span>
+                          </div>
+                          <div class="flex items-center gap-2">
+                            <IconBook class="size-4 text-orange-400" />
+                            <span class="text-[12px] text-zinc-300"
+                              >{{
+                                blog.reading_time
+                                  ? formatReadingTime(
+                                      blog.reading_time.estimated_seconds
+                                    )
+                                  : formatReadingTime(0)
+                              }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <template
+                            v-for="topic in blog.topics"
+                            :key="topic.id"
+                          >
+                            <Chip
+                              :label="topic.name"
+                              class="text-[12px] text-muted-foreground px-2.5 py-1.5"
+                              :class="{
+                            'text-white bg-orange-500/[.3]': filterTopics.includes(
+                              topic.id as never
+                            ),
+                          }"
+                            />
+                          </template>
+                        </div>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <RouterLink :to="`/blog/${blog.slug}`">
+                          <Button
+                            variant="outlined"
+                            size="large"
+                            class="text-sm text-white group hover:!border-orange-500/[.2] group"
+                          >
+                            <span> View blog </span>
+                            <IconChevronRight
+                              class="size-[18px] text-muted-foreground group-hover:text-orange-400"
+                            />
+                          </Button>
+                        </RouterLink>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </template>
+              </template>
+              <template v-else>
+                <BaseEmptyData @clear-search="onClearSearch()"/>
               </template>
             </div>
             <div class="col-span-3">
@@ -167,27 +178,9 @@
           >
           </Paginator>
         </template>
-        <div
-          v-else
-          class="flex flex-col items-center justify-center gap-4 border border-solid border-zinc-50/[.05] rounded-xl p-4 min-h-[16rem]"
-        >
-          <IconMoodSad class="size-10 text-muted-foreground" />
-          <div class="flex flex-col gap-2 items-center">
-            <div class="text-2xl font-rethink font-bold">Blogs not found</div>
-            <div class="text-muted-foreground text-sm">
-              Im sorry the Blogs you are looking for is not found
-            </div>
-          </div>
-          <Button
-            type="button"
-            variant="outlined"
-            class="text-sm justify-start"
-            @click="onClearSearch"
-          >
-            <IconRefresh class="size-4" />
-            <span> Clear Search </span>
-          </Button>
-        </div>
+        <template v-else>
+          <BaseEmptyData @clear-search="onClearSearch()"/>
+        </template>
       </div>
     </div>
   </div>
@@ -196,8 +189,6 @@
 import {
   IconCalendar,
   IconChevronRight,
-  IconMoodSad,
-  IconRefresh,
   IconEye,
   IconBook,
 } from "@tabler/icons-vue";
@@ -222,7 +213,7 @@ const params = reactive<TParamsFilterPublicBlog>({
   search: "",
   topics: "[]",
 });
-const rows = ref(2);
+const rows = ref(3);
 const first = ref(1);
 const searchQuery = ref("");
 const filterDate = ref(null);
@@ -275,7 +266,9 @@ const { data: dataTopics, pending: pendingTopic } = await useAsyncData(
 );
 
 const onClearSearch = () => {
+  filterTopics.value = [];
   params.search = "";
+  params.topics = "[]";
   searchQuery.value = "";
 };
 

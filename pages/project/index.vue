@@ -42,83 +42,88 @@
           </template>
         </div>
         <template v-else-if="dataProjects">
-          <template v-for="project in dataProjects.items" :key="project.id">
-            <div
-              class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
-            >
-              <div class="col-span-9 xl:col-span-9">
-                <div
-                  class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
-                >
-                  <h1 class="mt-0 group-hover:text-orange-400 font-rethink">
-                    {{ project.title }}
-                  </h1>
+          <template v-if="dataProjects.items.length > 0">
+            <template v-for="project in dataProjects.items" :key="project.id">
+              <div
+                class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
+              >
+                <div class="col-span-9 xl:col-span-9">
                   <div
-                    class="text-muted-foreground font-light"
-                    v-html="project.summary"
-                  ></div>
-                  <div class="flex items-center gap-3 mt-5">
-                    <div class="text-muted-foreground text-sm">Stack:</div>
-                    <div class="flex items-center gap-2">
-                      <template
-                        v-for="tech in project.technologies"
-                        :key="tech.tech_id"
-                      >
-                        <div
-                          class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
+                    class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
+                  >
+                    <h1 class="mt-0 group-hover:text-orange-400 font-rethink">
+                      {{ project.title }}
+                    </h1>
+                    <div
+                      class="text-muted-foreground font-light"
+                      v-html="project.summary"
+                    ></div>
+                    <div class="flex items-center gap-3 mt-5">
+                      <div class="text-muted-foreground text-sm">Stack:</div>
+                      <div class="flex items-center gap-2">
+                        <template
+                          v-for="tech in project.technologies"
+                          :key="tech.tech_id"
                         >
-                          <NuxtImg
-                            :src="tech.tech_logo_url"
-                            height="20px"
-                            width="20px"
-                            densities="x1 x2"
+                          <div
+                            class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
+                          >
+                            <NuxtImg
+                              :src="tech.tech_logo_url"
+                              height="20px"
+                              width="20px"
+                              densities="x1 x2"
+                            />
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-8">
+                      <RouterLink :to="`/project/${project.slug}`">
+                        <Button
+                          variant="outlined"
+                          size="large"
+                          class="text-sm text-white group hover:!border-orange-500/[.2]"
+                        >
+                          <span> View Project </span>
+                          <IconChevronRight
+                            class="size-[18px] text-muted-foreground group-hover:text-orange-400"
                           />
-                        </div>
+                        </Button>
+                      </RouterLink>
+                      <template v-if="project.repository_url">
+                        <a
+                          :href="project.repository_url"
+                          target="_blank"
+                          class="flex items-center gap-2 group cursor-pointer"
+                        >
+                          <IconLink
+                            class="size-[20px] text-zinc-500 group-hover:text-orange-400"
+                          />
+                          <span
+                            class="text-[14px] font-light text-white group-hover:underline"
+                            >Open Repository</span
+                          >
+                        </a>
                       </template>
                     </div>
                   </div>
-                  <div class="flex items-center justify-between mt-8">
-                    <RouterLink :to="`/project/${project.slug}`">
-                      <Button
-                        variant="outlined"
-                        size="large"
-                        class="text-sm text-white group hover:!border-orange-500/[.2]"
-                      >
-                        <span> View Project </span>
-                        <IconChevronRight
-                          class="size-[18px] text-muted-foreground group-hover:text-orange-400"
-                        />
-                      </Button>
-                    </RouterLink>
-                    <template v-if="project.repository_url">
-                      <a
-                        :href="project.repository_url"
-                        target="_blank"
-                        class="flex items-center gap-2 group cursor-pointer"
-                      >
-                        <IconLink
-                          class="size-[20px] text-zinc-500 group-hover:text-orange-400"
-                        />
-                        <span
-                          class="text-[14px] font-light text-white group-hover:underline"
-                          >Open Repository</span
-                        >
-                      </a>
-                    </template>
+                </div>
+                <div class="col-span-3 xl:col-span-3">
+                  <div
+                    class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
+                  >
+                    <NuxtImg
+                      :src="project.image_url"
+                      class="rounded-lg w-full max-h-[200px] object-cover grayscale hover:grayscale-0"
+                    />
                   </div>
                 </div>
               </div>
-              <div class="col-span-3 xl:col-span-3">
-                <div
-                  class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
-                >
-                  <NuxtImg
-                    :src="project.image_url"
-                    class="rounded-lg w-full max-h-[200px] object-cover grayscale hover:grayscale-0"
-                  />
-                </div>
-              </div>
-            </div>
+            </template>
+          </template>
+          <template v-else>
+            <BaseEmptyData @clear-search="onClearSearch()" />
           </template>
           <Paginator
             :first="first"
@@ -128,27 +133,9 @@
           >
           </Paginator>
         </template>
-        <div
-          v-else
-          class="flex flex-col items-center justify-center gap-4 border border-solid border-zinc-50/[.05] rounded-xl p-4 min-h-[16rem]"
-        >
-          <IconMoodSad class="size-10 text-muted-foreground" />
-          <div class="flex flex-col gap-2 items-center">
-            <div class="text-2xl font-rethink font-bold">Project not found</div>
-            <div class="text-muted-foreground text-sm">
-              Im sorry the project you are looking for is not found
-            </div>
-          </div>
-          <Button
-            type="button"
-            variant="outlined"
-            class="text-sm justify-start"
-            @click="onClearSearch"
-          >
-            <IconRefresh class="size-4" />
-            <span> Clear Search </span>
-          </Button>
-        </div>
+        <template v-else>
+          <BaseEmptyData @clear-search="onClearSearch()" />
+        </template>
       </div>
     </div>
   </div>
@@ -177,7 +164,7 @@ const params = reactive<TParamsFilterPublicProject>({
   order: "updated_at",
   search: "",
 });
-const rows = ref(2);
+const rows = ref(3);
 const first = ref(1);
 const searchQuery = ref("");
 
