@@ -33,7 +33,7 @@
           </template>
           <template v-else>
             <NuxtImg
-              :src="profiles?.about.avatar_url"
+              :src="MINIO_BASE_URL + profiles?.about.avatar_file_name"
               height="350px"
               width="350px"
               class="rounded-lg"
@@ -87,7 +87,7 @@
                 >
                   <div class="text-2xl">
                     <NuxtImg
-                      :src="skill.logo_url"
+                      :src="MINIO_BASE_URL + skill.logo_file_name"
                       height="50"
                       densities="x1 x2"
                       class="grayscale group-hover:grayscale-0 transition-transform duration-300 group-hover:rotate-[360deg] group-hover:scale-150"
@@ -150,7 +150,7 @@
                     <div class="flex gap-3">
                       <div>
                         <NuxtImg
-                          :src="experience.comp_image_url"
+                          :src="MINIO_BASE_URL + experience.comp_image_file_name"
                           height="20"
                           densities="x1 x2"
                         />
@@ -197,6 +197,8 @@ useHead({
   titleTemplate: "%s | Portofolio",
 });
 
+const MINIO_BASE_URL = useMinioUrl()
+
 const { data: profiles, pending } = await useAsyncData(
   "public-profile",
   async () => {
@@ -212,6 +214,7 @@ const { data: profiles, pending } = await useAsyncData(
     }
   }
 );
+
 
 const formatDate = (dateString: string, format: string = "YYYY MMM") => {
   return dayjs(dateString).format(format);

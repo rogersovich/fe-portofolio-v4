@@ -77,7 +77,7 @@
         >
           <template #body="{ data }">
             <NuxtImg
-              :src="data.logo_url"
+              :src="MINIO_BASE_URL + data.logo_file_name"
               fit="cover"
               class="rounded-md h-[40px]"
             />
@@ -185,6 +185,7 @@ definePageMeta({
 });
 
 const confirm = useConfirm();
+const MINIO_BASE_URL = useMinioUrl()
 
 const paginate = reactive({
   page: 0,

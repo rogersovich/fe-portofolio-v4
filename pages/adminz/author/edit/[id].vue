@@ -37,17 +37,17 @@
               @change="handleAvatarChange"
             />
 
-            <div class="flex flex-col items-start justify-center gap-3 mb-3">
+            <div class="flex flex-col items-center justify-center gap-3 mb-3">
               <template v-if="!avatarNew.is_changed">
                 <NuxtImg
                   :src="forms?.avatar_url"
-                  class="rounded-lg w-full"
+                  class="rounded-lg w-full max-w-[100px]"
                 ></NuxtImg>
               </template>
               <template v-else>
                 <NuxtImg
                   :src="avatarNew.blob_url"
-                  class="rounded-lg w-full"
+                  class="rounded-lg w-full max-w-[100px]"
                 ></NuxtImg>
               </template>
               <div class="w-full flex flex-col items-center gap-3">
@@ -141,6 +141,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const MINIO_BASE_URL = useMinioUrl()
 
 const loading = ref(false);
 const refAvatar = ref("");
@@ -195,7 +196,7 @@ watch(
 
 watch(authorData, (newAuthor) => {
   if (newAuthor) {
-    forms.value = { ...newAuthor };
+    forms.value = { ...newAuthor, avatar_url: MINIO_BASE_URL + newAuthor.avatar_file_name };
   } else {
     forms.value = { name: "", avatar_url: "" };
   }

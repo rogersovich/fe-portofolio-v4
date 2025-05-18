@@ -69,7 +69,7 @@
                             class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
                           >
                             <NuxtImg
-                              :src="tech.tech_logo_url"
+                              :src="MINIO_BASE_URL + tech.tech_logo_file_name"
                               height="20px"
                               width="20px"
                               densities="x1 x2"
@@ -114,7 +114,7 @@
                     class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
                   >
                     <NuxtImg
-                      :src="project.image_url"
+                      :src="MINIO_BASE_URL + project.image_file_name"
                       class="rounded-lg w-full max-h-[200px] object-cover"
                     />
                   </div>
@@ -144,8 +144,6 @@
 import {
   IconLink,
   IconChevronRight,
-  IconMoodSad,
-  IconRefresh,
 } from "@tabler/icons-vue";
 import type {
   TParamsFilterPublicProject,
@@ -156,6 +154,8 @@ useHead({
   title: "Project",
   titleTemplate: "%s | Portofolio",
 });
+
+const MINIO_BASE_URL = useMinioUrl()
 
 const params = reactive<TParamsFilterPublicProject>({
   page: "1",
