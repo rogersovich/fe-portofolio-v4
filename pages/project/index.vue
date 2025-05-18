@@ -168,6 +168,9 @@ const rows = ref(3);
 const first = ref(1);
 const searchQuery = ref("");
 
+const runtimeConfig = useRuntimeConfig();
+const BASE_API = runtimeConfig.public.apiBase
+
 const debouncedFilterCallback = useDebounceFn(async () => {
   params.search = searchQuery.value;
 }, 500);
@@ -177,7 +180,7 @@ const { data: dataProjects, pending } = await useAsyncData(
   async () => {
     try {
       const response = await $fetch<TPublicProjectListResponse>(
-        `http://localhost:4000/api-public/projects`,
+        `${BASE_API}/api-public/projects`,
         {
           params: {
             ...params,

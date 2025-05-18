@@ -130,9 +130,10 @@ import "highlight.js/styles/atom-one-dark-reasonable.min.css";
 
 const route = useRoute();
 const { slugToStringUppercase } = useSlugify();
-
 const slug = route.params.slug as string;
-const router = useRouter();
+
+const runtimeConfig = useRuntimeConfig();
+const BASE_API = runtimeConfig.public.apiBase
 
 useHead({
   title: `${slugToStringUppercase(slug)}`,
@@ -141,12 +142,10 @@ useHead({
 
 const {
   data: blogs,
-  pending,
-  error,
 } = await useAsyncData("public-blog", async () => {
   try {
     const response = await $fetch<TBaseResponse<TPublicBlogDetail>>(
-      `http://localhost:4000/api-public/blogs/${slug}`
+      `${BASE_API}/api-public/blogs/${slug}`
     );
 
     return response;

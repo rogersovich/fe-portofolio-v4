@@ -198,13 +198,16 @@ useHead({
 });
 
 const MINIO_BASE_URL = useMinioUrl()
+const runtimeConfig = useRuntimeConfig();
+const BASE_API = runtimeConfig.public.apiBase
+
 
 const { data: profiles, pending } = await useAsyncData(
   "public-profile",
   async () => {
     try {
       const response = await $fetch<TPublicProfileResponse>(
-        `http://localhost:4000/api-public/profile`
+        `${BASE_API}/api-public/profile`
       );
 
       return response.data;

@@ -143,9 +143,10 @@ import type { TPublicProjectDetail } from "~/types/project.type";
 import "./../../assets/css/editor-content.css";
 const route = useRoute();
 const { slugToStringUppercase } = useSlugify();
-
 const slug = route.params.slug as string;
-const router = useRouter();
+
+const runtimeConfig = useRuntimeConfig();
+const BASE_API = runtimeConfig.public.apiBase;
 
 useHead({
   title: `${slugToStringUppercase(slug)}`,
@@ -154,12 +155,10 @@ useHead({
 
 const {
   data: projects,
-  pending,
-  error,
 } = await useAsyncData("publicProject", async () => {
   try {
     const response = await $fetch<TBaseResponse<TPublicProjectDetail>>(
-      `http://localhost:4000/api-public/projects/${slug}`
+      `${BASE_API}/api-public/projects/${slug}`
     );
 
     return response;

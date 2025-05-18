@@ -212,6 +212,9 @@ useHead({
   titleTemplate: "%s | Portofolio",
 });
 
+const runtimeConfig = useRuntimeConfig();
+const BASE_API = runtimeConfig.public.apiBase
+
 const params = reactive<TParamsFilterPublicBlog>({
   page: "1",
   limit: "3",
@@ -235,7 +238,7 @@ const { data: dataBlogs, pending } = await useAsyncData(
   async () => {
     try {
       const response = await $fetch<TPublicBlogListResponse>(
-        `http://localhost:4000/api-public/blogs`,
+        `${BASE_API}/api-public/blogs`,
         {
           params: {
             ...params,
@@ -259,7 +262,7 @@ const { data: dataTopics, pending: pendingTopic } = await useAsyncData(
   async () => {
     try {
       const response = await $fetch<TBaseResponse<TPublicTopic[]>>(
-        `http://localhost:4000/api-public/topics`
+        `${BASE_API}/api-public/topics`
       );
       return response.data;
     } catch (err) {
