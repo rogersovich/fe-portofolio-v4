@@ -19,6 +19,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_API_BASE || "http://localhost:4000",
+      minio_endpoint: process.env.MINIO_ENDPOINT || "43.134.162.211:9000",
+      minio_bucket: process.env.MINIO_BUCKET || "portofolio-v4",
     },
   },
   plugins: [],
