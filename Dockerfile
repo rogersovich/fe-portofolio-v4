@@ -19,6 +19,10 @@ WORKDIR /app
 # Only `.output` folder is needed from the build stage
 COPY --from=builder /app/.output .output
 
+# Copy package manifest & lockfile into the server output dir
+COPY --from=builder /app/package.json    .output/server/
+COPY --from=builder /app/package-lock.json .output/server/
+
 ENV NODE_ENV=production
 EXPOSE 3000
 
