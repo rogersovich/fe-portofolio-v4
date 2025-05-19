@@ -1,28 +1,32 @@
-# Dockerfile (multi-stage)
+# Dockerfile (multi-stage, fixed lockfile location)
 
 # ---- Build Stage ----
-FROM node:20-alpine AS builder
-WORKDIR /app
-
-# install all deps & build
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build      # produces .output/
-
-# 2) Runtime stage
-FROM node:20-alpine AS runner
-WORKDIR /app
-
-# copy built output and manifest files
-COPY --from=builder /app/.output .output
-COPY --from=builder /app/package*.json ./
-
-# install production deps into `.output/server/node_modules`
-RUN npm ci --omit=dev --prefix .output/server
-
-ENV NODE_ENV=production
-EXPOSE 3000
-
-# start Nitro server
-CMD ["node", ".output/server/index.mjs"]
+  FROM node:20-alpine AS builder
+  WORKDIR /app
+  
+  # Install all deps & build
+  COPY package.json package-lock.json ./
+  RUN npm ci
+  COPY . .
+  RUN npm run build    # outputs to .output/
+  
+  # ---- Runtime Stage ----
+  FROM node:20-alpine AS runner
+  WORKDIR /app
+  
+  # Copy built output
+  COPY --from=builder /app/.output .output
+  
+  # Copy package manifest & lockfile into the server output dir
+  COPY --from=builder /app/package.json    .output/server/
+  COPY --from=builder /app/package-lock.json .output/server/
+  
+  # Install only prod deps inside .output/server
+  RUN npm ci --omit=dev --prefix .output/server
+  
+  ENV NODE_ENV=production
+  EXPOSE 3000
+  
+  # Launch Nitro server
+  CMD ["node", ".output/server/index.mjs"]
+  
