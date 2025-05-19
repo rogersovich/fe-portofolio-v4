@@ -7,9 +7,7 @@ RUN apk add --no-cache git
 
 # 1.1 Copy manifests and cache Go modules between builds
 COPY package.json package-lock.json ./
-RUN --mount=type=cache,target=/root/.npm \
-    --mount=type=cache,target=/root/.cache \
-    npm ci --omit=dev --omit=optional
+RUN npm ci --omit=dev --omit=optional
 
 # 1.2 Copy source and build
 COPY . .
