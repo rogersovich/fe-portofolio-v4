@@ -1,33 +1,40 @@
-# 1) Builder Stage: installs deps, builds your Nuxt app
-FROM node:20-alpine AS builder
+# syntax=docker/dockerfile:1.4
+########################################
+# 1) Builder stage: full deps & build
+########################################
+FROM node:20-slim AS builder
 WORKDIR /app
 
-# (Optional) install git if you pull private modules
-RUN apk add --no-cache git
+# 1.1 Install build tools for any native bindings
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      python3 build-essential git && \
+    rm -rf /var/lib/apt/lists/*
 
-# 1.1 Copy manifests and cache Go modules between builds
+# 1.2 Install only prod deps (no dev / optional), then build
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --omit=optional --loglevel=error
+RUN npm ci --omit=dev --omit=optional
 
-# 1.2 Copy source and build
 COPY . .
 RUN npm run build    # outputs to .output/
 
-# 2) Runtime Stage: only runtime code + prod deps
-FROM node:20-alpine AS runner
+########################################
+# 2) Runner stage: prod only
+########################################
+FROM node:20-slim AS runner
 WORKDIR /app
 
-# 2.1 Copy build output
+# 2.1 Copy only the built app and prod deps
 COPY --from=builder /app/.output .output
-
-# 2.2 Copy production node_modules into Nitro’s server dir
 COPY --from=builder /app/node_modules .output/server/node_modules
 
-# 2.3 Prune any leftover npm cache (just in case)
-RUN rm -rf /root/.npm /root/.cache
+# 2.2 Clean up any stray cache (npm, apt)
+RUN rm -rf /root/.npm \
+    /root/.cache \
+    /var/lib/apt/lists/*
 
 ENV NODE_ENV=production
 EXPOSE 3000
 
-# 2.4 Launch the Nitro SSR server
+# 2.3 Launch Nitro SSR server
 CMD ["node", ".output/server/index.mjs"]

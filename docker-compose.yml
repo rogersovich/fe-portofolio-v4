@@ -10,7 +10,3 @@ services:
     ports:
       - '3000:3000'         # host:container
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 300M     # optional cap
