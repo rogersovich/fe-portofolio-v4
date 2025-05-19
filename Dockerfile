@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=builder /app/node_modules/@primevue ./node_modules/@primevue
 
 # Only `.output` folder is needed from the build stage
-COPY --from=builder /app/.output/ ./
+COPY --from=builder /app/.output .output
 
 ENV NODE_ENV=production
 EXPOSE 3000
