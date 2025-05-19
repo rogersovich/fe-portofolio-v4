@@ -17,7 +17,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 # Only `.output` folder is needed from the build stage
-COPY --from=build /app/.output/ ./
+COPY --from=builder /app/.output/ ./
 
 ENV NODE_ENV=production
 EXPOSE 3000
