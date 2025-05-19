@@ -3,6 +3,8 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+RUN corepack enable
+
 # Install all deps & build
 COPY package.json package-lock.json ./
 
@@ -17,14 +19,10 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 # Only `.output` folder is needed from the build stage
-COPY --from=builder /app/.output .output
-
-# Copy package manifest & lockfile into the server output dir
-COPY --from=builder /app/package.json    .output/server/
-COPY --from=builder /app/package-lock.json .output/server/
+COPY --from=builder /app/.output/ ./
 
 ENV NODE_ENV=production
 EXPOSE 3000
 
 # Launch Nitro server
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "/app/server/index.mjs"]
