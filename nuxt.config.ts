@@ -18,9 +18,9 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE,
-      minio_endpoint: process.env.MINIO_ENDPOINT,
-      minio_bucket: process.env.MINIO_BUCKET,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      minio_endpoint: process.env.NUXT_PUBLIC_MINIO_ENDPOINT,
+      minio_bucket: process.env.NUXT_PUBLIC_MINIO_BUCKET,
     },
   },
   plugins: [],

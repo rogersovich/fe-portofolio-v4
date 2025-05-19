@@ -9,10 +9,6 @@ services:
       - .env
     ports:
       - '3000:3000'         # host:container
-    environment:
-      - API_BASE=${API_BASE}
-      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
-      - MINIO_BUCKET=${MINIO_BUCKET}
     restart: unless-stopped
     deploy:
       resources:
