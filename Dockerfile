@@ -3,8 +3,6 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-RUN corepack enable
-
 # Install all deps & build
 COPY package.json package-lock.json ./
 
@@ -18,6 +16,9 @@ RUN npm run build    # outputs to .output/
 FROM node:20-alpine AS runner
 WORKDIR /app
 
+# Example (you'd need to adjust this based on your analysis)
+COPY --from=builder /app/node_modules/@primevue ./node_modules/@primevue
+
 # Only `.output` folder is needed from the build stage
 COPY --from=builder /app/.output/ ./
 
@@ -25,4 +26,4 @@ ENV NODE_ENV=production
 EXPOSE 3000
 
 # Launch Nitro server
-CMD ["node", "/app/server/index.mjs"]
+CMD ["node", ".output/server/index.mjs"]
