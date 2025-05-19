@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
     ports:
-      - '80:3000'         # host:container
+      - '8080:3000'         # host:container
     environment:
       HOST: 0.0.0.0
       PORT: 3000
