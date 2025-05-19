@@ -16,11 +16,12 @@ RUN npm run build    # outputs to .output/
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Example (you'd need to adjust this based on your analysis)
-COPY --from=builder /app/node_modules/@primevue ./node_modules/@primevue
-
 # Only `.output` folder is needed from the build stage
 COPY --from=builder /app/.output .output
+
+# Copy package manifest & lockfile into the server output dir
+COPY --from=builder /app/package.json    .output/server/
+COPY --from=builder /app/package-lock.json .output/server/
 
 ENV NODE_ENV=production
 EXPOSE 3000
