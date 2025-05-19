@@ -1,40 +1,28 @@
-# syntax=docker/dockerfile:1.4
-########################################
-# 1) Builder stage: full deps & build
-########################################
-FROM node:20-slim AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# 1.1 Install build tools for any native bindings
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      python3 build-essential git && \
-    rm -rf /var/lib/apt/lists/*
-
-# 1.2 Install only prod deps (no dev / optional), then build
+# Install all deps & build
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --omit=optional
-
+RUN npm ci
 COPY . .
 RUN npm run build    # outputs to .output/
 
-########################################
-# 2) Runner stage: prod only
-########################################
-FROM node:20-slim AS runner
+# ---- Runtime Stage ----
+FROM node:20-alpine AS runner
 WORKDIR /app
 
-# 2.1 Copy only the built app and prod deps
+# Copy built output
 COPY --from=builder /app/.output .output
-COPY --from=builder /app/node_modules .output/server/node_modules
 
-# 2.2 Clean up any stray cache (npm, apt)
-RUN rm -rf /root/.npm \
-    /root/.cache \
-    /var/lib/apt/lists/*
+# Copy package manifest & lockfile into the server output dir
+COPY --from=builder /app/package.json    .output/server/
+COPY --from=builder /app/package-lock.json .output/server/
+
+# Install only prod deps inside .output/server
+RUN npm ci --omit=dev --prefix .output/server
 
 ENV NODE_ENV=production
 EXPOSE 3000
 
-# 2.3 Launch Nitro SSR server
+# Launch Nitro server
 CMD ["node", ".output/server/index.mjs"]
