@@ -179,6 +179,10 @@ const { data: dataProjects, pending } = await useAsyncData(
   "publicProjects",
   async () => {
     try {
+      console.log(BASE_API)
+      console.log({
+        waduh: runtimeConfig.public
+      })
       const response = await $fetch<TPublicProjectListResponse>(
         `${BASE_API}/api-public/projects`,
         {
