@@ -1,5 +1,5 @@
 <template>
-  <div class="layout pt-24 grid md:grid-cols-[1.2fr,1.6fr] gap-8 md:gap-16">
+  <div class="layout pt-12 md:pt-24 grid md:grid-cols-[1.2fr,1.6fr] gap-8 md:gap-16">
     <div class="flex flex-col gap-4">
       <NuxtImg
         src="/images/logo.png"
@@ -68,9 +68,9 @@
       <hr class="border-zinc-50/[.20]" />
     </div>
   </div>
-  <div class="layout pb-24 flex justify-between">
+  <div class="layout pb-12 md:pb-24 flex flex-col md:flex-row justify-between gap-6">
     <div class="text-muted-foreground font-light text-[14px]">
-      Copyright © 2024 Dimas Roger W. All rights reserved.
+      Copyright © {{ new Date().getFullYear() }} Dimas Roger W. All rights reserved.
     </div>
     <div class="flex gap-4">
       <IconMail

@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10">
+  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden">
     <div class="absolute bottom-0 left-8 z-[-1]">
       <div
-        class="uppercase text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
       >
        Fun Facts
       </div>
@@ -11,7 +11,7 @@
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
       <div class="flex flex-col gap-2">
-        <div class="text-6xl font-rethink font-bold">
+        <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> Fun </span>
           <BaseTextHighlight
             :duration="500"
@@ -20,36 +20,36 @@
             Facts
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground mt-3">Discovery my Hobbies and Fun facts</div>
+        <div class="text-muted-foreground md:mt-3">Discovery my Hobbies and Fun facts</div>
       </div>
     </div>
     <div
-      class="layout pb-12 pt-12 md:pb-16 md:pt-8 flex flex-col justify-center gap-10"
+      class="layout pb-8 pt-8 md:pb-16 md:pt-8 flex flex-col justify-center gap-10"
     >
       <div
-        class="flex gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-6 py-8"
+        class="flex flex-col md:flex-row gap-6 md:gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-4 md:px-6 py-6 md:py-8"
       >
-        <div class="basis-[30%]">
+        <div class="md:basis-[30%]">
           <div class="flex flex-col gap-3 items-start pb-2">
             <div
               class="text-xl border border-solid border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
             >
               🎬
             </div>
-            <div class="text-2xl font-bold font-rethink">
+            <div class="text-2xl md:text-3xl font-bold font-rethink">
               So much like a Movie
             </div>
           </div>
           <div
-            class="text-muted-foreground font-normal tracking-wide text-[13px] text-left"
+            class="text-muted-foreground font-normal tracking-wide text-[12px] md:text-[13px] text-left"
           >
             Films often reflect experiences or emotions that the audience can
             relate to.
           </div>
         </div>
-        <div class="basis-[70%]">
+        <div class="md:basis-[70%]">
           <div>
-            <div class="text-xl font-bold font-rethink pb-4">
+            <div class="text-2xl md:text-3xl font-bold font-rethink pb-4">
               Favorite movies
             </div>
             <div class="grid grid-cols-3 gap-6">
@@ -65,7 +65,7 @@
                     <template v-if="!moviesOnHover[index]">
                       <NuxtImg
                         :src="movie.image"
-                        class="rounded-lg w-full h-[300px] border border-solid border-zinc-50/[.05] hover:border-zinc-50/[.15]"
+                        class="rounded-lg w-full h-[150px] md:h-[300px] border border-solid border-zinc-50/[.05] hover:border-zinc-50/[.15]"
                       />
                     </template>
                     <template v-else>
@@ -138,11 +138,11 @@
         </div>
       </div>
       <div
-        class="flex flex-col gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-28 py-12"
+        class="flex flex-col gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-6 md:px-28 py-4 md:py-12"
       >
-        <div class="flex gap-8 w-full pb-2">
+        <div class="flex flex-col md:flex-row gap-8 w-full pb-2">
           <div
-            class="basis-[25%] border border-solid border-zinc-50/[.05] rounded-xl flex items-center justify-center"
+            class="basis-[25%] border border-solid border-zinc-50/[.05] rounded-xl md:flex items-center justify-center hidden"
           >
             <BaseIconSong
               width="150"
@@ -157,16 +157,16 @@
             >
               🎧ྀི
             </div>
-            <div class="text-4xl font-rethink font-bold">My Favorite Songs</div>
-            <div class="text-[14px] text-muted-foreground font-light">
+            <div class="text-2xl md:text-4xl font-rethink font-bold">My Favorite Songs</div>
+            <div class="text-[12px] md:text-[14px] text-muted-foreground font-light">
               Lorem ipsum odor amet, consectetuer adipiscing elit.
             </div>
-            <div class="text-[14px] text-muted-foreground font-light">
+            <div class="text-[12px] md:text-[14px] text-muted-foreground font-light">
               {{ totalSongs }} songs, {{ totalHourSongs }}
             </div>
             <div class="pt-2">
               <NuxtLink :to="myProfileSpotify" target="_blank">
-                <Button>Visit profile</Button>
+                <Button class="text-[12px] md:text-sm">Visit profile</Button>
               </NuxtLink>
             </div>
           </div>

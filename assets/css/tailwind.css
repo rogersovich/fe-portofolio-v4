@@ -33,6 +33,22 @@ body {
   width: 91.666667%;
 }
 
+@media (max-width: 1024px) {
+  .layout {
+    max-width: 100%;
+    width: 96%;
+  }
+}
+
+@media (max-width: 640px) {
+  .layout {
+    max-width: 100%;
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
 .font-rethink {
   font-family: 'Rethink Sans', sans-serif;
 }

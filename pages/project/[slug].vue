@@ -4,19 +4,19 @@
       class="layout text-center pb-4 pt-12 md:pt-32 flex flex-col justify-center"
     >
       <div class="flex flex-col gap-3">
-        <div class="flex flex-col items-start gap-2 px-4 pb-0 py-5 rounded-md">
-          <div class="text-5xl font-rethink font-bold mb-3" v-if="projects">
+        <div class="flex flex-col items-start gap-2 md:px-4 pb-0 py-5 rounded-md">
+          <div class="text-4xl md:text-5xl font-rethink font-bold md:mb-3" v-if="projects">
             {{ projects.data.title }}
           </div>
           <template v-if="projects">
             <div
-              class="text-muted-foreground text-left"
+              class="text-muted-foreground text-left text-sm md:text-base"
               v-html="projects.data.summary"
             ></div>
           </template>
         </div>
         <div
-          class="flex justify-between p-4 border border-solid border-zinc-50/[.05] border-x-0"
+          class="flex justify-between md:px-4 py-4 border border-solid border-zinc-50/[.05] border-x-0"
         >
           <div class="flex items-center gap-5" v-if="projects">
             <div class="flex items-center gap-2 group">
@@ -69,16 +69,16 @@
       </div>
     </div>
     <div class="layout grid grid-cols-12 gap-6">
-      <div class="col-span-9">
+      <div class="col-span-12 md:col-span-9">
         <template v-if="projects">
           <div
             id="description-content"
-            class="text-muted-foreground px-4"
+            class="text-muted-foreground md:px-4 text-sm md:text-base"
             v-html="projects.data.description"
           ></div>
         </template>
       </div>
-      <div class="col-span-3">
+      <div class="hidden md:block col-span-3">
         <div class="sticky top-20 right-0">
           <div class="mb-3">
             <router-link to="/project">

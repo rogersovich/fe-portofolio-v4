@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10">
-    <div class="absolute bottom-0 left-8 z-[-1]">
+  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden">
+    <div class="absolute bottom-0 left-0 md:left-8 z-[-1]">
       <div
-        class="uppercase text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
       >
         My Blogs
       </div>
@@ -11,7 +11,7 @@
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
       <div class="flex flex-col gap-2">
-        <div class="text-6xl font-rethink font-bold">
+        <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> My </span>
           <BaseTextHighlight
             :duration="500"
@@ -20,7 +20,7 @@
             Blogs
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground mt-3">Insights, tutorials, and stories from my journey</div>
+        <div class="text-muted-foreground md:mt-3">Insights, tutorials, and stories from my journey</div>
       </div>
     </div>
     <div
@@ -33,7 +33,7 @@
             v-model="searchQuery"
             @input="debouncedFilterCallback"
             placeholder="Search Blog"
-            class="w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
+            class="w-full md:w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
           />
         </div>
         <div v-if="pending">
@@ -43,7 +43,7 @@
         </div>
         <template v-else-if="dataBlogs">
           <div class="grid grid-cols-12 gap-6">
-            <div class="col-span-9">
+            <div class="col-span-12 md:col-span-9">
               <template v-if="dataBlogs.items.length > 0">
                 <template
                   v-for="(blog, index) in dataBlogs.items"
@@ -62,29 +62,29 @@
                         <IconCalendar
                           class="h-[18px] w-[18px] text-muted-foreground"
                         />
-                        <span class="text-[13px]">
+                        <span class="text-[12px] md:text-[13px]">
                           {{ formatDate(blog.published_at) }}
                         </span>
                       </div>
-                      <h2 class="mt-4 font-rethink mb-0">
+                      <div class="mt-4 font-rethink mb-0 text-xl md:text-2xl font-bold">
                         {{ blog.title }}
-                      </h2>
+                      </div>
                       <div
-                        class="text-muted-foreground font-light"
+                        class="text-muted-foreground font-light text-sm md:text-base"
                         v-html="blog.summary"
                       ></div>
-                      <div class="flex justify-between pb-5">
+                      <div class="flex flex-col md:flex-row gap-4 md:gap-0 justify-between pb-5">
                         <div class="flex items-center gap-5">
                           <div class="flex items-center gap-2">
                             <IconEye class="size-4 text-orange-400" />
-                            <span class="text-[12px] text-zinc-300"
+                            <span class="text-[11px] md:text-[12px]text-[12px] text-zinc-300"
                               >{{ blog.statistic.views }}
                               views
                             </span>
                           </div>
                           <div class="flex items-center gap-2">
                             <IconBook class="size-4 text-orange-400" />
-                            <span class="text-[12px] text-zinc-300"
+                            <span class="text-[11px] md:text-[12px] text-zinc-300"
                               >{{
                                 blog.reading_time
                                   ? formatReadingTime(
@@ -102,7 +102,7 @@
                           >
                             <Chip
                               :label="topic.name"
-                              class="text-[12px] text-muted-foreground px-2.5 py-1.5"
+                              class="text-[11px] md:text-[12px] text-muted-foreground px-2.5 py-1.5"
                               :class="{
                             'text-white bg-orange-500/[.3]': filterTopics.includes(
                               topic.id as never
@@ -117,7 +117,7 @@
                           <Button
                             variant="outlined"
                             size="large"
-                            class="text-sm text-white group hover:!border-orange-500/[.2] group"
+                            class="text-[13px] md:text-sm text-white group hover:!border-orange-500/[.2] group"
                           >
                             <span> View blog </span>
                             <IconChevronRight
@@ -134,7 +134,7 @@
                 <BaseEmptyData @clear-search="onClearSearch()"/>
               </template>
             </div>
-            <div class="col-span-3">
+            <div class="hidden md:block md:col-span-3">
               <div
                 class="py-4 px-4 border border-solid border-zinc-50/[.05] rounded-xl"
               >

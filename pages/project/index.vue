@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10">
-    <div class="absolute bottom-0 left-8 z-[-1]">
+  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden">
+    <div class="absolute bottom-0 left-0 md:left-8 z-[-1]">
       <div
-        class="uppercase text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+        class="uppercase text-[8rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
       >
         Projects
       </div>
@@ -11,7 +11,7 @@
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
       <div class="flex flex-col gap-2">
-        <div class="text-6xl font-rethink font-bold">
+        <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> Featured </span>
           <BaseTextHighlight
             :duration="500"
@@ -20,7 +20,7 @@
             Projects
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground mt-3">Showcasing my best work and creative projects</div>
+        <div class="text-muted-foreground md:mt-3">Showcasing my best work and creative projects</div>
       </div>
     </div>
     <div
@@ -33,7 +33,7 @@
             v-model="searchQuery"
             @input="debouncedFilterCallback"
             placeholder="Search project"
-            class="w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
+            class="w-full md:w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
           />
         </div>
         <div v-if="pending">
@@ -47,15 +47,15 @@
               <div
                 class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
               >
-                <div class="col-span-9 xl:col-span-9">
+                <div class="col-span-12 md:col-span-9">
                   <div
                     class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
                   >
-                    <h1 class="mt-0 group-hover:text-orange-400 font-rethink">
+                    <div class="mt-0 group-hover:text-orange-400 font-rethink text-2xl font-bold mb-2 md:text-3xl md:mb-3">
                       {{ project.title }}
-                    </h1>
+                    </div>
                     <div
-                      class="text-muted-foreground font-light"
+                      class="text-muted-foreground font-light text-sm md:text-base"
                       v-html="project.summary"
                     ></div>
                     <div class="flex items-center gap-3 mt-5">
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-span-3 xl:col-span-3">
+                <div class="hidden md:block md:col-span-3">
                   <div
                     class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
                   >
