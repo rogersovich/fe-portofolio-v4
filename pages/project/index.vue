@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden">
+  <div
+    class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
+  >
     <div class="absolute bottom-0 left-0 md:left-8 z-[-1]">
       <div
         class="uppercase text-[8rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
@@ -10,7 +12,17 @@
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-2">
+      <div
+        class="flex flex-col items-center justify-center md:justify-start gap-3 md:gap-2"
+      >
+        <ClientOnly>
+          <div
+            v-if="isMobile"
+            class="border border-solid border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
+          >
+            <IconBriefcase class="size-6" />
+          </div>
+        </ClientOnly>
         <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> Featured </span>
           <BaseTextHighlight
@@ -20,7 +32,9 @@
             Projects
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground md:mt-3">Showcasing my best work and creative projects</div>
+        <div class="text-muted-foreground text-sm md:text-base md:mt-3">
+          Showcasing my best work and creative projects
+        </div>
       </div>
     </div>
     <div
@@ -33,7 +47,7 @@
             v-model="searchQuery"
             @input="debouncedFilterCallback"
             placeholder="Search project"
-            class="w-full md:w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
+            class="input-search"
           />
         </div>
         <div v-if="pending">
@@ -44,82 +58,7 @@
         <template v-else-if="dataProjects">
           <template v-if="dataProjects.items.length > 0">
             <template v-for="project in dataProjects.items" :key="project.id">
-              <div
-                class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
-              >
-                <div class="col-span-12 md:col-span-9">
-                  <div
-                    class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
-                  >
-                    <div class="mt-0 group-hover:text-orange-400 font-rethink text-2xl font-bold mb-2 md:text-3xl md:mb-3">
-                      {{ project.title }}
-                    </div>
-                    <div
-                      class="text-muted-foreground font-light text-sm md:text-base"
-                      v-html="project.summary"
-                    ></div>
-                    <div class="flex items-center gap-3 mt-5">
-                      <div class="text-muted-foreground text-sm">Stack:</div>
-                      <div class="flex items-center gap-2">
-                        <template
-                          v-for="tech in project.technologies"
-                          :key="tech.tech_id"
-                        >
-                          <div
-                            class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
-                          >
-                            <NuxtImg
-                              :src="MINIO_BASE_URL + tech.tech_logo_file_name"
-                              height="20px"
-                              width="20px"
-                              densities="x1 x2"
-                            />
-                          </div>
-                        </template>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between mt-8">
-                      <RouterLink :to="`/project/${project.slug}`">
-                        <Button
-                          variant="outlined"
-                          size="large"
-                          class="text-sm text-white group hover:!border-orange-500/[.2]"
-                        >
-                          <span> View Project </span>
-                          <IconChevronRight
-                            class="size-[18px] text-muted-foreground group-hover:text-orange-400"
-                          />
-                        </Button>
-                      </RouterLink>
-                      <template v-if="project.repository_url">
-                        <a
-                          :href="project.repository_url"
-                          target="_blank"
-                          class="flex items-center gap-2 group cursor-pointer"
-                        >
-                          <IconLink
-                            class="size-[20px] text-zinc-500 group-hover:text-orange-400"
-                          />
-                          <span
-                            class="text-[14px] font-light text-white group-hover:underline"
-                            >Open Repository</span
-                          >
-                        </a>
-                      </template>
-                    </div>
-                  </div>
-                </div>
-                <div class="hidden md:block md:col-span-3">
-                  <div
-                    class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
-                  >
-                    <NuxtImg
-                      :src="MINIO_BASE_URL + project.image_file_name"
-                      class="rounded-lg w-full max-h-[200px] object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
+              <BaseProjectCard :project="project" />
             </template>
           </template>
           <template v-else>
@@ -141,10 +80,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import {
-  IconLink,
-  IconChevronRight,
-} from "@tabler/icons-vue";
+import { isMobile } from "~/composables/useBreakpoint";
+import { IconBriefcase } from "@tabler/icons-vue";
 import type {
   TParamsFilterPublicProject,
   TPublicProjectListResponse,
@@ -155,7 +92,7 @@ useHead({
   titleTemplate: "%s | Portofolio",
 });
 
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 
 const params = reactive<TParamsFilterPublicProject>({
   page: "1",
@@ -169,7 +106,7 @@ const first = ref(1);
 const searchQuery = ref("");
 
 const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase
+const BASE_API = runtimeConfig.public.apiBase;
 
 const debouncedFilterCallback = useDebounceFn(async () => {
   params.search = searchQuery.value;

@@ -10,7 +10,15 @@
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col items-center justify-center md:justify-start gap-3 md:gap-2">
+        <ClientOnly>
+          <div
+            v-if="isMobile"
+            class="border border-solid border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
+          >
+            <IconBook2 class="size-6" />
+          </div>
+        </ClientOnly>
         <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> My </span>
           <BaseTextHighlight
@@ -20,7 +28,7 @@
             Blogs
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground md:mt-3">Insights, tutorials, and stories from my journey</div>
+        <div class="text-muted-foreground text-sm md:text-base md:mt-3">Insights, tutorials, and stories from my journey</div>
       </div>
     </div>
     <div
@@ -33,7 +41,7 @@
             v-model="searchQuery"
             @input="debouncedFilterCallback"
             placeholder="Search Blog"
-            class="w-full md:w-[32rem] text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15]"
+            class="input-search"
           />
         </div>
         <div v-if="pending">
@@ -193,11 +201,13 @@
   </div>
 </template>
 <script setup lang="ts">
+import { isMobile } from "~/composables/useBreakpoint";
 import {
   IconCalendar,
   IconChevronRight,
   IconEye,
   IconBook,
+  IconBook2
 } from "@tabler/icons-vue";
 import dayjs from "dayjs";
 import type { TBaseResponse } from "~/types/base.type";

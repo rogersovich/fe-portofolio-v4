@@ -1,11 +1,22 @@
 <template>
   <div>
     <div
-      class="layout text-center pb-4 pt-12 md:pt-32 flex flex-col justify-center"
+      class="layout text-center pb-4 pt-4 md:pt-32 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-3">
-        <div class="flex flex-col items-start gap-2 md:px-4 pb-0 py-5 rounded-md">
-          <div class="text-4xl md:text-5xl font-rethink font-bold md:mb-3" v-if="projects">
+      <ClientOnly>
+        <NuxtImg
+          :src="MINIO_BASE_URL + projects?.data.image_file_name"
+          class="rounded-lg w-full max-h-[200px] object-cover blur-sm brightness-[.15] absolute top-0 left-0"
+        />
+      </ClientOnly>
+      <div class="flex flex-col gap-3 z-10">
+        <div
+          class="flex flex-col items-start gap-2 md:px-4 pb-0 md:py-5 rounded-md"
+        >
+          <div
+            class="text-4xl md:text-5xl font-rethink font-bold md:mb-3"
+            v-if="projects"
+          >
             {{ projects.data.title }}
           </div>
           <template v-if="projects">
@@ -15,57 +26,9 @@
             ></div>
           </template>
         </div>
-        <div
-          class="flex justify-between md:px-4 py-4 border border-solid border-zinc-50/[.05] border-x-0"
-        >
-          <div class="flex items-center gap-5" v-if="projects">
-            <div class="flex items-center gap-2 group">
-              <IconUser
-                class="size-4 text-zinc-500 group-hover:text-orange-400"
-              />
-              <span class="text-[12px] text-zinc-300"> Personal Project </span>
-            </div>
-            <div class="flex items-center gap-2 group">
-              <IconEye
-                class="size-4 text-zinc-500 group-hover:text-orange-400"
-              />
-              <span class="text-[12px] text-zinc-300"
-                >{{
-                  projects.data.statistic ? projects.data.statistic.views : 0
-                }}
-                views
-              </span>
-            </div>
-            <div class="flex items-center gap-2 group">
-              <IconHeart
-                class="size-4 text-zinc-500 group-hover:text-orange-400"
-              />
-              <span class="text-[12px] text-zinc-300">
-                {{
-                  projects.data.statistic ? projects.data.statistic.likes : 0
-                }}
-                likes
-              </span>
-            </div>
-          </div>
-          <div class="flex items-center gap-5" v-if="projects">
-            <a
-              v-if="projects.data.repository_url"
-              :href="projects.data.repository_url"
-              target="_blank"
-              class="flex items-center gap-2 group cursor-pointer no-underline"
-            >
-              <IconBrandGithub
-                class="size-4 text-zinc-500 group-hover:text-orange-400"
-              />
-              <span
-                class="text-[12px] text-zinc-300 group-hover:underline group-hover:text-white"
-              >
-                Repository
-              </span>
-            </a>
-          </div>
-        </div>
+        <template v-if="projects">
+          <BaseProjectStatisticInfo :project="projects?.data" />
+        </template>
       </div>
     </div>
     <div class="layout grid grid-cols-12 gap-6">
@@ -147,15 +110,14 @@ const slug = route.params.slug as string;
 
 const runtimeConfig = useRuntimeConfig();
 const BASE_API = runtimeConfig.public.apiBase;
+const MINIO_BASE_URL = useMinioUrl();
 
 useHead({
   title: `${slugToStringUppercase(slug)}`,
   titleTemplate: "%s | Project",
 });
 
-const {
-  data: projects,
-} = await useAsyncData("publicProject", async () => {
+const { data: projects } = await useAsyncData("publicProject", async () => {
   try {
     const response = await $fetch<TBaseResponse<TPublicProjectDetail>>(
       `${BASE_API}/api-public/projects/${slug}`

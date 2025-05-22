@@ -121,6 +121,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { isMobile } from "~/composables/useBreakpoint";
 import { IconBook, IconEye, IconHeart, IconArrowLeft } from "@tabler/icons-vue";
 import type { TBaseResponse } from "~/types/base.type";
 import "./../../assets/css/editor-content.css";

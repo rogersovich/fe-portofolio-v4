@@ -111,3 +111,7 @@ ul > li > p {
 .text-link {
   @apply font-light text-white cursor-pointer no-underline hover:text-orange-500 hover:underline;
 }
+
+.input-search {
+  @apply w-full md:w-[32rem] text-sm md:text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15];
+}

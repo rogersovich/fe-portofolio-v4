@@ -1,16 +1,28 @@
 <template>
-  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden">
+  <div
+    class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
+  >
     <div class="absolute bottom-0 left-8 z-[-1]">
       <div
         class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
       >
-       Fun Facts
+        Fun Facts
       </div>
     </div>
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-2">
+      <div
+        class="flex flex-col items-center justify-center md:justify-start gap-3 md:gap-2"
+      >
+        <ClientOnly>
+          <div
+            v-if="isMobile"
+            class="border border-solid border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
+          >
+            <IconComet class="size-6" />
+          </div>
+        </ClientOnly>
         <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> Fun </span>
           <BaseTextHighlight
@@ -20,7 +32,9 @@
             Facts
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground md:mt-3">Discovery my Hobbies and Fun facts</div>
+        <div class="text-muted-foreground text-sm md:text-base md:mt-3">
+          Discovery my Hobbies and Fun facts
+        </div>
       </div>
     </div>
     <div
@@ -47,98 +61,17 @@
             relate to.
           </div>
         </div>
-        <div class="md:basis-[70%]">
+        <div class="md:basis-[70%] basis-auto w-full">
           <div>
             <div class="text-2xl md:text-3xl font-bold font-rethink pb-4">
               Favorite movies
             </div>
-            <div class="grid grid-cols-3 gap-6">
-              <template
-                v-for="(movie, index) in listFavoriteMovies"
-                :key="movie.title"
-              >
-                <div class="col-span-1">
-                  <div
-                    @mouseenter="onMouseEnter(index)"
-                    @mouseleave="onMouseLeave(index)"
-                  >
-                    <template v-if="!moviesOnHover[index]">
-                      <NuxtImg
-                        :src="movie.image"
-                        class="rounded-lg w-full h-[150px] md:h-[300px] border border-solid border-zinc-50/[.05] hover:border-zinc-50/[.15]"
-                      />
-                    </template>
-                    <template v-else>
-                      <div
-                        class="border border-solid border-zinc-50/[.15] w-full h-[300px] rounded-lg p-4 relative overflow-hidden"
-                      >
-                        <div class="">
-                          <div class="font-rethink font-bold text-2xl mb-3">
-                            {{ movie.title }}
-                          </div>
-                          <div class="flex flex-col gap-[5px]">
-                            <div
-                              class="text-muted-foreground text-[14px] font-light"
-                            >
-                              Year:
-                              <span class="text-foreground">{{
-                                movie.year
-                              }}</span>
-                            </div>
-                            <div
-                              class="text-muted-foreground text-[14px] font-light"
-                            >
-                              Running time:
-                              <span class="text-foreground">{{
-                                movie.runtime
-                              }}</span>
-                            </div>
-                            <div
-                              class="text-muted-foreground text-[14px] font-light"
-                            >
-                              Directed by:
-                              <span class="text-foreground">{{
-                                movie.directedBy
-                              }}</span>
-                            </div>
-                            <div
-                              class="text-muted-foreground text-[14px] font-light"
-                            >
-                              Genre:
-                              <span class="text-foreground">{{
-                                movie.genre
-                              }}</span>
-                            </div>
-                            <div
-                              class="text-muted-foreground text-[14px] font-light"
-                            >
-                              Rating:
-                              <span class="text-foreground">{{
-                                movie.rating
-                              }}</span>
-                            </div>
-                          </div>
-                          <div
-                            class="absolute bottom-[4px] left-[10px] text-left"
-                          >
-                            <div
-                              class="text-4xl font-rethink font-bold uppercase text-zinc-50/[.05]"
-                            >
-                              {{ movie.title }}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </template>
-                  </div>
-                </div>
-              </template>
-            </div>
+            <BaseFunFactListMovie :list-favorite-movies="listFavoriteMovies" />
           </div>
         </div>
       </div>
       <div
-        class="flex flex-col gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-6 md:px-28 py-4 md:py-12"
+        class="flex flex-col gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-4 md:px-28 py-4 md:py-12"
       >
         <div class="flex flex-col md:flex-row gap-8 w-full pb-2">
           <div
@@ -157,93 +90,40 @@
             >
               🎧ྀི
             </div>
-            <div class="text-2xl md:text-4xl font-rethink font-bold">My Favorite Songs</div>
-            <div class="text-[12px] md:text-[14px] text-muted-foreground font-light">
-              Lorem ipsum odor amet, consectetuer adipiscing elit.
+            <div class="text-2xl md:text-4xl font-rethink font-bold">
+              My Favorite Songs
             </div>
-            <div class="text-[12px] md:text-[14px] text-muted-foreground font-light">
+            <div
+              class="text-[12px] md:text-[14px] text-muted-foreground font-light"
+            >
+              This is my favofite songs from spotify, maybe you like it too.
+            </div>
+            <div
+              class="text-[12px] md:text-[14px] text-muted-foreground font-light"
+            >
               {{ totalSongs }} songs, {{ totalHourSongs }}
             </div>
             <div class="pt-2">
               <NuxtLink :to="myProfileSpotify" target="_blank">
-                <Button class="text-[12px] md:text-sm">Visit profile</Button>
+                <Button severity="secondary" class="text-[12px] md:text-sm"
+                  >Visit profile</Button
+                >
               </NuxtLink>
             </div>
           </div>
         </div>
-        <hr class="border-zinc-50/[.05] w-full" />
-        <div class="w-full">
-          <div class="text-xl font-rethink font-bold pb-6">List songs</div>
-
-          <div
-            class="flex flex-col justify-center gap-10 border border-solid border-zinc-50/[.05] rounded-xl py-6 px-4"
-          >
-            <template v-for="(song, index) in listFavoriteSongs" :key="index">
-              <div class="flex gap-6">
-                <div class="basis-[5%] flex items-center justify-center">
-                  <div class="text-base">
-                    {{ index + 1 }}
-                  </div>
-                </div>
-                <div class="basis-[7.5%] flex items-center justify-center">
-                  <NuxtImg
-                    :src="song.url_img"
-                    class="rounded w-[50px] h-[50px] border border-solid border-zinc-50/[.05]"
-                  />
-                </div>
-                <div
-                  class="basis-[35%] flex-col items-center justify-left gap-2"
-                >
-                  <div class="flex items-center gap-1">
-                    <NuxtLink
-                      class="text-base font-rethink no-underline text-white hover:text-orange-500 hover:underline"
-                      :to="song.song_url"
-                      target="_blank"
-                    >
-                      {{ song.title }}
-                    </NuxtLink>
-
-                    <div class="text-[13px] text-muted-foreground">.</div>
-                    <div class="text-[13px] text-muted-foreground">
-                      {{ song.year }}
-                    </div>
-                  </div>
-                  <NuxtLink
-                    class="text-[13px] text-muted-foreground underline"
-                    :to="song.album_url"
-                    target="_blank"
-                  >
-                    {{ song.album }}
-                  </NuxtLink>
-                </div>
-                <div class="basis-[20%] flex items-center justify-left">
-                  <NuxtLink
-                    class="text-[14px] text-muted-foreground hover:underline"
-                    :to="song.artist_url"
-                    target="_blank"
-                  >
-                    {{ song.artist }}
-                  </NuxtLink>
-                </div>
-                <div class="basis-[5%] flex items-center justify-left">
-                  <div class="text-[14px] text-muted-foreground">
-                    {{ song.duration }}
-                  </div>
-                </div>
-                <div class="basis-[5%] flex items-center justify-left">
-                  <div class="text-[14px] text-muted-foreground">
-                    {{ song.total_listeners }}
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
-        </div>
+        <ClientOnly>
+          <hr v-if="!isMobile" class="border-zinc-50/[.05] w-full" />
+        </ClientOnly>
+        <BaseFunFactListSong :listFavoriteSongs="listFavoriteSongs" />
       </div>
     </div>
   </div>
 </template>
 <script setup>
+import { IconComet } from "@tabler/icons-vue";
+import { isMobile } from "~/composables/useBreakpoint";
+
 useHead({
   title: "Fun Facts",
   titleTemplate: "%s | Portofolio",
@@ -294,6 +174,7 @@ const listFavoriteMovies = [
 
 const myProfileSpotify =
   "https://open.spotify.com/user/ency6m9rfx4wnd6lxkxbo664s";
+
 const listFavoriteSongs = [
   {
     title: "Nina",
