@@ -113,5 +113,5 @@ ul > li > p {
 }
 
 .input-search {
-  @apply w-full md:w-[32rem] text-sm md:text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15];
+  @apply w-full md:w-[32rem] text-[12px] md:text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15];
 }

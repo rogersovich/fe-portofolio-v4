@@ -98,7 +98,7 @@ const listNavs = reactive([
     link: "/",
     active: true,
     icon: IconHome,
-    description: "Let see my portofolio",
+    description: "Highlight of my work and projects",
   },
   {
     title: "Project",
@@ -106,7 +106,7 @@ const listNavs = reactive([
     link: "/project",
     active: false,
     icon: IconBriefcase,
-    description: "See my project",
+    description: "Showcasing my best work and creative projects",
   },
   {
     title: "Blog",
@@ -114,7 +114,7 @@ const listNavs = reactive([
     link: "/blog",
     active: false,
     icon: IconBook2,
-    description: "See my blog",
+    description: "Insights, tutorials, and stories from my journey",
   },
   {
     title: "Fun Fact",
@@ -122,7 +122,7 @@ const listNavs = reactive([
     link: "/fun-fact",
     active: false,
     icon: IconComet,
-    description: "See my fun fact",
+    description: "Discovery my Hobbies and Fun facts",
   },
   {
     title: "About",
@@ -130,7 +130,7 @@ const listNavs = reactive([
     link: "/about",
     active: false,
     icon: IconUserSquare,
-    description: "See my about",
+    description: "A story of growth and experiences",
   },
 ]);
 

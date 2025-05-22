@@ -1,8 +1,10 @@
 <template>
-  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10">
+  <div
+    class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
+  >
     <div class="absolute bottom-0 left-8 z-[-1]">
       <div
-        class="uppercase text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
       >
         About Me
       </div>
@@ -10,8 +12,18 @@
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-2">
-        <div class="text-6xl font-rethink font-bold">
+      <div
+        class="flex flex-col items-center justify-center md:justify-start gap-3 md:gap-2"
+      >
+        <ClientOnly>
+          <div
+            v-if="isMobile"
+            class="border border-solid border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
+          >
+            <IconUserSquare class="size-6" />
+          </div>
+        </ClientOnly>
+        <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> About </span>
           <BaseTextHighlight
             :duration="500"
@@ -20,40 +32,41 @@
             Me
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground mt-3">A story of growth and discovery</div>
+        <div class="text-muted-foreground text-sm md:text-base md:mt-3">
+          A story of growth and experiences
+        </div>
       </div>
     </div>
     <section
-      class="layout text-center pb-12 pt-12 md:pb-8 md:pt-8 flex flex-col justify-center"
+      class="layout text-center pb-6 pt-6 md:pb-8 md:pt-8 flex flex-col justify-center"
     >
       <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-6 flex items-center justify-center">
+        <div class="col-span-12 md:col-span-6 flex items-center justify-center">
           <template v-if="pending">
             <div>loading profie...</div>
           </template>
           <template v-else>
             <NuxtImg
               :src="MINIO_BASE_URL + profiles?.about.avatar_file_name"
-              height="350px"
-              width="350px"
-              class="rounded-lg"
+              class="rounded-lg w-full"
               densities="x1 x2"
             />
           </template>
         </div>
-        <div class="col-span-6 text-left">
+        <div class="col-span-12 md:col-span-6 text-left">
           <template v-if="pending">
             <div>loading profie...</div>
           </template>
           <template v-else>
-            <div class="text-4xl font-rethink font-bold pb-2">
+            <div class="text-3xl md:text-4xl font-rethink font-bold pb-2">
               {{ profiles?.about.title }}
             </div>
-            <div class="text-muted-foreground">
-              Front-end Developer at <a href="https://elabram.com" target="_blank">Elabram</a>
+            <div class="text-muted-foreground text-sm md:text-base">
+              Front-end Developer at
+              <a href="https://elabram.com" target="_blank">Elabram</a>
             </div>
             <div
-              class="pt-8 text-muted-foreground"
+              class="pt-6 md:pt-8 text-muted-foreground text-sm md:text-base"
               v-html="profiles?.about.description_html"
             ></div>
           </template>
@@ -61,9 +74,9 @@
       </div>
     </section>
     <section
-      class="layout text-center pb-12 pt-12 md:pb-12 md:pt-12 flex flex-col justify-center"
+      class="layout text-center pb-6 pt-6 md:pb-12 md:pt-12 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-12">
+      <div class="flex flex-col gap-6 md:gap-12">
         <div class="flex flex-row gap-4 items-center">
           <div
             class="border border-solid border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
@@ -77,36 +90,17 @@
             <div>loading skills...</div>
           </template>
           <template v-else>
-            <template
-              v-for="skill in profiles?.technologies"
-              :key="skill.tech_id"
-            >
-              <div class="col-span-3">
-                <div
-                  class="border border-solid border-zinc-50/[.15] rounded-lg p-4 min-h-[200px] flex items-center justify-center flex-col gap-2 group"
-                >
-                  <div class="text-2xl">
-                    <NuxtImg
-                      :src="MINIO_BASE_URL + skill.logo_file_name"
-                      height="50"
-                      densities="x1 x2"
-                      class="grayscale group-hover:grayscale-0 transition-transform duration-300 group-hover:rotate-[360deg] group-hover:scale-150"
-                    />
-                  </div>
-                  <div class="text-lg font-bold tracking-wide">
-                    {{ skill.name }}
-                  </div>
-                </div>
-              </div>
+            <template v-if="profiles?.technologies">
+              <BaseListSkill :technologies="profiles.technologies" />
             </template>
           </template>
         </div>
       </div>
     </section>
     <section
-      class="layout text-center pb-12 pt-12 md:pb-24 md:pt-12 flex flex-col justify-center"
+      class="layout text-center pb-6 pt-6 md:pb-24 md:pt-12 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-12">
+      <div class="flex flex-col gap-6 md:gap-12">
         <div class="flex flex-row gap-4 items-center">
           <div
             class="border border-solid border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
@@ -119,68 +113,8 @@
           <div>loading skills...</div>
         </template>
         <template v-else>
-          <template
-            v-for="(experience, index) in profiles?.experiences"
-            :key="index"
-          >
-            <div class="flex flex-col gap-4">
-              <div class="grid grid-cols-12 gap-4">
-                <div
-                  class="col-span-4 text-left uppercase font-normal text-muted-foreground"
-                >
-                  <div>
-                    <span>
-                      {{ formatDate(experience.from_date) }}
-                    </span>
-                    <span class="mx-2">-</span>
-                    <span>
-                      {{
-                        experience.to_date
-                          ? formatDate(experience.to_date)
-                          : "PRESENT"
-                      }}
-                    </span>
-                  </div>
-                </div>
-                <div class="col-span-8 text-left">
-                  <div class="text-2xl font-rethink font-bold">
-                    {{ experience.position }}
-                  </div>
-                  <div class="flex gap-[5px] pt-2 text-[14px] pb-5 font-light">
-                    <div class="flex gap-3">
-                      <div>
-                        <NuxtImg
-                          :src="MINIO_BASE_URL + experience.comp_image_file_name"
-                          height="20"
-                          densities="x1 x2"
-                        />
-                      </div>
-                      <nuxt-link
-                        :to="experience.comp_website_url"
-                        class="font-light underline"
-                        target="_blank"
-                        >{{ experience.company_name }}</nuxt-link
-                      >
-                    </div>
-                    <div class="text-muted-foreground">-</div>
-                    <div class="text-muted-foreground">
-                      {{ `${experience.city}, ${experience.country}` }}
-                    </div>
-                    <div class="text-muted-foreground">-</div>
-                    <div class="text-muted-foreground">
-                      {{ experience.work_type }}
-                    </div>
-                    <!-- 
-                    <div class="text-muted-foreground">-</div>
-                    <div class="text-muted-foreground">Full Time</div> -->
-                  </div>
-                  <div
-                    class="exp-description-content"
-                    v-html="experience.summary_html"
-                  ></div>
-                </div>
-              </div>
-            </div>
+          <template v-if="profiles?.experiences">
+            <BaseListExperience :experiences="profiles.experiences" />
           </template>
         </template>
       </div>
@@ -189,18 +123,18 @@
 </template>
 <script setup lang="ts">
 import "~/assets/css/about.css";
+import { IconUserSquare } from "@tabler/icons-vue";
+import { isMobile } from "~/composables/useBreakpoint";
 import type { TPublicProfileResponse } from "~/types/about.type";
-import dayjs from "dayjs";
 
 useHead({
   title: "About",
   titleTemplate: "%s | Portofolio",
 });
 
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase
-
+const BASE_API = runtimeConfig.public.apiBase;
 
 const { data: profiles, pending } = await useAsyncData(
   "public-profile",
@@ -217,10 +151,5 @@ const { data: profiles, pending } = await useAsyncData(
     }
   }
 );
-
-
-const formatDate = (dateString: string, format: string = "YYYY MMM") => {
-  return dayjs(dateString).format(format);
-};
 </script>
 <style lang=""></style>

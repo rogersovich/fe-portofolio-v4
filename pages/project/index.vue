@@ -92,8 +92,6 @@ useHead({
   titleTemplate: "%s | Portofolio",
 });
 
-const MINIO_BASE_URL = useMinioUrl();
-
 const params = reactive<TParamsFilterPublicProject>({
   page: "1",
   limit: "3",
