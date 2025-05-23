@@ -25,9 +25,9 @@
         <button
           @click="toggleMobileMenu()"
           type="button"
-          class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-50/[.1] bg-zinc-800/60 flex items-center justify-center cursor-pointer"
+          class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-50/[.1] bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm"
         >
-          <span class="text-[13px] font-rethink">Menu</span>
+          <span class="text-[13px] font-rethink text-white">Menu</span>
           <IconChevronDown
             v-if="!menu_mobile"
             class="size-4"

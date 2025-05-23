@@ -113,5 +113,27 @@ ul > li > p {
 }
 
 .input-search {
-  @apply w-full md:w-[32rem] text-[12px] md:text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15];
+  @apply w-full md:w-[32rem] !text-[12px] md:!text-base border-zinc-50/[.05] focus:!border-zinc-50/[.15] hover:!border-zinc-50/[.15];
+}
+
+#toc ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 7px;
+}
+
+#toc li {
+  margin-bottom: 7px;
+}
+
+#drawer-content-blog-toc {
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 7px;
+  }
+
+  li {
+    margin-bottom: 7px;
+  }
 }

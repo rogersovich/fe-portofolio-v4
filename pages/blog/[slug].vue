@@ -1,11 +1,22 @@
 <template>
-  <div>
+  <div class="relative">
     <div
       class="layout text-center pb-4 pt-12 md:pt-32 flex flex-col justify-center"
     >
-      <div class="flex flex-col gap-3">
-        <div class="flex flex-col items-start gap-2 md:px-4 pb-0 py-5 rounded-md">
-          <div class="text-3xl text-center md:text-left md:text-5xl font-rethink font-bold mb-3" v-if="blogs">
+    <ClientOnly>
+        <NuxtImg
+          :src="MINIO_BASE_URL + blogs?.data.banner_file_name"
+          class="rounded-lg w-full max-h-[200px] object-cover blur-sm brightness-[.15] absolute top-0 left-0"
+        />
+      </ClientOnly>
+      <div class="flex flex-col gap-3 z-10">
+        <div
+          class="flex flex-col items-start gap-2 md:px-4 pb-0 py-5 rounded-md"
+        >
+          <div
+            class="text-3xl text-center md:text-left md:text-5xl font-rethink font-bold mb-3"
+            v-if="blogs"
+          >
             {{ blogs.data.title }}
           </div>
           <template v-if="blogs">
@@ -15,46 +26,12 @@
             ></div>
           </template>
         </div>
-        <div
-          class="flex justify-between md:px-4 py-4 border border-solid border-zinc-50/[.05] border-x-0"
-        >
-          <div class="flex items-center gap-5" v-if="blogs">
-            <div class="flex items-center gap-2 group">
-              <IconEye
-                class="size-4 text-zinc-500 group-hover:text-orange-400"
-              />
-              <span class="text-[12px] text-zinc-300"
-                >{{ blogs.data.statistic ? blogs.data.statistic.views : 0 }}
-                views
-              </span>
-            </div>
-            <div class="flex items-center gap-2 group">
-              <IconHeart
-                class="size-4 text-zinc-500 group-hover:text-orange-400"
-              />
-              <span class="text-[12px] text-zinc-300">
-                {{ blogs.data.statistic ? blogs.data.statistic.likes : 0 }}
-                likes
-              </span>
-            </div>
-          </div>
-          <div class="flex items-center gap-5" v-if="blogs">
-            <div class="flex items-center gap-2 group">
-              <IconBook
-                class="size-4 text-zinc-500 group-hover:text-orange-400"
-              />
-              <span class="text-[12px] text-zinc-300"
-                >{{
-                  blogs.data.reading_time
-                    ? formatReadingTime(
-                        blogs.data.reading_time.estimated_seconds
-                      )
-                    : formatReadingTime(0)
-                 }}
-              </span>
-            </div>
-          </div>
-        </div>
+        <template v-if="blogs">
+          <BlogStatisticInfo
+            :statistic="blogs.data.statistic"
+            :reading_time="blogs.data.reading_time"
+          />
+        </template>
       </div>
     </div>
     <div class="layout grid grid-cols-12 gap-6">
@@ -84,20 +61,11 @@
             </router-link>
           </div>
           <div v-if="blogs" id="toc">
-            <div class="text-[16px] font-rethink font-bold mb-3">
-              Table of Contents
-            </div>
-            <ul id="toc-list">
-              <li v-for="link in tocLinks" :key="link.id">
-                <a
-                  :href="'#' + link.id"
-                  class="text-[13px] no-underline text-muted-foreground font-light"
-                  :class="{ 'text-orange-400 font-bold': activeId === link.id }"
-                  @click.prevent="onClickTOC(link.id)"
-                  >{{ link.text }}</a
-                >
-              </li>
-            </ul>
+            <TableOfContent
+              :active-id="activeId"
+              :toc-links="tocLinks"
+              @handle-click-toc="onClickTOC"
+            />
           </div>
         </div>
       </div>
@@ -118,10 +86,15 @@
         </div>
       </div>
     </div>
+
+    <MobileTOC
+      :tocLinks="tocLinks"
+      :activeId="activeId"
+      @handle-click-toc="onClickTOC"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import { isMobile } from "~/composables/useBreakpoint";
 import { IconBook, IconEye, IconHeart, IconArrowLeft } from "@tabler/icons-vue";
 import type { TBaseResponse } from "~/types/base.type";
 import "./../../assets/css/editor-content.css";
@@ -134,16 +107,15 @@ const { slugToStringUppercase } = useSlugify();
 const slug = route.params.slug as string;
 
 const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase
+const BASE_API = runtimeConfig.public.apiBase;
+const MINIO_BASE_URL = useMinioUrl();
 
 useHead({
   title: `${slugToStringUppercase(slug)}`,
   titleTemplate: "%s | Blog",
 });
 
-const {
-  data: blogs,
-} = await useAsyncData("public-blog", async () => {
+const { data: blogs } = await useAsyncData("public-blog", async () => {
   try {
     const response = await $fetch<TBaseResponse<TPublicBlogDetail>>(
       `${BASE_API}/api-public/blogs/${slug}`
@@ -303,14 +275,4 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
-#toc ul {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 7px;
-}
-
-#toc li {
-  margin-bottom: 7px;
-}
-</style>
+<style scoped></style>

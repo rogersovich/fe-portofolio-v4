@@ -21,67 +21,69 @@
           <div class="text-xl md:text-2xl font-rethink font-bold">
             {{ experience.position }}
           </div>
-          <template v-if="!isMobile && !isTablet">
-            <div class="flex gap-[5px] pt-2 text-[14px] pb-5 font-light">
-              <div class="flex gap-3">
-                <div>
-                  <NuxtImg
-                    :src="MINIO_BASE_URL + experience.comp_image_file_name"
-                    height="20"
-                    densities="x1 x2"
-                  />
+          <ClientOnly>
+            <template v-if="!isMobile && !isTablet">
+              <div class="flex gap-[5px] pt-2 text-[14px] pb-5 font-light">
+                <div class="flex gap-3">
+                  <div>
+                    <NuxtImg
+                      :src="MINIO_BASE_URL + experience.comp_image_file_name"
+                      height="20"
+                      densities="x1 x2"
+                    />
+                  </div>
+                  <nuxt-link
+                    :to="experience.comp_website_url"
+                    class="font-light underline"
+                    target="_blank"
+                    >{{ experience.company_name }}</nuxt-link
+                  >
                 </div>
-                <nuxt-link
-                  :to="experience.comp_website_url"
-                  class="font-light underline"
-                  target="_blank"
-                  >{{ experience.company_name }}</nuxt-link
-                >
-              </div>
-              <div class="text-muted-foreground">-</div>
-              <div class="text-muted-foreground">
-                {{ `${experience.city}, ${experience.country}` }}
-              </div>
-              <div class="text-muted-foreground">-</div>
-              <div class="text-muted-foreground">
-                {{ experience.work_type }}
-              </div>
-            </div>
-          </template>
-          <template v-if="isMobile">
-            <div class="flex flex-col items-start gap-2 mt-2">
-              <div class="w-full">
-                <hr class="border-b-zinc-50/[.15] border-dashed border-t-0 border-x-0" />
-              </div>
-              <div class="flex flex-row items-center gap-2">
-                <div class="flex items-center justify-center">
-                  <NuxtImg
-                    :src="MINIO_BASE_URL + experience.comp_image_file_name"
-                    height="20"
-                    densities="x1 x2"
-                  />
-                </div>
-                <nuxt-link
-                  :to="experience.comp_website_url"
-                  class="font-light underline text-sm"
-                  target="_blank"
-                  >{{ experience.company_name }}</nuxt-link
-                >
-              </div>
-              <div class="flex flex-row items-center gap-2">
-                <div class="text-muted-foreground text-sm">
+                <div class="text-muted-foreground">-</div>
+                <div class="text-muted-foreground">
                   {{ `${experience.city}, ${experience.country}` }}
                 </div>
-                <div class="text-muted-foreground text-sm">-</div>
-                <div class="text-muted-foreground text-sm">
+                <div class="text-muted-foreground">-</div>
+                <div class="text-muted-foreground">
                   {{ experience.work_type }}
                 </div>
               </div>
-              <div class="w-full">
-                <hr class="border-b-zinc-50/[.15] border-dashed border-t-0 border-x-0" />
+            </template>
+            <template v-if="isMobile">
+              <div class="flex flex-col items-start gap-2 mt-2">
+                <div class="w-full">
+                  <hr class="border-b-zinc-50/[.15] border-dashed border-t-0 border-x-0" />
+                </div>
+                <div class="flex flex-row items-center gap-2">
+                  <div class="flex items-center justify-center">
+                    <NuxtImg
+                      :src="MINIO_BASE_URL + experience.comp_image_file_name"
+                      height="20"
+                      densities="x1 x2"
+                    />
+                  </div>
+                  <nuxt-link
+                    :to="experience.comp_website_url"
+                    class="font-light underline text-sm"
+                    target="_blank"
+                    >{{ experience.company_name }}</nuxt-link
+                  >
+                </div>
+                <div class="flex flex-row items-center gap-2">
+                  <div class="text-muted-foreground text-sm">
+                    {{ `${experience.city}, ${experience.country}` }}
+                  </div>
+                  <div class="text-muted-foreground text-sm">-</div>
+                  <div class="text-muted-foreground text-sm">
+                    {{ experience.work_type }}
+                  </div>
+                </div>
+                <div class="w-full">
+                  <hr class="border-b-zinc-50/[.15] border-dashed border-t-0 border-x-0" />
+                </div>
               </div>
-            </div>
-          </template>
+            </template>
+          </ClientOnly>
           <div
             class="exp-description-content text-sm md:text-base"
             v-html="experience.summary_html"

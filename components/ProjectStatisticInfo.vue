@@ -43,6 +43,7 @@
 </template>
 <script setup lang="ts">
 import type { TPublicProjectDetail } from "~/types/project.type";
+import { IconUser, IconEye, IconHeart, IconBrandGithub } from "@tabler/icons-vue";
 
 const { project } = defineProps<{
   project: TPublicProjectDetail;

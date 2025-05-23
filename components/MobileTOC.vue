@@ -1,0 +1,81 @@
+<template>
+  <DrawerRoot should-scale-background v-model:open="isOpen">
+    <ClientOnly>
+      <DrawerTrigger
+        v-if="isMobile"
+        class="fixed bottom-4 right-4 bg-transparent border-none p-0 focus:bg-transparent"
+      >
+        <div
+          class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-50/[.1] bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm"
+        >
+          <IconListTree class="size-4 text-white" />
+          <span class="text-[13px] font-rethink text-white"
+            >Table of Contents</span
+          >
+        </div>
+      </DrawerTrigger>
+    </ClientOnly>
+    <DrawerPortal>
+      <DrawerOverlay class="fixed bg-zinc-900/40 inset-0" />
+      <DrawerContent
+        aria-describedby="drawer-desc"
+        id="drawer-content-blog-toc"
+        class="backdrop-blur-sm bg-zinc-800/[.6] flex flex-col rounded-t-[10px] h-full mt-24 max-h-[60%] fixed bottom-0 left-0 right-0"
+      >
+        <div class="p-4 ounded-t-[10px] flex-1">
+          <DrawerHandle data-testid="handle" class="mb-8 mt-2" />
+
+          <div class="text-[18px] font-rethink font-bold mb-3">
+            Table of Contents
+          </div>
+          <ul id="toc-list">
+            <li v-for="link in tocLinks" :key="link.id">
+              <a
+                :href="'#' + link.id"
+                class="text-[15px] no-underline text-muted-foreground font-light"
+                :class="{
+                  'text-orange-400 font-bold': activeId === link.id,
+                }"
+                @click.prevent="handleClickToc(link.id)"
+                >{{ link.text }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </DrawerContent>
+    </DrawerPortal>
+  </DrawerRoot>
+</template>
+
+<script setup lang="ts">
+import { IconListTree } from "@tabler/icons-vue";
+import { isMobile } from "~/composables/useBreakpoint";
+import {
+  DrawerContent,
+  DrawerHandle,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerRoot,
+  DrawerTrigger,
+} from "vaul-vue";
+
+const { tocLinks, activeId } = defineProps<{
+  tocLinks: any[];
+  activeId: any;
+}>();
+
+const emit = defineEmits(["handle-click-toc"]);
+
+const isOpen = ref(false)
+
+const closeDrawer = () => {
+  isOpen.value = false
+}
+
+const handleClickToc = (id: string) => {
+  closeDrawer()
+  emit("handle-click-toc", id);
+}
+</script>
+
+<style></style>

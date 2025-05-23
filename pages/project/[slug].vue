@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <div
       class="layout text-center pb-4 pt-4 md:pt-32 flex flex-col justify-center"
     >
@@ -27,7 +27,7 @@
           </template>
         </div>
         <template v-if="projects">
-          <BaseProjectStatisticInfo :project="projects?.data" />
+          <ProjectStatisticInfo :project="projects?.data" />
         </template>
       </div>
     </div>
@@ -57,20 +57,11 @@
             </router-link>
           </div>
           <div v-if="projects" id="toc">
-            <div class="text-[16px] font-rethink font-bold mb-3">
-              Table of Contents
-            </div>
-            <ul id="toc-list">
-              <li v-for="link in tocLinks" :key="link.id">
-                <a
-                  :href="'#' + link.id"
-                  class="text-[13px] no-underline text-muted-foreground font-light"
-                  :class="{ 'text-orange-400 font-bold': activeId === link.id }"
-                  @click.prevent="onClickTOC(link.id)"
-                  >{{ link.text }}</a
-                >
-              </li>
-            </ul>
+            <TableOfContent
+              :active-id="activeId"
+              :toc-links="tocLinks"
+              @handle-click-toc="onClickTOC"
+            />
           </div>
         </div>
       </div>
@@ -91,19 +82,21 @@
         </div>
       </div>
     </div>
+
+    <MobileTOC
+      :tocLinks="tocLinks"
+      :activeId="activeId"
+      @handle-click-toc="onClickTOC"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import {
-  IconUser,
-  IconEye,
-  IconHeart,
-  IconBrandGithub,
-  IconArrowLeft,
-} from "@tabler/icons-vue";
+import { IconArrowLeft } from "@tabler/icons-vue";
+import "./../../assets/css/editor-content.css";
+
 import type { TBaseResponse } from "~/types/base.type";
 import type { TPublicProjectDetail } from "~/types/project.type";
-import "./../../assets/css/editor-content.css";
+
 const route = useRoute();
 const { slugToStringUppercase } = useSlugify();
 const slug = route.params.slug as string;

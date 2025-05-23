@@ -58,7 +58,7 @@
         <template v-else-if="dataProjects">
           <template v-if="dataProjects.items.length > 0">
             <template v-for="project in dataProjects.items" :key="project.id">
-              <BaseProjectCard :project="project" />
+              <ProjectCard :project="project" />
             </template>
           </template>
           <template v-else>

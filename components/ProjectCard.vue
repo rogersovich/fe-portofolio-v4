@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <div
-      class="grid grid-cols-12 gap-6 transition-transform duration-300 hover:translate-x-3 min-h-[250px]"
+      class="grid grid-cols-12 gap-6 transition-transform duration-300 md:hover:translate-x-3 min-h-[250px]"
     >
       <div class="col-span-12 md:col-span-9">
         <div
@@ -46,11 +46,11 @@
               <Button
                 variant="outlined"
                 size="large"
-                class="text-sm text-white group hover:!border-orange-500/[.2]"
+                class="!text-[12px] md:!text-sm text-white group !border-orange-500/[.2]"
               >
                 <span> View Project </span>
                 <IconChevronRight
-                  class="size-[18px] text-muted-foreground group-hover:text-orange-400"
+                  class="size-[18px] md:text-muted-foreground text-orange-500 md:group-hover:text-orange-400"
                 />
               </Button>
             </RouterLink>
@@ -87,7 +87,7 @@
 </template>
 <script setup lang="ts">
 import { isMobile, isTablet } from "~/composables/useBreakpoint";
-import { IconLink, IconChevronRight } from "@tabler/icons-vue";
+import { IconLink, IconChevronRight} from "@tabler/icons-vue";
 import type { TPublicProject } from "~/types/project.type";
 
 const { project } = defineProps<{

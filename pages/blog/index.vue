@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden">
+  <div
+    class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
+  >
     <div class="absolute bottom-0 left-0 md:left-8 z-[-1]">
       <div
         class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
@@ -10,7 +12,9 @@
     <div
       class="layout text-center pb-12 pt-12 md:pb-16 md:pt-36 flex flex-col justify-center"
     >
-      <div class="flex flex-col items-center justify-center md:justify-start gap-3 md:gap-2">
+      <div
+        class="flex flex-col items-center justify-center md:justify-start gap-3 md:gap-2"
+      >
         <ClientOnly>
           <div
             v-if="isMobile"
@@ -28,7 +32,9 @@
             Blogs
           </BaseTextHighlight>
         </div>
-        <div class="text-muted-foreground text-sm md:text-base md:mt-3">Insights, tutorials, and stories from my journey</div>
+        <div class="text-muted-foreground text-sm md:text-base md:mt-3">
+          Insights, tutorials, and stories from my journey
+        </div>
       </div>
     </div>
     <div
@@ -57,89 +63,16 @@
                   v-for="(blog, index) in dataBlogs.items"
                   :key="blog.id"
                 >
-                  <div
-                    class="w-full mb-6"
-                    :class="{
-                      'mb-0': index === dataBlogs.items.length - 1,
-                    }"
-                  >
-                    <div
-                      class="border border-solid border-zinc-50/[.05] rounded-xl p-6 w-full"
-                    >
-                      <div class="flex items-center gap-2">
-                        <IconCalendar
-                          class="h-[18px] w-[18px] text-muted-foreground"
-                        />
-                        <span class="text-[12px] md:text-[13px]">
-                          {{ formatDate(blog.published_at) }}
-                        </span>
-                      </div>
-                      <div class="mt-4 font-rethink mb-0 text-xl md:text-2xl font-bold">
-                        {{ blog.title }}
-                      </div>
-                      <div
-                        class="text-muted-foreground font-light text-sm md:text-base"
-                        v-html="blog.summary"
-                      ></div>
-                      <div class="flex flex-col md:flex-row gap-4 md:gap-0 justify-between pb-5">
-                        <div class="flex items-center gap-5">
-                          <div class="flex items-center gap-2">
-                            <IconEye class="size-4 text-orange-400" />
-                            <span class="text-[11px] md:text-[12px]text-[12px] text-zinc-300"
-                              >{{ blog.statistic.views }}
-                              views
-                            </span>
-                          </div>
-                          <div class="flex items-center gap-2">
-                            <IconBook class="size-4 text-orange-400" />
-                            <span class="text-[11px] md:text-[12px] text-zinc-300"
-                              >{{
-                                blog.reading_time
-                                  ? formatReadingTime(
-                                      blog.reading_time.estimated_seconds
-                                    )
-                                  : formatReadingTime(0)
-                              }}
-                            </span>
-                          </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                          <template
-                            v-for="topic in blog.topics"
-                            :key="topic.id"
-                          >
-                            <Chip
-                              :label="topic.name"
-                              class="text-[11px] md:text-[12px] text-muted-foreground px-2.5 py-1.5"
-                              :class="{
-                            'text-white bg-orange-500/[.3]': filterTopics.includes(
-                              topic.id as never
-                            ),
-                          }"
-                            />
-                          </template>
-                        </div>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <RouterLink :to="`/blog/${blog.slug}`">
-                          <Button
-                            variant="outlined"
-                            size="large"
-                            class="text-[13px] md:text-sm text-white group hover:!border-orange-500/[.2] group"
-                          >
-                            <span> View blog </span>
-                            <IconChevronRight
-                              class="size-[18px] text-muted-foreground group-hover:text-orange-400"
-                            />
-                          </Button>
-                        </RouterLink>
-                      </div>
-                    </div>
-                  </div>
+                  <BlogCard
+                    :blog="blog"
+                    :blog_length="dataBlogs.items.length"
+                    :index="index"
+                    :filter-topics="filterTopics"
+                  />
                 </template>
               </template>
               <template v-else>
-                <BaseEmptyData @clear-search="onClearSearch()"/>
+                <BaseEmptyData @clear-search="onClearSearch()" />
               </template>
             </div>
             <div class="hidden md:block md:col-span-3">
@@ -194,7 +127,7 @@
           </Paginator>
         </template>
         <template v-else>
-          <BaseEmptyData @clear-search="onClearSearch()"/>
+          <BaseEmptyData @clear-search="onClearSearch()" />
         </template>
       </div>
     </div>
@@ -207,7 +140,7 @@ import {
   IconChevronRight,
   IconEye,
   IconBook,
-  IconBook2
+  IconBook2,
 } from "@tabler/icons-vue";
 import dayjs from "dayjs";
 import type { TBaseResponse } from "~/types/base.type";
@@ -223,7 +156,7 @@ useHead({
 });
 
 const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase
+const BASE_API = runtimeConfig.public.apiBase;
 
 const params = reactive<TParamsFilterPublicBlog>({
   page: "1",

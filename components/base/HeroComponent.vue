@@ -16,8 +16,8 @@
           and redefine fundamental concepts through mental models.
         </div>
         <div class="flex flex-start gap-4 pt-4">
-          <Button severity="contrast" class="text-[12px] md:text-base">Explore more</Button>
-          <Button severity="secondary" class="text-[12px] md:text-base">More about me</Button>
+          <Button severity="contrast" class="!text-[12px] md:!text-base">Explore more</Button>
+          <Button severity="secondary" class="!text-[12px] md:!text-base">More about me</Button>
         </div>
       </div>
       <div class="col-span-6"></div>
