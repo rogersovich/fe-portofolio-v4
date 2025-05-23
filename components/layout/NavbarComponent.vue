@@ -29,18 +29,18 @@
         >
           <span class="text-[13px] font-rethink text-white">Menu</span>
           <IconChevronDown
-            v-if="!menu_mobile"
-            class="size-4"
+            v-if="!menuStore.menu_mobile"
+            class="size-4 text-white"
           />
           <IconChevronUp
             v-else
-            class="size-4"
+            class="size-4 text-white"
           />
         </button>
       </div>
 
       <div
-        v-if="menu_mobile"
+        v-if="menuStore.menu_mobile"
         class="fixed top-20 right-5 z-50 transition-transform duration-300"
       >
         <div
@@ -175,10 +175,8 @@ const setStoreMenuPath = (active_path: string) => {
   }
 };
 
-const menu_mobile = ref(false);
-
 const toggleMobileMenu = () => {
-  menu_mobile.value = !menu_mobile.value;
+  menuStore.toggleMobileMenu();
 };
 
 menuStore.$subscribe((mutation, state) => {

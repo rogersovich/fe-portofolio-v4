@@ -92,14 +92,17 @@
       :activeId="activeId"
       @handle-click-toc="onClickTOC"
     />
+
+    <ButtonBackDetail :url_back="'/blog'" />
   </div>
 </template>
 <script setup lang="ts">
-import { IconBook, IconEye, IconHeart, IconArrowLeft } from "@tabler/icons-vue";
+import { IconArrowLeft } from "@tabler/icons-vue";
 import type { TBaseResponse } from "~/types/base.type";
-import "./../../assets/css/editor-content.css";
 import type { TPublicBlogDetail } from "~/types/blog.type";
+
 import hljs from "highlight.js";
+import "./../../assets/css/editor-content.css";
 import "highlight.js/styles/atom-one-dark-reasonable.min.css";
 
 const route = useRoute();
@@ -246,19 +249,6 @@ const highlightHtml = () => {
         hljs.highlightElement(block);
       }
     });
-  }
-};
-
-const formatReadingTime = (estimated_seconds: number) => {
-  const minutes = Math.floor(estimated_seconds / 60);
-  const seconds = estimated_seconds % 60;
-
-  if (minutes > 0) {
-    return `${minutes} min read`;
-  } else if (seconds > 0) {
-    return `${seconds} sec read`;
-  } else {
-    return "0 sec read";
   }
 };
 

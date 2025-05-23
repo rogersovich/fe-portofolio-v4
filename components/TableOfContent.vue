@@ -6,7 +6,7 @@
         :href="'#' + link.id"
         class="text-[13px] no-underline text-muted-foreground font-light"
         :class="{
-          'text-orange-400 font-bold': activeId === link.id,
+          'text-orange-400 !font-bold': activeId === link.id,
         }"
         @click.prevent="onClickTOC(link.id)"
         >{{ link.text }}</a

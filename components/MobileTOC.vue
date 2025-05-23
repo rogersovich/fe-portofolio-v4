@@ -20,7 +20,7 @@
       <DrawerContent
         aria-describedby="drawer-desc"
         id="drawer-content-blog-toc"
-        class="backdrop-blur-sm bg-zinc-800/[.6] flex flex-col rounded-t-[10px] h-full mt-24 max-h-[60%] fixed bottom-0 left-0 right-0"
+        class="backdrop-blur-sm bg-zinc-800/[.6] flex flex-col rounded-t-[10px] h-auto mt-24 max-h-[50%] fixed bottom-0 left-0 right-0"
       >
         <div class="p-4 ounded-t-[10px] flex-1">
           <DrawerHandle data-testid="handle" class="mb-8 mt-2" />
@@ -32,9 +32,9 @@
             <li v-for="link in tocLinks" :key="link.id">
               <a
                 :href="'#' + link.id"
-                class="text-[15px] no-underline text-muted-foreground font-light"
+                class="text-[15px] no-underline text-muted-foreground font-normal"
                 :class="{
-                  'text-orange-400 font-bold': activeId === link.id,
+                  'text-orange-400 !font-bold': activeId === link.id,
                 }"
                 @click.prevent="handleClickToc(link.id)"
                 >{{ link.text }}</a

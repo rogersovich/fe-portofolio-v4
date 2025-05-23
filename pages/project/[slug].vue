@@ -88,6 +88,8 @@
       :activeId="activeId"
       @handle-click-toc="onClickTOC"
     />
+
+    <ButtonBackDetail :url_back="'/project'" />
   </div>
 </template>
 <script setup lang="ts">
@@ -228,12 +230,4 @@ onUnmounted(() => {
 #toc li {
   margin-bottom: 7px;
 }
-
-/* #toc li::before {
-  content: "- "; 
-}
-
-#toc li:where(:nth-child(n + 1)) {
-  padding-left: calc(var(--level, 1) * 1em);
-} */
 </style>

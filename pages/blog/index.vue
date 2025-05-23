@@ -136,10 +136,6 @@
 <script setup lang="ts">
 import { isMobile } from "~/composables/useBreakpoint";
 import {
-  IconCalendar,
-  IconChevronRight,
-  IconEye,
-  IconBook,
   IconBook2,
 } from "@tabler/icons-vue";
 import dayjs from "dayjs";
@@ -228,23 +224,6 @@ const onClearSearch = () => {
 const onPageChange = (event: any) => {
   params.page = event.page + 1;
   first.value = event.first;
-};
-
-const formatDate = (dateString: string, format: string = "MMM DD, YYYY") => {
-  return dayjs(dateString).format(format);
-};
-
-const formatReadingTime = (estimated_seconds: number) => {
-  const minutes = Math.floor(estimated_seconds / 60);
-  const seconds = estimated_seconds % 60;
-
-  if (minutes > 0) {
-    return `${minutes} min read`;
-  } else if (seconds > 0) {
-    return `${seconds} sec read`;
-  } else {
-    return "0 sec read";
-  }
 };
 
 const onClickTopic = (topicId: number) => {
