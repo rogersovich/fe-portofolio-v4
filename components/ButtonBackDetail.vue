@@ -4,7 +4,7 @@
       <Button
         type="button"
         @click="$router.push(url_back)"
-        class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-50/[.1] bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm focus:!bg-zinc-800/60 focus:!border-zinc-50/[.1]"
+        class="py-2 px-3 gap-2 rounded-md border border-solid !border-zinc-50/[.1] !bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm focus:!bg-zinc-800/60 focus:!border-zinc-50/[.1]"
       >
         <IconArrowLeft class="size-4 text-white" />
         <span class="text-[13px] font-rethink text-white"

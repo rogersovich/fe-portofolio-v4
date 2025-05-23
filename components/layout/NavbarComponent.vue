@@ -23,24 +23,19 @@
     <template v-else-if="isMobile">
       <div class="fixed top-5 right-5 z-50">
         <button
-          @click="toggleMobileMenu()"
+          ref="targetMenu"
+          @click="handleToggleMobileMenu()"
           type="button"
           class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-50/[.1] bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm"
         >
           <span class="text-[13px] font-rethink text-white">Menu</span>
-          <IconChevronDown
-            v-if="!menuStore.menu_mobile"
-            class="size-4 text-white"
-          />
-          <IconChevronUp
-            v-else
-            class="size-4 text-white"
-          />
+          <IconChevronDown v-if="!menu_mobile" class="size-4 text-white" />
+          <IconChevronUp v-else class="size-4 text-white" />
         </button>
       </div>
 
       <div
-        v-if="menuStore.menu_mobile"
+        v-if="menu_mobile"
         class="fixed top-20 right-5 z-50 transition-transform duration-300"
       >
         <div
@@ -67,7 +62,10 @@
                 >
                   {{ nav.title }}
                 </div>
-                <div class="text-[11px] mt-1 text-muted-foreground"  :class="{ '!text-orange-100': nav.active }">
+                <div
+                  class="text-[11px] mt-1 text-muted-foreground"
+                  :class="{ '!text-orange-100': nav.active }"
+                >
                   {{ nav.description }}
                 </div>
               </div>
@@ -86,9 +84,12 @@ import {
   IconComet,
   IconUserSquare,
   IconChevronDown,
-  IconChevronUp
+  IconChevronUp,
 } from "@tabler/icons-vue";
 import { isMobile, isTablet } from "~/composables/useBreakpoint";
+import { onClickOutside } from "@vueuse/core";
+import { useTemplateRef } from "vue";
+
 const route = useRoute();
 const router = useRouter();
 const listNavs = reactive([
@@ -135,6 +136,9 @@ const listNavs = reactive([
 ]);
 
 const menuStore = useMenuStore();
+const { menu_mobile } = storeToRefs(menuStore);
+
+const targetMenu = useTemplateRef<HTMLElement>("targetMenu");
 
 const onClickNav = (key: string) => {
   listNavs.forEach((nav) => {
@@ -145,10 +149,6 @@ const onClickNav = (key: string) => {
     nav.active = true;
     menuStore.setActivePath(nav.link);
     router.push(nav.link);
-  }
-
-  if (isMobile.value) {
-    toggleMobileMenu();
   }
 };
 
@@ -175,12 +175,19 @@ const setStoreMenuPath = (active_path: string) => {
   }
 };
 
-const toggleMobileMenu = () => {
+const handleToggleMobileMenu = () => {
   menuStore.toggleMobileMenu();
 };
 
 menuStore.$subscribe((mutation, state) => {
-  setStoreMenuPath(state.active_path);
+  const events = mutation.events as any;
+  if (events.key === "active_path") {
+    setStoreMenuPath(state.active_path);
+  }
+});
+
+onClickOutside(targetMenu, () => {
+  menuStore.hideMobileMenu();
 });
 
 onMounted(() => {
