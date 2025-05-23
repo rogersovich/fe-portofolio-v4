@@ -180,10 +180,7 @@ const handleToggleMobileMenu = () => {
 };
 
 menuStore.$subscribe((mutation, state) => {
-  const events = mutation.events as any;
-  if (events.key === "active_path") {
-    setStoreMenuPath(state.active_path);
-  }
+  setStoreMenuPath(state.active_path);
 });
 
 onClickOutside(targetMenu, () => {

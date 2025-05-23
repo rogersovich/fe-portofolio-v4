@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="col-span-6">
-        <!-- <ClientOnly>
+        <ClientOnly>
           <Button
             @click="
               colorMode.preference =
@@ -34,7 +34,7 @@
           >
             Switch Theme
           </Button>
-        </ClientOnly> -->
+        </ClientOnly>
       </div>
     </div>
   </div>
