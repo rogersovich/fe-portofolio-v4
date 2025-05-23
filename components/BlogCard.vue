@@ -7,7 +7,7 @@
       }"
     >
       <div
-        class="border border-solid border-zinc-50/[.05] rounded-xl p-6 w-full"
+        class="border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl p-6 w-full"
       >
         <div class="flex items-center gap-2">
           <IconCalendar class="h-[18px] w-[18px] text-muted-foreground" />
@@ -27,15 +27,15 @@
         >
           <div class="flex items-center gap-5">
             <div class="flex items-center gap-2">
-              <IconEye class="size-4 text-orange-400" />
-              <span class="text-[11px] md:text-[12px]text-[12px] text-zinc-300"
+              <IconEye class="size-4 text-orange-500 dark:text-orange-400" />
+              <span class="text-[11px] md:text-[12px]text-[12px] text-zinc-600 dark:text-zinc-300"
                 >{{ blog.statistic.views }}
                 views
               </span>
             </div>
             <div class="flex items-center gap-2">
-              <IconBook class="size-4 text-orange-400" />
-              <span class="text-[11px] md:text-[12px] text-zinc-300"
+              <IconBook class="size-4 text-orange-500 dark:text-orange-400" />
+              <span class="text-[11px] md:text-[12px] text-zinc-600 dark:text-zinc-300"
                 >{{
                   blog.reading_time
                     ? formatReadingTime(blog.reading_time.estimated_seconds)
@@ -63,7 +63,7 @@
             <Button
               variant="outlined"
               size="large"
-              class="!text-[12px] md:!text-sm text-white group !border-orange-500/[.2]"
+              class="!text-[12px] md:!text-sm text-foreground group !border-orange-500/[.2]"
             >
               <span> View blog </span>
               <IconChevronRight

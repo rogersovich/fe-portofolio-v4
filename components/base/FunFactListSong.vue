@@ -5,7 +5,7 @@
     <ClientOnly>
       <div
         v-if="!isMobile && !isTablet"
-        class="flex flex-col justify-center gap-10 border-none border md:border-solid border-zinc-50/[.05] rounded-xl py-0 md:py-6 px-0 md:px-4"
+        class="flex flex-col justify-center gap-10 border-none border md:border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl py-0 md:py-6 px-0 md:px-4"
       >
         <template v-for="(song, index) in props.listFavoriteSongs" :key="index">
           <div class="flex gap-6">
@@ -17,13 +17,13 @@
             <div class="basis-[7.5%] flex items-center justify-center">
               <NuxtImg
                 :src="song.url_img"
-                class="rounded w-[50px] h-[50px] border border-solid border-zinc-50/[.05]"
+                class="rounded w-[50px] h-[50px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05]"
               />
             </div>
             <div class="basis-[35%] flex-col items-center justify-left gap-2">
               <div class="flex items-center gap-1">
                 <NuxtLink
-                  class="text-base font-rethink no-underline text-white hover:text-orange-500 hover:underline"
+                  class="text-base font-rethink no-underline text-foreground hover:text-orange-500 hover:underline"
                   :to="song.song_url"
                   target="_blank"
                 >
@@ -67,7 +67,7 @@
       </div>
       <div
         v-else-if="isMobile"
-        class="flex flex-col justify-center gap-10 border-none border md:border-solid border-zinc-50/[.05] rounded-xl py-0 md:py-6 px-0 md:px-4"
+        class="flex flex-col justify-center gap-10 border-none border md:border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl py-0 md:py-6 px-0 md:px-4"
       >
         <template v-for="(song, index) in props.listFavoriteSongs" :key="index">
           <div class="flex flex-col gap-6">
@@ -80,13 +80,13 @@
               <div class="basis-[7.5%] flex items-center justify-center">
                 <NuxtImg
                   :src="song.url_img"
-                  class="rounded w-[40px] h-[40px] border border-solid border-zinc-50/[.05]"
+                  class="rounded w-[40px] h-[40px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05]"
                 />
               </div>
               <div class="basis-[70%] flex-col items-center justify-left gap-2">
                 <div class="flex flex-row items-center gap-1">
                   <NuxtLink
-                    class="text-sm font-rethink no-underline text-white hover:text-orange-500 hover:underline"
+                    class="text-sm font-rethink no-underline text-foreground hover:text-orange-500 hover:underline"
                     :to="song.song_url"
                     target="_blank"
                   >

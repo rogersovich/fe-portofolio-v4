@@ -26,11 +26,11 @@
           ref="targetMenu"
           @click="handleToggleMobileMenu()"
           type="button"
-          class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-50/[.1] bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm"
+          class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-400/[.1] dark:border-zinc-50/[.1] bg-zinc-300/60 dark:bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm"
         >
-          <span class="text-[13px] font-rethink text-white">Menu</span>
-          <IconChevronDown v-if="!menu_mobile" class="size-4 text-white" />
-          <IconChevronUp v-else class="size-4 text-white" />
+          <span class="text-[13px] font-rethink text-foreground">Menu</span>
+          <IconChevronDown v-if="!menu_mobile" class="size-4 text-foreground" />
+          <IconChevronUp v-else class="size-4 text-foreground" />
         </button>
       </div>
 
@@ -39,32 +39,32 @@
         class="fixed top-20 right-5 z-50 transition-transform duration-300"
       >
         <div
-          class="p-3 rounded-lg border border-solid border-zinc-50/[.1] bg-zinc-800/60 min-w-[300px] flex flex-col space-y-2 backdrop-blur-md"
+          class="p-3 rounded-lg border border-solid border-zinc-400/[.1] dark:border-zinc-50/[.1] bg-zinc-300/60 dark:bg-zinc-800/60 min-w-[300px] flex flex-col space-y-2 backdrop-blur-md"
         >
           <template v-for="nav in listNavs" :key="nav.key">
             <div
               @click="onClickNav(nav.key)"
-              class="flex rounded-lg space-x-4 items-center text-[13px] bg-zinc-950/30 px-4 py-3 no-underline cursor-pointer"
+              class="flex rounded-lg space-x-4 items-center text-[13px] bg-zinc-50/30 dark:bg-zinc-950/30 px-4 py-3 no-underline cursor-pointer"
             >
               <div
-                class="bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
+                class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
               >
                 <component
                   :is="nav.icon"
-                  class="size-5 text-white"
-                  :class="{ '!text-orange-400': nav.active }"
+                  class="size-5 text-foreground"
+                  :class="{ 'dark:!text-orange-400 text-orange-500': nav.active }"
                 />
               </div>
               <div>
                 <div
-                  class="text-[13px] font-rethink text-white"
-                  :class="{ '!text-orange-400': nav.active }"
+                  class="text-[13px] font-rethink text-foreground"
+                  :class="{ 'dark:!text-orange-400 text-orange-500': nav.active }"
                 >
                   {{ nav.title }}
                 </div>
                 <div
                   class="text-[11px] mt-1 text-muted-foreground"
-                  :class="{ '!text-orange-100': nav.active }"
+                  :class="{ 'dark:!text-orange-100 text-orange-950': nav.active }"
                 >
                   {{ nav.description }}
                 </div>

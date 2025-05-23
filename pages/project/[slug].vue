@@ -1,12 +1,12 @@
 <template>
   <div class="relative">
     <div
-      class="layout text-center pb-4 pt-4 md:pt-32 flex flex-col justify-center"
+      class="layout text-center !px-0 pb-4 pt-4 md:pt-32 flex flex-col justify-center"
     >
       <ClientOnly>
         <NuxtImg
           :src="MINIO_BASE_URL + projects?.data.image_file_name"
-          class="rounded-lg w-full max-h-[200px] object-cover blur-sm brightness-[.15] absolute top-0 left-0"
+          class="rounded-lg w-full max-h-[200px] object-cover blur-sm brightness-125 saturate-[.25] dark:brightness-[.15] absolute top-0 left-0"
         />
       </ClientOnly>
       <div class="flex flex-col gap-3 z-10">
@@ -21,7 +21,7 @@
           </div>
           <template v-if="projects">
             <div
-              class="text-muted-foreground text-left text-sm md:text-base"
+              class="text-foreground dark:text-muted-foreground text-left text-sm md:text-base"
               v-html="projects.data.summary"
             ></div>
           </template>

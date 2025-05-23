@@ -16,16 +16,16 @@
           and redefine fundamental concepts through mental models.
         </div>
         <div class="flex flex-start gap-4 pt-4">
-          <Button severity="contrast" class="!text-[12px] md:!text-base shadow-md"
+          <Button severity="contrast" class="!text-[12px] md:!text-base shadow"
             >Explore more</Button
           >
-          <Button severity="secondary" class="!text-[12px] md:!text-base shadow-md"
+          <Button severity="secondary" class="!text-[12px] md:!text-base shadow"
             >More about me</Button
           >
         </div>
       </div>
       <div class="col-span-6">
-        <ClientOnly>
+        <!-- <ClientOnly>
           <Button
             @click="
               colorMode.preference =
@@ -34,7 +34,7 @@
           >
             Switch Theme
           </Button>
-        </ClientOnly>
+        </ClientOnly> -->
       </div>
     </div>
   </div>

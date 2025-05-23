@@ -1,10 +1,10 @@
 <template>
   <div
-    class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
+    class="min-h-screen bg-zinc-50 dark:bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
   >
     <div class="absolute bottom-0 left-8 z-[-1]">
       <div
-        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-950/[.05] dark:text-zinc-50/[.05]"
       >
         Fun Facts
       </div>
@@ -18,17 +18,14 @@
         <ClientOnly>
           <div
             v-if="isMobile"
-            class="border border-solid border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
+            class="border border-solid border-zinc-950/[.1] dark:border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
           >
             <IconComet class="size-6" />
           </div>
         </ClientOnly>
         <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> Fun </span>
-          <BaseTextHighlight
-            :duration="500"
-            class="rounded-lg bg-gradient-to-r from-[#fb923c] to-[#f87171]"
-          >
+          <BaseTextHighlight :duration="500" class="text-head-highlight">
             Facts
           </BaseTextHighlight>
         </div>
@@ -41,12 +38,12 @@
       class="layout pb-8 pt-8 md:pb-16 md:pt-8 flex flex-col justify-center gap-10"
     >
       <div
-        class="flex flex-col md:flex-row gap-6 md:gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-4 md:px-6 py-6 md:py-8"
+        class="flex flex-col md:flex-row gap-6 md:gap-8 items-start border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl px-4 md:px-6 py-6 md:py-8"
       >
         <div class="md:basis-[30%]">
           <div class="flex flex-col gap-3 items-start pb-2">
             <div
-              class="text-xl border border-solid border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
+              class="text-xl border border-solid border-zinc-950/[.15] dark:border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
             >
               🎬
             </div>
@@ -71,22 +68,26 @@
         </div>
       </div>
       <div
-        class="flex flex-col gap-8 items-start border border-solid border-zinc-50/[.05] rounded-xl px-4 md:px-28 py-4 md:py-12"
+        class="flex flex-col gap-8 items-start border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl px-4 md:px-28 py-4 md:py-12"
       >
         <div class="flex flex-col md:flex-row gap-8 w-full pb-2">
           <div
-            class="basis-[25%] border border-solid border-zinc-50/[.05] rounded-xl md:flex items-center justify-center hidden"
+            class="basis-[25%] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl md:flex items-center justify-center hidden"
           >
-            <BaseIconSong
-              width="150"
-              height="150"
-              fill="#a1a1a1"
-              stroke="#a1a1a1"
-            />
+            <ClientOnly>
+              <BaseIconSong
+                width="150"
+                height="150"
+                :fill="$colorMode.preference == 'light' ? '#52525b' : '#a1a1a1'"
+                :stroke="
+                  $colorMode.preference == 'light' ? '#52525b' : '#a1a1a1'
+                "
+              />
+            </ClientOnly>
           </div>
           <div class="basis-[70%] flex flex-col justify-end gap-2">
             <div
-              class="text-xl border border-solid border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
+              class="text-xl border border-solid border-zinc-950/[.15] dark:border-zinc-50/[.15] rounded-full h-10 w-10 flex items-center justify-center"
             >
               🎧ྀི
             </div>
@@ -105,7 +106,9 @@
             </div>
             <div class="pt-2">
               <NuxtLink :to="myProfileSpotify" target="_blank">
-                <Button severity="secondary" class="text-[12px] md:text-sm"
+                <Button
+                  severity="secondary"
+                  class="text-[12px] md:text-sm shadow"
                   >Visit profile</Button
                 >
               </NuxtLink>
@@ -113,7 +116,10 @@
           </div>
         </div>
         <ClientOnly>
-          <hr v-if="!isMobile" class="border-zinc-50/[.05] w-full" />
+          <hr
+            v-if="!isMobile"
+            class="border-zinc-950/[.05] dark:border-zinc-50/[.05] w-full !border-x-0 !border-t-0 h-4"
+          />
         </ClientOnly>
         <BaseFunFactListSong :listFavoriteSongs="listFavoriteSongs" />
       </div>

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
+    class="min-h-screen bg-zinc-50 dark:bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
   >
     <div class="absolute bottom-0 left-8 z-[-1]">
       <div
-        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-950/[.05] dark:text-zinc-50/[.05]"
       >
         About Me
       </div>
@@ -18,7 +18,7 @@
         <ClientOnly>
           <div
             v-if="isMobile"
-            class="border border-solid border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
+            class="border border-solid border-zinc-950/[.1] dark:border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
           >
             <IconUserSquare class="size-6" />
           </div>
@@ -27,7 +27,7 @@
           <span> About </span>
           <BaseTextHighlight
             :duration="500"
-            class="rounded-lg bg-gradient-to-r from-[#fb923c] to-[#f87171]"
+            class="text-head-highlight"
           >
             Me
           </BaseTextHighlight>
@@ -79,7 +79,7 @@
       <div class="flex flex-col gap-6 md:gap-12">
         <div class="flex flex-row gap-4 items-center">
           <div
-            class="border border-solid border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
+            class="border border-solid border-zinc-950/10 dark:border-zinc-50/10 px-2 bg-zinc-400/[.35] dark:bg-zinc-800/[.35] py-1 text-xl rounded-full"
           >
             🏹
           </div>
@@ -103,7 +103,7 @@
       <div class="flex flex-col gap-6 md:gap-12">
         <div class="flex flex-row gap-4 items-center">
           <div
-            class="border border-solid border-zinc-50/10 px-2 bg-zinc-800/[.35] py-1 text-xl rounded-full"
+            class="border border-solid border-zinc-950/10 dark:border-zinc-50/10 px-2 bg-zinc-400/[.35] dark:bg-zinc-800/[.35] py-1 text-xl rounded-full"
           >
             💼
           </div>

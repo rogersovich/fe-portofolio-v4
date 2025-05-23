@@ -1,12 +1,12 @@
 <template>
   <div class="relative">
     <div
-      class="layout text-center pb-4 pt-12 md:pt-32 flex flex-col justify-center"
+      class="layout text-center !px-0 pb-4 pt-12 md:pt-32 flex flex-col justify-center"
     >
     <ClientOnly>
         <NuxtImg
           :src="MINIO_BASE_URL + blogs?.data.banner_file_name"
-          class="rounded-lg w-full max-h-[200px] object-cover blur-sm brightness-[.15] absolute top-0 left-0"
+          class="rounded-lg w-full max-h-[200px] object-cover blur-sm brightness-125 saturate-[.25] dark:brightness-[.15] absolute top-0 left-0"
         />
       </ClientOnly>
       <div class="flex flex-col gap-3 z-10">
@@ -14,14 +14,14 @@
           class="flex flex-col items-start gap-2 md:px-4 pb-0 py-5 rounded-md"
         >
           <div
-            class="text-3xl text-center md:text-left md:text-5xl font-rethink font-bold mb-3"
+            class="text-3xl text-center md:text-left md:text-5xl font-rethink font-bold mb-3 w-full"
             v-if="blogs"
           >
             {{ blogs.data.title }}
           </div>
           <template v-if="blogs">
             <div
-              class="text-muted-foreground text-center md:text-left text-sm md:text-base w-full"
+              class="text-foreground dark:text-muted-foreground text-center md:text-left text-sm md:text-base w-full"
               v-html="blogs.data.summary"
             ></div>
           </template>

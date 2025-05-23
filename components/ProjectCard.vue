@@ -5,7 +5,7 @@
     >
       <div class="col-span-12 md:col-span-9">
         <div
-          class="border border-solid border-zinc-50/[.05] rounded-xl p-4 group w-full"
+          class="border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl p-4 group w-full"
         >
           <NuxtImg
             v-if="isMobile"
@@ -29,7 +29,7 @@
                 :key="tech.tech_id"
               >
                 <div
-                  class="bg-zinc-50/[.075] p-1 flex items-center rounded-full"
+                  class="bg-zinc-950/[.075] dark:bg-zinc-50/[.075] p-1 flex items-center rounded-full"
                 >
                   <NuxtImg
                     :src="MINIO_BASE_URL + tech.tech_logo_file_name"
@@ -46,7 +46,7 @@
               <Button
                 variant="outlined"
                 size="large"
-                class="!text-[12px] md:!text-sm text-white group !border-orange-500/[.2]"
+                class="!text-[12px] md:!text-sm !text-foreground group !border-orange-500/[.2]"
               >
                 <span> View Project </span>
                 <IconChevronRight
@@ -64,7 +64,7 @@
                   class="size-[20px] text-zinc-500 group-hover:text-orange-400"
                 />
                 <span
-                  class="text-[14px] font-light text-white group-hover:underline"
+                  class="text-[14px] font-light text-foreground group-hover:underline"
                   >Open Repository</span
                 >
               </a>
@@ -74,7 +74,7 @@
       </div>
       <div v-if="!isMobile && !isTablet" class="block col-span-3">
         <div
-          class="p-4 border border-solid border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
+          class="p-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
         >
           <NuxtImg
             :src="MINIO_BASE_URL + project.image_file_name"

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="min-h-screen bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
+    class="min-h-screen bg-zinc-50 dark:bg-zinc-950 relative overflow-y-scroll z-10 overflow-x-hidden"
   >
     <div class="absolute bottom-0 left-0 md:left-8 z-[-1]">
       <div
-        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-50/[.05]"
+        class="uppercase text-[5rem] md:text-[10rem] font-rethink font-bold text-zinc-950/[.05] dark:text-zinc-50/[.05]"
       >
         My Blogs
       </div>
@@ -18,7 +18,7 @@
         <ClientOnly>
           <div
             v-if="isMobile"
-            class="border border-solid border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
+            class="border border-solid border-zinc-950/[.1] dark:border-zinc-50/[.1] rounded-lg p-2 flex items-center justify-center mb-2"
           >
             <IconBook2 class="size-6" />
           </div>
@@ -27,7 +27,7 @@
           <span> My </span>
           <BaseTextHighlight
             :duration="500"
-            class="rounded-lg bg-gradient-to-r from-[#fb923c] to-[#f87171]"
+            class="text-head-highlight"
           >
             Blogs
           </BaseTextHighlight>
@@ -77,7 +77,7 @@
             </div>
             <div class="hidden md:block md:col-span-3">
               <div
-                class="py-4 px-4 border border-solid border-zinc-50/[.05] rounded-xl"
+                class="py-4 px-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
               >
                 <div class="mb-6">
                   <div class="mb-3 text-[14px] tracking-wider">

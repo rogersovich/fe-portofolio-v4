@@ -7,12 +7,12 @@
     @apply list-disc list-outside text-muted-foreground text-[14px] pl-3;
 
     li {
-      @apply mb-2 text-white;
+      @apply mb-2 text-foreground;
     }
   }
 
   ol li {
-    @apply mb-2 text-white;
+    @apply mb-2 text-foreground;
   }
 }
 
@@ -27,9 +27,17 @@ h6 {
   margin-bottom: 0.75rem;
   line-height: 1.25;
   font-weight: 600;
-  color: #fff;
   letter-spacing: 1px;
   font-family: 'Rethink Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-foreground;
 }
 
 h1 {
@@ -61,9 +69,9 @@ a {
 }
 
 p > strong {
-  @apply font-semibold text-white;
+  @apply font-semibold text-foreground;
 }
 
 li {
-  @apply text-white;
+  @apply text-foreground;
 }

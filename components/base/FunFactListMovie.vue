@@ -13,12 +13,12 @@
             <template v-if="!moviesOnHover[index]">
               <NuxtImg
                 :src="movie.image"
-                class="rounded-lg w-full h-[150px] md:h-[300px] border border-solid border-zinc-50/[.05] hover:border-zinc-50/[.15]"
+                class="rounded-lg w-full h-[150px] md:h-[300px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05]"
               />
             </template>
             <template v-else>
               <div
-                class="border border-solid border-zinc-50/[.15] w-full h-[300px] rounded-lg p-4 relative overflow-hidden"
+                class="border border-solid border-zinc-950/[.15] dark:border-zinc-50/[.15] w-full h-[300px] rounded-lg p-4 relative overflow-hidden"
               >
                 <div class="">
                   <div class="font-rethink font-bold text-2xl mb-3">
@@ -50,7 +50,7 @@
                   </div>
                   <div class="absolute bottom-[4px] left-[10px] text-left">
                     <div
-                      class="text-4xl font-rethink font-bold uppercase text-zinc-50/[.05]"
+                      class="text-4xl font-rethink font-bold uppercase text-zinc-950/[.05] dark:text-zinc-50/[.05]"
                     >
                       {{ movie.title }}
                     </div>
@@ -64,7 +64,7 @@
           <div class="w-full flex items-start space-x-3">
             <NuxtImg
               :src="movie.image"
-              class="rounded-lg h-[175px] w-[125px] border border-solid border-zinc-50/[.05]"
+              class="rounded-lg h-[175px] w-[125px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05]"
             />
             <div class="flex flex-col items-start gap-[5px] py-2">
               <div class="text-muted-foreground text-[13px] font-light">
