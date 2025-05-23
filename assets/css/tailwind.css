@@ -4,13 +4,57 @@
   :root {
     --color-foreground: #09090b;
     --color-muted-foreground: #52525b;
-    background: #ffffff;
+    background: #fafafa;
+
+    /* button contrast */
+    --p-button-contrast-background: #09090b;
+    --p-button-contrast-hover-background: #3f3f46;
+    --p-button-contrast-active-background: #3f3f46;
+    --p-button-contrast-border-color: #09090b;
+    --p-button-contrast-hover-border-color: #3f3f46;
+    --p-button-contrast-active-border-color: #3f3f46;
+    --p-button-contrast-color: #fafafa;
+    --p-button-contrast-hover-color: #fafafa;
+    --p-button-contrast-active-color: #fafafa;
+
+    /* button secondary */
+    --p-button-secondary-background: #f4f4f5;
+    --p-button-secondary-hover-background: #e4e4e7;
+    --p-button-secondary-active-background: #d4d4d8;
+    --p-button-secondary-border-color: #f4f4f5;
+    --p-button-secondary-hover-border-color: #e4e4e7;
+    --p-button-secondary-active-border-color: #d4d4d8;
+    --p-button-secondary-color: #52525b;
+    --p-button-secondary-hover-color: #3f3f46;
+    --p-button-secondary-active-color: #262626;
   }
 
   :root[class~="dark"] {
     --color-foreground: #fafafa;
     --color-muted-foreground: #a1a1aa;
     background: #09090b;
+
+    /* button contrast */
+    --p-button-contrast-background: #fafafa;
+    --p-button-contrast-hover-background: #d1d5db;
+    --p-button-contrast-active-background: #d1d5db;
+    --p-button-contrast-border-color: #fafafa;
+    --p-button-contrast-hover-border-color: #d1d5db;
+    --p-button-contrast-active-border-color: #d1d5db;
+    --p-button-contrast-color: #09090b;
+    --p-button-contrast-hover-color: #09090b;
+    --p-button-contrast-active-color: #09090b;
+
+    /* button secondary */
+    --p-button-secondary-background: #27272a;
+    --p-button-secondary-hover-background: #3f3f46;
+    --p-button-secondary-active-background: #52525b;
+    --p-button-secondary-border-color: #27272a;
+    --p-button-secondary-hover-border-color: #3f3f46;
+    --p-button-secondary-active-border-color: #52525b;
+    --p-button-secondary-color: #d4d4d8;
+    --p-button-secondary-hover-color: #e4e4e7;
+    --p-button-secondary-active-color: #f4f4f5;
   }
 
   p {
@@ -27,10 +71,7 @@ body {
 }
 
 .layout {
-  max-width: 68rem;
-  margin-left: auto;
-  margin-right: auto;
-  width: 91.666667%;
+  @apply max-w-5xl mx-auto w-11/12;
 }
 
 @media (max-width: 1024px) {
@@ -54,10 +95,7 @@ body {
 }
 
 .control-group {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background: #09090b;
+  @apply sticky top-0 z-[1] bg-zinc-50 dark:bg-zinc-950;
 }
 
 .tiptap-control-button--active {
@@ -104,12 +142,12 @@ p {
   @apply mt-0 mb-[0.5rem] leading-[1.75rem];
 }
 
-ul > li > p {
+ul>li>p {
   @apply mt-0 mb-[0.5rem] leading-[1.5rem];
 }
 
 .text-link {
-  @apply font-light text-white cursor-pointer no-underline hover:text-orange-500 hover:underline;
+  @apply font-light text-foreground cursor-pointer no-underline hover:text-orange-500 hover:underline;
 }
 
 .input-search {
@@ -136,4 +174,16 @@ ul > li > p {
   li {
     margin-bottom: 9px;
   }
+}
+
+.hr-border {
+  @apply dark:border-zinc-50/[.20] border-zinc-50/[.4];
+}
+
+.nav-item {
+  @apply py-3 px-2 font-rethink transition-colors cursor-pointer text-zinc-800 dark:text-zinc-50 no-underline hover:underline hover:text-orange-500 hover:dark:!text-orange-400;
+}
+
+.nav-container {
+  @apply flex pointer-events-auto mt-8 px-3 rounded-lg bg-zinc-400/60 dark:bg-zinc-800/60 w-fit mx-auto text-base backdrop-blur-sm;
 }

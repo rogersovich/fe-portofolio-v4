@@ -5,15 +5,15 @@
       class="pointer-events-none fixed top-0 inset-x-0 z-50 opacity-100 hover:!opacity-100"
     >
       <div
-        class="hidden min-[570px]:flex pointer-events-auto mt-8 px-3 rounded-lg bg-zinc-800/60 w-fit mx-auto text-sm md:text-base"
+        class="nav-container"
       >
         <div class="flex items-center gap-4">
           <span
             v-for="nav in listNavs"
             :key="nav.title"
             @click="onClickNav(nav.key)"
-            :class="{ '!text-orange-400': nav.active }"
-            class="py-3 px-2 font-rethink transition-colors cursor-pointer text-white no-underline hover:underline hover:text-orange-400"
+            :class="{ 'dark:!text-orange-400 !text-orange-500': nav.active }"
+            class="nav-item"
           >
             {{ nav.title }}
           </span>

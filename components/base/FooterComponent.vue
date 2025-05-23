@@ -16,7 +16,7 @@
     </div>
     <div class="grid grid-cols-3">
       <div class="text-[14px]">
-        <div class="font-light text-muted-foreground mb-[12px]">General</div>
+        <div class="font-semibold text-muted-foreground mb-[12px] text-base">General</div>
         <div class="flex flex-col gap-[12px]">
           <div
             @click="onClickMenu('/')"
@@ -65,7 +65,7 @@
   </div>
   <div class="layout py-8">
     <div class="w-full">
-      <hr class="border-zinc-50/[.20]" />
+      <hr class="hr-border" />
     </div>
   </div>
   <div class="layout pb-12 md:pb-24 flex flex-col md:flex-row justify-between gap-6">

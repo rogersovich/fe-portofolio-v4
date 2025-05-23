@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="min-h-screen bg-zinc-950">
+  <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950">
     <BaseHeroComponent />
   </div>
 </template>

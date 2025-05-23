@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div
     class="layout text-center pb-12 pt-12 min-h-[calc(100vh-80px)] md:pb-20 md:pt-36 flex flex-col justify-center"
   >
@@ -16,22 +16,37 @@
           and redefine fundamental concepts through mental models.
         </div>
         <div class="flex flex-start gap-4 pt-4">
-          <Button severity="contrast" class="!text-[12px] md:!text-base">Explore more</Button>
-          <Button severity="secondary" class="!text-[12px] md:!text-base">More about me</Button>
+          <Button severity="contrast" class="!text-[12px] md:!text-base shadow-md"
+            >Explore more</Button
+          >
+          <Button severity="secondary" class="!text-[12px] md:!text-base shadow-md"
+            >More about me</Button
+          >
         </div>
       </div>
-      <div class="col-span-6"></div>
+      <div class="col-span-6">
+        <ClientOnly>
+          <Button
+            @click="
+              colorMode.preference =
+                colorMode.preference === 'light' ? 'dark' : 'light'
+            "
+          >
+            Switch Theme
+          </Button>
+        </ClientOnly>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   setup() {
-    const colorMode = useColorMode()
+    const colorMode = useColorMode();
 
     return {
-      colorMode
-    }
+      colorMode,
+    };
   },
 };
 </script>
