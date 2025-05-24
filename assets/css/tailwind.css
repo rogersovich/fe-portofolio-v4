@@ -275,11 +275,11 @@ ul>li>p {
 }
 
 .container-card-statistic {
-  @apply flex justify-between px-4 md:px-4 py-4 bg-zinc-50/[.2] dark:bg-transparent border border-solid border-zinc-950/[.1] dark:border-zinc-50/[.05] border-x-0 backdrop-blur-sm;
+  @apply flex justify-between px-0 md:px-4 py-4 bg-zinc-50/[.2] dark:bg-transparent border border-solid border-zinc-950/[.1] dark:border-zinc-50/[.05] border-x-0 backdrop-blur-sm;
 }
 
 .text-statistic {
-  @apply text-[12px] text-zinc-900 dark:text-zinc-300;
+  @apply text-[11px] md:text-[12px] text-zinc-900 dark:text-zinc-300;
 }
 
 .icon-statistic {

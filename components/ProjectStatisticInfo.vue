@@ -2,7 +2,7 @@
   <div
     class="container-card-statistic"
   >
-    <div class="flex items-center gap-5" v-if="project">
+    <div class="flex items-center gap-3 md:gap-5" v-if="project">
       <div class="flex items-center gap-2 group">
         <IconUser
           class="icon-statistic group-hover:text-orange-400"
