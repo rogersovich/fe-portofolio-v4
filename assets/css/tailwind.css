@@ -32,13 +32,13 @@
     --p-button-outlined-primary-border-color: #e4e4e7;
 
     /* input text  */
-    --p-inputtext-background: #f4f4f5;
-    --p-inputtext-border-color: #e4e4e7;
-    --p-inputtext-hover-border-color: #e4e4e7;
-    --p-inputtext-focus-border-color: #d4d4d8;
-    --p-inputtext-color: #18181b;
-    --p-inputtext-placeholder-color: #374151;
-    --p-inputtext-disabled-color: #374151;
+    --p-inputtext-background: #f4f4f5 !important;
+    --p-inputtext-border-color: #e4e4e7 !important;
+    --p-inputtext-hover-border-color: #e4e4e7 !important;
+    --p-inputtext-focus-border-color: #d4d4d8 !important;
+    --p-inputtext-color: #18181b !important;
+    --p-inputtext-placeholder-color: #374151 !important;
+    --p-inputtext-disabled-color: #374151 !important;
 
     /* chip */
     --p-chip-background: #f4f4f5 !important;
@@ -76,13 +76,13 @@
     --p-button-outlined-primary-border-color: #27272a;
 
     /* input text  */
-    --p-inputtext-background: #09090b;
-    --p-inputtext-border-color: #18181b;
-    --p-inputtext-hover-border-color: #18181b;
-    --p-inputtext-focus-border-color: #18181b;
-    --p-inputtext-color: #f4f4f5;
-    --p-inputtext-placeholder-color: #e4e4e7;
-    --p-inputtext-disabled-color: #e4e4e7;
+    --p-inputtext-background: #09090b !important;
+    --p-inputtext-border-color: #18181b !important;
+    --p-inputtext-hover-border-color: #18181b !important;
+    --p-inputtext-focus-border-color: #18181b !important;
+    --p-inputtext-color: #f4f4f5 !important;
+    --p-inputtext-placeholder-color: #e4e4e7 !important;
+    --p-inputtext-disabled-color: #e4e4e7 !important;
 
     /* chip */
     --p-chip-background: #27272a !important;
