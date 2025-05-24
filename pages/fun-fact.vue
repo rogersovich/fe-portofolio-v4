@@ -63,7 +63,7 @@
             <div class="text-2xl md:text-3xl font-bold font-rethink pb-4">
               Favorite movies
             </div>
-            <BaseFunFactListMovie :list-favorite-movies="listFavoriteMovies" />
+            <FunFactListMovie :list-favorite-movies="listFavoriteMovies" />
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@
             class="border-zinc-950/[.05] dark:border-zinc-50/[.05] w-full !border-x-0 !border-t-0 h-4"
           />
         </ClientOnly>
-        <BaseFunFactListSong :listFavoriteSongs="listFavoriteSongs" />
+        <FunFactListSong :listFavoriteSongs="listFavoriteSongs" />
       </div>
     </div>
   </div>
@@ -136,17 +136,6 @@ useHead({
 });
 
 const moviesOnHover = ref([]);
-
-const onMouseEnter = (index) => {
-  setTimeout(() => {
-    moviesOnHover.value[index] = true;
-  }, 100);
-};
-const onMouseLeave = (index) => {
-  setTimeout(() => {
-    moviesOnHover.value[index] = false;
-  }, 100);
-};
 
 const listFavoriteMovies = [
   {

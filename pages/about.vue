@@ -91,7 +91,7 @@
           </template>
           <template v-else>
             <template v-if="profiles?.technologies">
-              <BaseListSkill :technologies="profiles.technologies" />
+              <ListSkill :technologies="profiles.technologies" />
             </template>
           </template>
         </div>
@@ -114,7 +114,7 @@
         </template>
         <template v-else>
           <template v-if="profiles?.experiences">
-            <BaseListExperience :experiences="profiles.experiences" />
+            <ListExperience :experiences="profiles.experiences" />
           </template>
         </template>
       </div>
