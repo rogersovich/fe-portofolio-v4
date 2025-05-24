@@ -28,28 +28,34 @@
       <div
         v-if="show_menu_deep"
         ref="targetDeepMenu"
-        class="flex justify-center pointer-events-auto space-x-4 min-w-[40%] mt-4 px-2 py-3 rounded-lg bg-zinc-400/30 dark:bg-zinc-800/60 w-fit mx-auto text-base backdrop-blur-sm"
+        class="nav-container-deep-menu"
       >
         <div
-          class="flex flex-row items-center gap-3 bg-zinc-50/30 dark:bg-zinc-950/20 px-3 py-1.5 rounded-lg cursor-pointer"
+          class="nav-item-deep-menu group"
         >
-          <IconSignature class="size-6 text-foreground" />
-          <div class="text-[14px] font-rethink">Write Message</div>
+          <IconSignature class="size-6 text-foreground group-hover:text-orange-500" />
+          <div class="text-[14px] font-rethink group-hover:text-orange-300">Write Message</div>
         </div>
         <div
-          class="flex flex-row items-center gap-3 bg-zinc-50/30 dark:bg-zinc-950/20 px-3 py-1.5 rounded-lg cursor-pointer"
+          class="nav-item-deep-menu group"
+        >
+          <IconSparkles class="size-6 text-foreground group-hover:text-orange-500" />
+          <div class="text-[14px] font-rethink group-hover:text-orange-300">Useful Website</div>
+        </div>
+        <div
+          class="nav-item-deep-menu group"
           @click="toggleTheme"
         >
           <IconMoon
             v-if="colorMode.preference == 'dark'"
-            class="size-4 text-foreground"
+            class="size-4 text-foreground group-hover:text-orange-500"
           />
           <IconSun
             v-else-if="colorMode.preference == 'light'"
-            class="size-4 text-foreground"
+            class="size-4 text-foreground group-hover:text-orange-500"
           />
-          <IconSunMoon v-else class="size-4 text-foreground" />
-          <div class="text-[14px] font-rethink">Switch Theme</div>
+          <IconSunMoon v-else class="size-4 text-foreground group-hover:text-orange-500" />
+          <div class="text-[14px] font-rethink group-hover:text-orange-300">Switch Theme</div>
         </div>
       </div>
     </div>
@@ -59,7 +65,7 @@
           ref="targetMenu"
           @click="handleToggleMobileMenu()"
           type="button"
-          class="py-2 px-3 gap-2 rounded-md border border-solid border-zinc-400/[.1] dark:border-zinc-50/[.1] bg-zinc-300/60 dark:bg-zinc-800/60 flex items-center justify-center cursor-pointer backdrop-blur-sm"
+          class="nav-btn-menu-mobile"
         >
           <span class="text-[13px] font-rethink text-foreground">Menu</span>
           <IconChevronDown v-if="!menu_mobile" class="size-4 text-foreground" />
@@ -72,12 +78,12 @@
         class="fixed top-20 right-5 z-50 transition-transform duration-300"
       >
         <div
-          class="p-3 rounded-lg border border-solid border-zinc-400/[.1] dark:border-zinc-50/[.1] bg-zinc-300/60 dark:bg-zinc-800/60 min-w-[300px] flex flex-col space-y-2 backdrop-blur-md"
+          class="nav-mobile-container"
         >
           <template v-for="nav in listNavs" :key="nav.key">
             <div
               @click="onClickNav(nav.key)"
-              class="flex rounded-lg space-x-4 items-center text-[13px] bg-zinc-50/30 dark:bg-zinc-950/30 px-4 py-3 no-underline cursor-pointer"
+              class="nav-mobile-item"
             >
               <div
                 class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
@@ -111,7 +117,7 @@
             </div>
           </template>
           <div
-            class="flex rounded-lg space-x-4 items-center text-[13px] bg-zinc-50/30 dark:bg-zinc-950/30 px-4 py-3 no-underline cursor-pointer"
+            class="nav-switch-theme"
             @click="toggleTheme"
           >
             <div
@@ -155,6 +161,7 @@ import {
   IconMoon,
   IconSun,
   IconSunMoon,
+  IconSparkles,
 } from "@tabler/icons-vue";
 import { isMobile, isTablet } from "~/composables/useBreakpoint";
 import { onClickOutside } from "@vueuse/core";

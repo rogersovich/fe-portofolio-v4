@@ -50,7 +50,7 @@
                 :label="topic.name"
                 class="text-[11px] md:text-[12px] text-muted-foreground px-2.5 py-1.5"
                 :class="{
-                  'text-white bg-orange-500/[.3]': filterTopics.includes(
+                  'text-zinc-950 bg-orange-400/[.4]': filterTopics.includes(
                     topic.id as never
                   ),
                 }"

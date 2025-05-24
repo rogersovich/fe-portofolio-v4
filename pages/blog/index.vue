@@ -57,6 +57,50 @@
         </div>
         <template v-else-if="dataBlogs">
           <div class="grid grid-cols-12 gap-6">
+            <ClientOnly>
+              <div v-if="isMobile" class="col-span-12">
+                <div
+                  class="py-4 px-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
+                >
+                  <div class="mb-6">
+                    <div class="mb-3 text-[13px] tracking-wider">
+                      Filter by date
+                    </div>
+                    <div>
+                      <DatePicker
+                        v-model="filterDate"
+                        variant="outlined"
+                        selectionMode="range"
+                        fluid
+                        showButtonBar
+                        placeholder="Select date"
+                        inputClass="!border-zinc-50/[.05] !text-[12px]"
+                      />
+                    </div>
+                  </div>
+                  <template v-if="pendingTopic"> loading topic... </template>
+                  <div v-else-if="dataTopics">
+                    <div class="mb-3 text-[13px] tracking-wider">
+                      Filter by topic
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                      <template v-for="topic in dataTopics" :key="topic.id">
+                        <Chip
+                          @click="onClickTopic(topic.id)"
+                          :label="topic.name"
+                          class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-foreground"
+                          :class="{
+                            'text-zinc-950 bg-orange-400/[.4]': filterTopics.includes(
+                              topic.id as never
+                            ),
+                          }"
+                        />
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ClientOnly>
             <div class="col-span-12 md:col-span-9">
               <template v-if="dataBlogs.items.length > 0">
                 <template
@@ -75,48 +119,50 @@
                 <BaseEmptyData @clear-search="onClearSearch()" />
               </template>
             </div>
-            <div class="hidden md:block md:col-span-3">
-              <div
-                class="py-4 px-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
-              >
-                <div class="mb-6">
-                  <div class="mb-3 text-[14px] tracking-wider">
-                    Filter by date
-                  </div>
-                  <div>
-                    <DatePicker
-                      v-model="filterDate"
-                      variant="outlined"
-                      selectionMode="range"
-                      fluid
-                      showButtonBar
-                      placeholder="Select date"
-                      inputClass="!border-zinc-50/[.05] text-sm"
-                    />
-                  </div>
-                </div>
-                <template v-if="pendingTopic"> loading topic... </template>
-                <div v-else-if="dataTopics">
-                  <div class="mb-3 text-[14px] tracking-wider">
-                    Filter by topic
-                  </div>
-                  <div class="flex flex-wrap gap-2">
-                    <template v-for="topic in dataTopics" :key="topic.id">
-                      <Chip
-                        @click="onClickTopic(topic.id)"
-                        :label="topic.name"
-                        class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-white"
-                        :class="{
-                          'text-white bg-orange-500/[.3]': filterTopics.includes(
-                            topic.id as never
-                          ),
-                        }"
+            <ClientOnly>
+              <div v-if="!isMobile && !isTablet" class="col-span-3">
+                <div
+                  class="py-4 px-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
+                >
+                  <div class="mb-6">
+                    <div class="mb-3 text-[14px] tracking-wider">
+                      Filter by date
+                    </div>
+                    <div>
+                      <DatePicker
+                        v-model="filterDate"
+                        variant="outlined"
+                        selectionMode="range"
+                        fluid
+                        showButtonBar
+                        placeholder="Select date"
+                        inputClass="!border-zinc-50/[.05] text-sm"
                       />
-                    </template>
+                    </div>
+                  </div>
+                  <template v-if="pendingTopic"> loading topic... </template>
+                  <div v-else-if="dataTopics">
+                    <div class="mb-3 text-[14px] tracking-wider">
+                      Filter by topic
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                      <template v-for="topic in dataTopics" :key="topic.id">
+                        <Chip
+                          @click="onClickTopic(topic.id)"
+                          :label="topic.name"
+                          class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-foreground"
+                          :class="{
+                            'text-white bg-orange-500/[.3]': filterTopics.includes(
+                              topic.id as never
+                            ),
+                          }"
+                        />
+                      </template>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ClientOnly>
           </div>
           <Paginator
             :first="first"
@@ -134,7 +180,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { isMobile } from "~/composables/useBreakpoint";
+import { isMobile, isTablet } from "~/composables/useBreakpoint";
 import {
   IconBook2,
 } from "@tabler/icons-vue";

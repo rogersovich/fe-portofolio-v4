@@ -3,10 +3,10 @@
     <div
       class="layout text-center !px-0 pb-4 pt-12 md:pt-32 flex flex-col justify-center"
     >
-    <ClientOnly>
+      <ClientOnly>
         <NuxtImg
           :src="MINIO_BASE_URL + blogs?.data.banner_file_name"
-          class="rounded-lg w-full max-h-[200px] object-cover blur-sm brightness-125 saturate-[.25] dark:brightness-[.15] absolute top-0 left-0"
+          class="rounded-lg w-full max-h-[200px] md:max-h-[300px] object-cover blur-sm brightness-125 saturate-[.25] dark:brightness-[.15] absolute top-0 left-0 z-1"
         />
       </ClientOnly>
       <div class="flex flex-col gap-3 z-10">
@@ -34,7 +34,7 @@
         </template>
       </div>
     </div>
-    <div class="layout grid grid-cols-12 gap-6">
+    <div class="layout grid grid-cols-12 gap-6 z-10 relative">
       <div class="col-span-12 md:col-span-9">
         <template v-if="blogs">
           <div
@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="col-span-12">
-        <hr class="border-zinc-50/[.05]" />
+        <hr class="hr-border-dashed" />
 
         <div class="mt-8 text-center">
           <router-link to="/blog">

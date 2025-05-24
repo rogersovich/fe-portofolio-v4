@@ -52,7 +52,7 @@
             <template v-if="isMobile">
               <div class="flex flex-col items-start gap-2 mt-2">
                 <div class="w-full">
-                  <hr class="border-b-zinc-50/[.15] border-dashed border-t-0 border-x-0" />
+                  <hr class="hr-border-dashed" />
                 </div>
                 <div class="flex flex-row items-center gap-2">
                   <div class="flex items-center justify-center">
@@ -79,7 +79,7 @@
                   </div>
                 </div>
                 <div class="w-full">
-                  <hr class="border-b-zinc-50/[.15] border-dashed border-t-0 border-x-0" />
+                  <hr class="hr-border-dashed" />
                 </div>
               </div>
             </template>
