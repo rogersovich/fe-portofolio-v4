@@ -15,8 +15,13 @@
         <IconEye
           class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
         />
-        <span class="text-[12px] text-zinc-700 dark:text-zinc-300"
-          >{{ project.statistic ? project.statistic.views : 0 }}
+        <span class="text-[12px] text-zinc-700 dark:text-zinc-300">
+          <template v-if="viewNew == project.statistic.views">
+            {{ project.statistic ? project.statistic.views : 0 }}
+          </template>
+          <template v-else>
+            {{ viewNew }}
+          </template>
           views
         </span>
       </div>
@@ -25,7 +30,12 @@
           class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
         />
         <span class="text-[12px] text-zinc-700 dark:text-zinc-300">
-          {{ project.statistic ? project.statistic.likes : 0 }}
+          <template v-if="!isLike">
+            {{ project.statistic ? project.statistic.likes : 0 }}
+          </template>
+          <template v-else>
+            {{ newLike }}
+          </template>
           likes
         </span>
       </div>
@@ -60,6 +70,9 @@ import {
 
 const { project } = defineProps<{
   project: TPublicProjectDetail;
+  isLike: boolean;
+  newLike: number | null;
+  viewNew: number;
 }>();
 </script>
 <style lang=""></style>

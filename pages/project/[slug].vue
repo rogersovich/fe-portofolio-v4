@@ -26,8 +26,15 @@
             ></div>
           </template>
         </div>
-        <template v-if="projects">
-          <ProjectStatisticInfo :project="projects?.data" />
+        <template v-if="projects && projects.data.statistic">
+          <template v-if="viewNew">
+            <ProjectStatisticInfo
+              :project="projects?.data"
+              :is-like="isLike"
+              :new-like="likesNew"
+              :view-new="viewNew"
+            />
+          </template>
         </template>
       </div>
     </div>
@@ -63,6 +70,13 @@
               @handle-click-toc="onClickTOC"
             />
           </div>
+          <div v-if="viewNew && projects" class="mt-3">
+            <ProjectButtonLike
+              :project="projects?.data"
+              :view-new="viewNew"
+              @trigger-new-like="updateNewLike($event)"
+            />
+          </div>
         </div>
       </div>
       <div class="col-span-12">
@@ -93,7 +107,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IconArrowLeft } from "@tabler/icons-vue";
+import { IconArrowLeft, IconHeart, IconHeartFilled } from "@tabler/icons-vue";
 import "./../../assets/css/editor-content.css";
 
 import type { TBaseResponse } from "~/types/base.type";
@@ -208,9 +222,49 @@ const setupIntersectionObserver = () => {
   });
 };
 
+const viewNew = ref<any>(null);
+const isLike = ref<boolean>(false);
+const likesNew = ref<any>(null);
+
+const updateNewLike = (newLike: any) => {
+  isLike.value = true;
+  likesNew.value = newLike;
+};
+
+const updateProjectStatisticViewAPI = async () => {
+  if (projects.value?.data.statistic == null) return;
+  const viewOld = projects.value?.data.statistic.views as unknown as number;
+  const body = {
+    project_id: projects.value?.data.id,
+    statistic_id: projects.value?.data.statistic.id,
+    likes: projects.value?.data.statistic.likes,
+    views: viewOld + 1,
+    type: "Project",
+  };
+
+  try {
+    const response = await $fetch<TBaseResponse<any>>(
+      `${BASE_API}/api-public/update-statistic-project`,
+      {
+        method: "POST",
+        body,
+      }
+    );
+
+    viewNew.value = response.data["views"];
+    return response;
+  } catch (err) {
+    console.error("Error update statistic:", err);
+    return null;
+  }
+};
+
 onMounted(() => {
   generateToc();
   setupIntersectionObserver();
+  setTimeout(() => {
+    updateProjectStatisticViewAPI();
+  }, 500);
 });
 
 onUnmounted(() => {

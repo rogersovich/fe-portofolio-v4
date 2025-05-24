@@ -27,10 +27,15 @@
           </template>
         </div>
         <template v-if="blogs">
-          <BlogStatisticInfo
-            :statistic="blogs.data.statistic"
-            :reading_time="blogs.data.reading_time"
-          />
+          <template v-if="viewNew">
+            <BlogStatisticInfo
+              :statistic="blogs.data.statistic"
+              :reading_time="blogs.data.reading_time"
+              :is-like="isLike"
+              :new-like="likesNew"
+              :view-new="viewNew"
+            />
+          </template>
         </template>
       </div>
     </div>
@@ -65,6 +70,13 @@
               :active-id="activeId"
               :toc-links="tocLinks"
               @handle-click-toc="onClickTOC"
+            />
+          </div>
+          <div v-if="viewNew && blogs" class="mt-3">
+            <BlogButtonLike
+              :blog="blogs?.data"
+              :view-new="viewNew"
+              @trigger-new-like="updateNewLike($event)"
             />
           </div>
         </div>
@@ -252,10 +264,49 @@ const highlightHtml = () => {
   }
 };
 
+const viewNew = ref<any>(null);
+const isLike = ref<boolean>(false);
+const likesNew = ref<any>(null);
+
+const updateNewLike = (newLike: any) => {
+  isLike.value = true;
+  likesNew.value = newLike;
+};
+
+const updateBlogStatisticAPI = async () => {
+  const viewOld = blogs.value?.data.statistic.views as unknown as number;
+  const body = {
+    blog_id: blogs.value?.data.id,
+    statistic_id: blogs.value?.data.statistic.id,
+    likes: blogs.value?.data.statistic.likes,
+    views: viewOld + 1,
+    type: "Blog",
+  };
+
+  try {
+    const response = await $fetch<TBaseResponse<any>>(
+      `${BASE_API}/api-public/update-statistic-blog`,
+      {
+        method: "POST",
+        body,
+      }
+    );
+
+    viewNew.value = response.data["views"];
+    return response;
+  } catch (err) {
+    console.error("Error update statistic:", err);
+    return null;
+  }
+};
+
 onMounted(() => {
   generateToc();
   highlightHtml();
   setupIntersectionObserver();
+  setTimeout(() => {
+    updateBlogStatisticAPI();
+  }, 500);
 });
 
 onUnmounted(() => {
