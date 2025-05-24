@@ -1,13 +1,13 @@
 <template>
   <div
-    class="flex justify-between px-4 md:px-4 py-4 bg-zinc-950/[.1] dark:transparant border border-solid border-zinc-950/[.1] dark:border-zinc-50/[.05] border-x-0"
+    class="container-card-statistic"
   >
     <div class="flex items-center gap-5">
       <div class="flex items-center gap-2 group">
         <IconEye
-          class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
+          class="icon-statistic group-hover:text-orange-400"
         />
-        <span class="text-[12px] text-zinc-700 dark:text-zinc-300">
+        <span class="text-statistic">
           <template v-if="viewNew == statistic.views">
             {{ statistic ? statistic.views : 0 }}
           </template>
@@ -19,9 +19,9 @@
       </div>
       <div class="flex items-center gap-2 group">
         <IconHeart
-          class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
+          class="icon-statistic group-hover:text-orange-400"
         />
-        <span class="text-[12px] text-zinc-700 dark:text-zinc-300">
+        <span class="text-statistic">
           <template v-if="!isLike">
             {{ statistic ? statistic.likes : 0 }}
           </template>
@@ -35,9 +35,9 @@
     <div class="flex items-center gap-5">
       <div class="flex items-center gap-2 group">
         <IconBook
-          class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
+          class="icon-statistic group-hover:text-orange-400"
         />
-        <span class="text-[12px] text-zinc-700 dark:text-zinc-300"
+        <span class="text-statistic"
           >{{
             reading_time
               ? formatReadingTime(reading_time.estimated_seconds)

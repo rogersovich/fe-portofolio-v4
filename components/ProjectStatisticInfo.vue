@@ -1,21 +1,21 @@
 <template>
   <div
-    class="flex justify-between px-4 md:px-4 py-4 bg-zinc-950/[.1] dark:transparant border border-solid border-zinc-950/[.1] dark:border-zinc-50/[.05] border-x-0"
+    class="container-card-statistic"
   >
     <div class="flex items-center gap-5" v-if="project">
       <div class="flex items-center gap-2 group">
         <IconUser
-          class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
+          class="icon-statistic group-hover:text-orange-400"
         />
-        <span class="text-[12px] text-zinc-700 dark:text-zinc-300">
-          Personal Project
+        <span class="text-statistic">
+          Personal
         </span>
       </div>
       <div class="flex items-center gap-2 group">
         <IconEye
-          class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
+          class="icon-statistic group-hover:text-orange-400"
         />
-        <span class="text-[12px] text-zinc-700 dark:text-zinc-300">
+        <span class="text-statistic">
           <template v-if="viewNew == project.statistic.views">
             {{ project.statistic ? project.statistic.views : 0 }}
           </template>
@@ -27,9 +27,9 @@
       </div>
       <div class="flex items-center gap-2 group">
         <IconHeart
-          class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
+          class="icon-statistic group-hover:text-orange-400"
         />
-        <span class="text-[12px] text-zinc-700 dark:text-zinc-300">
+        <span class="text-statistic">
           <template v-if="!isLike">
             {{ project.statistic ? project.statistic.likes : 0 }}
           </template>
@@ -48,10 +48,10 @@
         class="flex items-center gap-2 group cursor-pointer no-underline"
       >
         <IconBrandGithub
-          class="size-4 text-zinc-800 dark:text-zinc-500 group-hover:text-orange-400"
+          class="icon-statistic group-hover:text-orange-400"
         />
         <span
-          class="text-[12px] text-zinc-700 dark:text-zinc-300 group-hover:underline group-hover:text-white"
+          class="text-statistic group-hover:underline"
         >
           Repository
         </span>
