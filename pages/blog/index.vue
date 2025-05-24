@@ -90,7 +90,7 @@
                           :label="topic.name"
                           class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-foreground"
                           :class="{
-                            '!text-zinc-950 !bg-orange-400/[.4]': filterTopics.includes(
+                            '!text-foreground !bg-orange-400/[.4]': filterTopics.includes(
                               topic.id as never
                             ),
                           }"
@@ -152,7 +152,7 @@
                           :label="topic.name"
                           class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-foreground"
                           :class="{
-                            '!text-white !bg-orange-500/[.3]': filterTopics.includes(
+                            '!text-foreground !bg-orange-500/[.3]': filterTopics.includes(
                               topic.id as never
                             ),
                           }"
