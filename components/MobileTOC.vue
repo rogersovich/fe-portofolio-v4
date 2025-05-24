@@ -3,7 +3,7 @@
     <ClientOnly>
       <DrawerTrigger
         v-if="isMobile"
-        class="fixed bottom-4 right-4 bg-transparent border-none p-0 focus:bg-transparent"
+        class="fixed bottom-4 right-4 bg-transparent border-none p-0 focus:bg-transparent z-50"
       >
         <div
           class="btn-float-toc"
@@ -16,11 +16,11 @@
       </DrawerTrigger>
     </ClientOnly>
     <DrawerPortal>
-      <DrawerOverlay class="fixed bg-zinc-700/40 dark:bg-zinc-900/40 inset-0" />
+      <DrawerOverlay class="fixed bg-zinc-700/40 dark:bg-zinc-900/40 inset-0 z-50" />
       <DrawerContent
         aria-describedby="drawer-desc"
         id="drawer-content-blog-toc"
-        class="backdrop-blur-sm bg-zinc-600/[.6] dark:bg-zinc-800/[.6] flex flex-col rounded-t-[10px] h-auto mt-24 max-h-[50%] fixed bottom-0 left-0 right-0"
+        class="backdrop-blur-sm bg-zinc-600/[.6] dark:bg-zinc-800/[.6] flex flex-col rounded-t-[10px] h-auto mt-24 max-h-[50%] fixed bottom-0 left-0 right-0 z-50"
       >
         <div class="p-4 ounded-t-[10px] flex-1">
           <DrawerHandle data-testid="handle" class="mb-8 mt-2" />

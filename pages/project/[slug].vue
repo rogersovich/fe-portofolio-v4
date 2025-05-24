@@ -31,7 +31,7 @@
         </template>
       </div>
     </div>
-    <div class="layout grid grid-cols-12 gap-6">
+    <div class="layout grid grid-cols-12 gap-6 z-10 relative">
       <div class="col-span-12 md:col-span-9">
         <template v-if="projects">
           <div

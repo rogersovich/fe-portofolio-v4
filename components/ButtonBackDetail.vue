@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="fixed bottom-4 left-4" v-if="isMobile">
+    <div class="fixed bottom-4 left-4 z-50" v-if="isMobile">
       <Button
         type="button"
         @click="$router.push(url_back)"
