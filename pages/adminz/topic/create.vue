@@ -47,21 +47,17 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-start-3 col-end-5 2xl:col-start-5 2xl:col-end-6 w-full"
-        >
+        <div class="col-start-3 col-end-5 2xl:col-start-5 2xl:col-end-6 w-full">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/topic')"
             :disabled="loadingStore"
           />
         </div>
-        <div
-          class="col-start-5 col-end-7 2xl:col-start-6 2xl:col-end-7 w-full"
-        >
+        <div class="col-start-5 col-end-7 2xl:col-start-6 2xl:col-end-7 w-full">
           <Button
             type="submit"
             severity="contrast"

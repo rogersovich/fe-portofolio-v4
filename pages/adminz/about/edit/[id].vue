@@ -153,9 +153,8 @@
           >
             <Button
               type="button"
-              variant="outlined"
+              severity="secondary"
               label="Cancel"
-              size="small"
               class="w-full"
               @click="$router.push('/adminz/about')"
               :disabled="loadingDetail"
@@ -205,7 +204,7 @@ const isUsedOptions = [
 ];
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 
 const forms = ref({
   title: "",

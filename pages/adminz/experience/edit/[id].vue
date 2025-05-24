@@ -339,12 +339,14 @@
             </div>
           </div>
         </div>
-        <div class="col-start-9 col-end-11 2xl:col-start-9 2xl:col-end-10 w-full sticky bottom-2 z-1">
+        <div
+          class="col-start-9 col-end-11 2xl:col-start-9 2xl:col-end-10 w-full sticky bottom-2 z-1"
+        >
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
-            class="w-full bg-zinc-950 hover:!bg-zinc-800"
+            class="w-full"
             @click="$router.push('/adminz/experience')"
             :disabled="loading"
           />
@@ -381,7 +383,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 
 const refLogo = ref("");
 const logoNew = ref({
@@ -448,16 +450,16 @@ const cancelLogo = () => {
   logoNew.value.is_changed = false;
 };
 
-const disableToDate = ref(false)
+const disableToDate = ref(false);
 
 const handleIsCurrentChange = () => {
   if (forms.value.is_current == "Y") {
     forms.value.to_date = null;
     disableToDate.value = true;
-  }else{
-    disableToDate.value = false
+  } else {
+    disableToDate.value = false;
   }
-}
+};
 
 const { formErrors, validateForm } = useValidateForm();
 const validateSummaryHtml = () => {
@@ -500,9 +502,9 @@ watch(experienceData, (newData) => {
 
     if (newData.is_current == "Y") {
       disableToDate.value = true;
-    }else{
-      disableToDate.value = false
-      toDate = toDateFormatted
+    } else {
+      disableToDate.value = false;
+      toDate = toDateFormatted;
     }
 
     forms.value = {
@@ -549,8 +551,8 @@ const onFormSubmit = async () => {
     formData.append("country", forms.value.country);
     formData.append("city", forms.value.city);
     formData.append("comp_website_url", forms.value.comp_website_url);
-    const fromDate = dayjs(forms.value.from_date).format('YYYY-MM-DD');
-    const toDate = dayjs(forms.value.to_date).format('YYYY-MM-DD');
+    const fromDate = dayjs(forms.value.from_date).format("YYYY-MM-DD");
+    const toDate = dayjs(forms.value.to_date).format("YYYY-MM-DD");
     formData.append("from_date", fromDate);
     formData.append("to_date", toDate);
     formData.append("is_current", forms.value.is_current);

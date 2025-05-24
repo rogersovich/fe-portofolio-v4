@@ -117,7 +117,7 @@
         <div class="col-start-5 col-end-7 2xl:col-start-7 2xl:col-end-8 w-full">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/topic')"

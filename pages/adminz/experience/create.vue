@@ -350,8 +350,8 @@
         >
           <Button
             type="button"
-            variant="outlined"
-            label="Cancel bg-zinc-950 hover:!bg-zinc-800"
+            severity="secondary"
+            label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/experience')"
             :disabled="loading"
@@ -444,16 +444,16 @@ const cancelImage = () => {
   forms.value.comp_image.blob_url = "";
 };
 
-const disableToDate = ref(false)
+const disableToDate = ref(false);
 
 const handleIsCurrentChange = () => {
   if (forms.value.is_current == "Y") {
     forms.value.to_date = null;
     disableToDate.value = true;
-  }else{
-    disableToDate.value = false
+  } else {
+    disableToDate.value = false;
   }
-}
+};
 
 const { formErrors, validateForm } = useValidateForm();
 const imageError = ref("");
@@ -524,8 +524,8 @@ const onFormSubmit = async () => {
     formData.append("country", forms.value.country);
     formData.append("city", forms.value.city);
     formData.append("comp_website_url", forms.value.comp_website_url);
-    const fromDate = dayjs(forms.value.from_date).format('YYYY-MM-DD');
-    const toDate = dayjs(forms.value.to_date).format('YYYY-MM-DD');
+    const fromDate = dayjs(forms.value.from_date).format("YYYY-MM-DD");
+    const toDate = dayjs(forms.value.to_date).format("YYYY-MM-DD");
     formData.append("from_date", fromDate);
     formData.append("to_date", toDate);
     formData.append("is_current", forms.value.is_current);

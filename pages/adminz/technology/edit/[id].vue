@@ -144,7 +144,7 @@
         <div class="col-start-6 col-end-8 2xl:col-start-8 2xl:col-end-9 w-full">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/technology')"
@@ -181,7 +181,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 
 const refLogo = ref("");
 const logoNew = ref({
@@ -254,7 +254,10 @@ watch(
 
 watch(technologyData, (newData) => {
   if (newData) {
-    forms.value = { ...newData, logo_url: MINIO_BASE_URL + newData.logo_file_name };
+    forms.value = {
+      ...newData,
+      logo_url: MINIO_BASE_URL + newData.logo_file_name,
+    };
   } else {
     forms.value = {
       name: "",

@@ -99,12 +99,10 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-start-6 col-end-8 2xl:col-start-8 2xl:col-end-9 w-full"
-        >
+        <div class="col-start-6 col-end-8 2xl:col-start-8 2xl:col-end-9 w-full">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/author')"
@@ -141,7 +139,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 
 const loading = ref(false);
 const refAvatar = ref("");
@@ -196,7 +194,10 @@ watch(
 
 watch(authorData, (newAuthor) => {
   if (newAuthor) {
-    forms.value = { ...newAuthor, avatar_url: MINIO_BASE_URL + newAuthor.avatar_file_name };
+    forms.value = {
+      ...newAuthor,
+      avatar_url: MINIO_BASE_URL + newAuthor.avatar_file_name,
+    };
   } else {
     forms.value = { name: "", avatar_url: "" };
   }

@@ -114,9 +114,8 @@
         >
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
-            size="small"
             class="w-full"
             @click="$router.push('/adminz/author')"
             :disabled="loadingStore"
@@ -206,7 +205,7 @@ watch(
 watch(
   () => [forms.value.name],
   () => {
-    validateForm(formSchema, forms.value)
+    validateForm(formSchema, forms.value);
   }
 );
 

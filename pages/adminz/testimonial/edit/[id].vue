@@ -3,7 +3,9 @@
     <div class="mb-6">
       <div class="flex justify-between">
         <div>
-          <div class="text-3xl font-rethink font-bold">Edit - Page Testimonial</div>
+          <div class="text-3xl font-rethink font-bold">
+            Edit - Page Testimonial
+          </div>
           <div class="text-muted-foreground font-light mt-2">
             Edit reliable Testimonial in here
           </div>
@@ -115,7 +117,7 @@
         <div class="col-start-5 col-end-7 2xl:col-start-7 2xl:col-end-8 w-full">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/topic')"
@@ -171,7 +173,8 @@ const formSchema = z.object({
 const { formErrors, validateForm } = useValidateForm();
 
 // Update author data
-const { loading, fetchTestimonial, testimonialData, updateTestimonial } = useTestimonialAPI();
+const { loading, fetchTestimonial, testimonialData, updateTestimonial } =
+  useTestimonialAPI();
 
 watch(
   () => [forms.value.name, forms.value.role, forms.value.working_at],

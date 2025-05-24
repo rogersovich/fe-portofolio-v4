@@ -11,10 +11,7 @@
           </div>
         </div>
         <div>
-          <Button
-            variant="text"
-            @click="$router.push('/adminz/technology')"
-          >
+          <Button variant="text" @click="$router.push('/adminz/technology')">
             <IconArrowLeft class="size-5" />
             <span> Back </span>
           </Button>
@@ -102,7 +99,7 @@
                 />
               </div>
             </div>
-            
+
             <div class="col-span-9">
               <div class="flex flex-col gap-1 text-left">
                 <label for="name" class="mb-1">Name</label>
@@ -156,7 +153,7 @@
         >
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
             class="w-full"
             @click="$router.push('/adminz/technology')"
