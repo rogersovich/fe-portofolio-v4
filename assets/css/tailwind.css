@@ -44,7 +44,7 @@
     --p-chip-background: #f4f4f5 !important;
     --p-chip-color: #27272a !important;
 
-    --p-paginator-background: #f4f4f5 !important;
+    --p-paginator-background: transparent !important;
     --p-paginator-color: #27272a !important;
   }
 
@@ -91,7 +91,7 @@
     --p-chip-background: #27272a !important;
     --p-chip-color: #f4f4f5 !important;
 
-    --p-paginator-background: #18181b !important;
+    --p-paginator-background: transparent !important;
     --p-paginator-color: #f4f4f5 !important;
   }
 

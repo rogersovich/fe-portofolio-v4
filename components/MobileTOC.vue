@@ -3,7 +3,7 @@
     <ClientOnly>
       <DrawerTrigger
         v-if="isMobile"
-        class="fixed bottom-4 right-4 bg-transparent border-none p-0 focus:bg-transparent z-50"
+        class="fixed bottom-6 right-4 bg-transparent border-none p-0 focus:bg-transparent z-50"
       >
         <div
           class="btn-float-toc"

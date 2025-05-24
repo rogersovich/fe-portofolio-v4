@@ -58,13 +58,13 @@
               <a
                 :href="project.repository_url"
                 target="_blank"
-                class="flex items-center gap-2 group cursor-pointer"
+                class="flex items-center gap-2 group cursor-pointer no-underline"
               >
                 <IconLink
-                  class="size-[20px] text-zinc-500 group-hover:text-orange-400"
+                  class="size-[14px] md:size-[20px] text-zinc-500 group-hover:text-orange-400"
                 />
                 <span
-                  class="text-[14px] font-light text-foreground group-hover:underline"
+                  class="text-[12px] md:text-[14px] font-light text-foreground group-hover:underline"
                   >Open Repository</span
                 >
               </a>

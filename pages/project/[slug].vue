@@ -14,14 +14,14 @@
           class="flex flex-col items-start gap-2 md:px-4 pb-0 md:py-5 rounded-md"
         >
           <div
-            class="text-4xl md:text-5xl font-rethink font-bold md:mb-3"
+            class="text-4xl md:text-5xl font-rethink font-bold md:mb-3 text-center w-full"
             v-if="projects"
           >
             {{ projects.data.title }}
           </div>
           <template v-if="projects">
             <div
-              class="text-foreground dark:text-muted-foreground text-left text-sm md:text-base"
+              class="text-foreground dark:text-muted-foreground text-center md:text-left text-sm md:text-base w-full"
               v-html="projects.data.summary"
             ></div>
           </template>
@@ -104,10 +104,18 @@
     />
 
     <ButtonBackDetail :url_back="'/project'" />
+
+    <MobileProjectButtonLike
+      v-if="isMobile && viewNew && projects"
+      :project="projects?.data"
+      :view-new="viewNew"
+      @trigger-new-like="updateNewLike($event)"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import { IconArrowLeft, IconHeart, IconHeartFilled } from "@tabler/icons-vue";
+import { isMobile } from "~/composables/useBreakpoint";
+import { IconArrowLeft } from "@tabler/icons-vue";
 import "./../../assets/css/editor-content.css";
 
 import type { TBaseResponse } from "~/types/base.type";

@@ -106,10 +106,18 @@
     />
 
     <ButtonBackDetail :url_back="'/blog'" />
+
+    <MobileBlogButtonLike
+      v-if="isMobile && viewNew && blogs"
+      :blog="blogs?.data"
+      :view-new="viewNew"
+      @trigger-new-like="updateNewLike($event)"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { IconArrowLeft } from "@tabler/icons-vue";
+import { isMobile } from "~/composables/useBreakpoint";
 import type { TBaseResponse } from "~/types/base.type";
 import type { TPublicBlogDetail } from "~/types/blog.type";
 
