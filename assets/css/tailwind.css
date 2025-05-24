@@ -41,8 +41,8 @@
     --p-inputtext-disabled-color: #374151;
 
     /* chip */
-    --p-chip-background: #f4f4f5;
-    --p-chip-color: #27272a;
+    --p-chip-background: #f4f4f5 !important;
+    --p-chip-color: #27272a !important;
   }
 
   :root[class~="dark"] {
@@ -85,8 +85,8 @@
     --p-inputtext-disabled-color: #e4e4e7;
 
     /* chip */
-    --p-chip-background: #27272a;
-    --p-chip-color: #f4f4f5;
+    --p-chip-background: #27272a !important;
+    --p-chip-color: #f4f4f5 !important;
   }
 
   p {
