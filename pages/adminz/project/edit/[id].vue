@@ -258,9 +258,9 @@
         >
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
-            class="w-full bg-zinc-950 hover:!bg-zinc-800"
+            class="w-full"
             @click="$router.push('/adminz/project')"
             :disabled="loading || loadingTech"
           />

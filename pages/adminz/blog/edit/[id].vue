@@ -274,21 +274,17 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-start-9 col-end-11 w-full sticky bottom-2 z-1"
-        >
+        <div class="col-start-9 col-end-11 w-full sticky bottom-2 z-1">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
-            class="w-full bg-zinc-950 hover:!bg-zinc-800"
+            class="w-full"
             @click="$router.push('/adminz/blog')"
             :disabled="loading || loadingTopic || loadingAuthor"
           />
         </div>
-        <div
-          class="col-start-11 col-end-13 w-full sticky bottom-2 z-1"
-        >
+        <div class="col-start-11 col-end-13 w-full sticky bottom-2 z-1">
           <Button
             type="submit"
             severity="contrast"
@@ -318,7 +314,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 
 const refBanner = ref("");
 const bannerNew = ref({
@@ -506,7 +502,9 @@ const onFormSubmit = async () => {
     const authorIdStr = JSON.stringify(forms.value.author_id);
     formData.append("author_id", authorIdStr);
 
-    const formattedTopicIds = forms.value.topic_ids.map((id: number) => ({ topic_id: id }));
+    const formattedTopicIds = forms.value.topic_ids.map((id: number) => ({
+      topic_id: id,
+    }));
     const topicIdsStringify = JSON.stringify(formattedTopicIds);
     formData.append("topic_ids", topicIdsStringify);
 

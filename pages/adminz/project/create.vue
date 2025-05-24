@@ -257,21 +257,17 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-start-9 col-end-11 w-full sticky bottom-2 z-1"
-        >
+        <div class="col-start-9 col-end-11 w-full sticky bottom-2 z-1">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
-            class="w-full bg-zinc-950 hover:!bg-zinc-800"
+            class="w-full"
             @click="$router.push('/adminz/project')"
             :disabled="loading || loadingTech"
           />
         </div>
-        <div
-          class="col-start-11 col-end-13 w-full sticky bottom-2 z-1"
-        >
+        <div class="col-start-11 col-end-13 w-full sticky bottom-2 z-1">
           <Button
             type="submit"
             severity="contrast"
@@ -424,7 +420,7 @@ const getImageUrlsFromHTML = (html: string) => {
   }
 
   return imageUrls;
-}
+};
 
 const onFormSubmit = async () => {
   validateDescriptionHtml();
@@ -446,7 +442,7 @@ const onFormSubmit = async () => {
     formData.append("slug", forms.value.slug);
     formData.append("description", forms.value.description);
     formData.append("summary", forms.value.summary);
-    if (forms.value.repository_url){
+    if (forms.value.repository_url) {
       formData.append("repository_url", forms.value.repository_url);
     }
     formData.append("is_published", forms.value.is_published);

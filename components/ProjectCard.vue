@@ -36,6 +36,7 @@
                     height="20px"
                     width="20px"
                     densities="x1 x2"
+                    class="object-contain"
                   />
                 </div>
               </template>

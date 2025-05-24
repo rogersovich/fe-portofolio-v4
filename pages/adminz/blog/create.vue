@@ -266,21 +266,17 @@
             </div>
           </div>
         </div>
-        <div
-          class="col-start-9 col-end-11 w-full sticky bottom-2 z-1"
-        >
+        <div class="col-start-9 col-end-11 w-full sticky bottom-2 z-1">
           <Button
             type="button"
-            variant="outlined"
+            severity="secondary"
             label="Cancel"
-            class="w-full bg-zinc-950 hover:!bg-zinc-800"
+            class="w-full"
             @click="$router.push('/adminz/blog')"
             :disabled="loading || loadingTopic || loadingAuthor"
           />
         </div>
-        <div
-          class="col-start-11 col-end-13 w-full sticky bottom-2 z-1"
-        >
+        <div class="col-start-11 col-end-13 w-full sticky bottom-2 z-1">
           <Button
             type="submit"
             severity="contrast"
@@ -401,7 +397,12 @@ watch(
 );
 
 watch(
-  () => [forms.value.title, forms.value.slug, forms.value.topic_ids, forms.value.author_id],
+  () => [
+    forms.value.title,
+    forms.value.slug,
+    forms.value.topic_ids,
+    forms.value.author_id,
+  ],
   () => {
     validateForm(formSchema, forms.value);
   }
