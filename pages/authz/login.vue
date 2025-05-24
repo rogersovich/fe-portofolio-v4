@@ -11,7 +11,7 @@
             <span> Welcome to </span>
             <BaseTextHighlight
               :duration="500"
-              class="rounded-lg bg-gradient-to-r from-[#fb923c] to-[#f87171]"
+              class="text-head-highlight"
             >
               Login
             </BaseTextHighlight>
@@ -48,7 +48,7 @@
             <label for="password" class="mb-1">Password</label>
             <InputText
               name="password"
-              type="text"
+              type="password"
               placeholder="Password"
               fluid
               variant="outlined"
@@ -97,6 +97,7 @@ const axios = useAxios();
 const authStore = useAuthStore();
 const sidebarStore = useSidebarStore();
 const alertStore = useAlertStore();
+const colorMode = useColorMode();
 const formData = ref({
   email: "",
   password: "",
@@ -130,9 +131,14 @@ const onFormSubmit = async ({ valid, values }: FormSubmitEvent) => {
 
       sidebarStore.setInitMenuList();
 
-      router.push("/adminz/dashboard").then(() => {
-        window.location.reload();
-      });
+      // set theme to dark
+      colorMode.preference = "dark";
+
+      setTimeout(() => {
+        router.push("/adminz/dashboard").then(() => {
+          window.location.reload();
+        });
+      }, 500);
     } catch (error: any) {
       alertStore.setAlert({
         severity: "error",
