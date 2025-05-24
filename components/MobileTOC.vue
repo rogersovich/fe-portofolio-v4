@@ -25,7 +25,7 @@
         <div class="p-4 ounded-t-[10px] flex-1">
           <DrawerHandle data-testid="handle" class="mb-8 mt-2" />
 
-          <div class="text-[18px] font-rethink font-bold mb-3 text-zinc-50 dark:text-zinc-950">
+          <div class="text-[18px] font-rethink font-bold mb-3 text-zinc-50">
             Table of Contents
           </div>
           <ul id="toc-list">

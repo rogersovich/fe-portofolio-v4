@@ -25,16 +25,7 @@
         </div>
       </div>
       <div class="col-span-6">
-        <ClientOnly>
-          <Button
-            @click="
-              colorMode.preference =
-                colorMode.preference === 'light' ? 'dark' : 'light'
-            "
-          >
-            Switch Theme
-          </Button>
-        </ClientOnly>
+        
       </div>
     </div>
   </div>

@@ -4,9 +4,7 @@
       v-if="!isMobile && !isTablet"
       class="pointer-events-none fixed top-0 inset-x-0 z-50 opacity-100 hover:!opacity-100"
     >
-      <div
-        class="nav-container"
-      >
+      <div class="nav-container">
         <div class="flex items-center gap-4">
           <span
             v-for="nav in listNavs"
@@ -17,6 +15,41 @@
           >
             {{ nav.title }}
           </span>
+          <span class="text-[12px] text-zinc-400 dark:text-zinc-600">|</span>
+          <span
+            class="font-rethink text-zinc-800 dark:text-zinc-50 cursor-pointer fcc gap-2"
+            @click="toggleMenuDeep"
+          >
+            More
+            <IconMenuDeep class="size-4" />
+          </span>
+        </div>
+      </div>
+      <div
+        v-if="show_menu_deep"
+        ref="targetDeepMenu"
+        class="flex justify-center pointer-events-auto space-x-4 min-w-[40%] mt-4 px-2 py-3 rounded-lg bg-zinc-400/30 dark:bg-zinc-800/60 w-fit mx-auto text-base backdrop-blur-sm"
+      >
+        <div
+          class="flex flex-row items-center gap-3 bg-zinc-50/30 dark:bg-zinc-950/20 px-3 py-1.5 rounded-lg cursor-pointer"
+        >
+          <IconSignature class="size-6 text-foreground" />
+          <div class="text-[14px] font-rethink">Write Message</div>
+        </div>
+        <div
+          class="flex flex-row items-center gap-3 bg-zinc-50/30 dark:bg-zinc-950/20 px-3 py-1.5 rounded-lg cursor-pointer"
+          @click="toggleTheme"
+        >
+          <IconMoon
+            v-if="colorMode.preference == 'dark'"
+            class="size-4 text-foreground"
+          />
+          <IconSun
+            v-else-if="colorMode.preference == 'light'"
+            class="size-4 text-foreground"
+          />
+          <IconSunMoon v-else class="size-4 text-foreground" />
+          <div class="text-[14px] font-rethink">Switch Theme</div>
         </div>
       </div>
     </div>
@@ -52,25 +85,57 @@
                 <component
                   :is="nav.icon"
                   class="size-5 text-foreground"
-                  :class="{ 'dark:!text-orange-400 text-orange-500': nav.active }"
+                  :class="{
+                    'dark:!text-orange-400 text-orange-500': nav.active,
+                  }"
                 />
               </div>
               <div>
                 <div
                   class="text-[13px] font-rethink text-foreground"
-                  :class="{ 'dark:!text-orange-400 text-orange-500': nav.active }"
+                  :class="{
+                    'dark:!text-orange-400 text-orange-500': nav.active,
+                  }"
                 >
                   {{ nav.title }}
                 </div>
                 <div
                   class="text-[11px] mt-1 text-muted-foreground"
-                  :class="{ 'dark:!text-orange-100 text-orange-950': nav.active }"
+                  :class="{
+                    'dark:!text-orange-100 text-orange-950': nav.active,
+                  }"
                 >
                   {{ nav.description }}
                 </div>
               </div>
             </div>
           </template>
+          <div
+            class="flex rounded-lg space-x-4 items-center text-[13px] bg-zinc-50/30 dark:bg-zinc-950/30 px-4 py-3 no-underline cursor-pointer"
+            @click="toggleTheme"
+          >
+            <div
+              class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
+            >
+              <IconMoon
+                v-if="colorMode.preference == 'dark'"
+                class="size-5 text-foreground"
+              />
+              <IconSun
+                v-else-if="colorMode.preference == 'light'"
+                class="size-5 text-foreground"
+              />
+              <IconSunMoon v-else class="size-5 text-foreground" />
+            </div>
+            <div>
+              <div class="text-[13px] font-rethink text-foreground">
+                Switch Theme
+              </div>
+              <div class="text-[11px] mt-1 text-muted-foreground">
+                Change theme if you want
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -85,6 +150,11 @@ import {
   IconUserSquare,
   IconChevronDown,
   IconChevronUp,
+  IconMenuDeep,
+  IconSignature,
+  IconMoon,
+  IconSun,
+  IconSunMoon,
 } from "@tabler/icons-vue";
 import { isMobile, isTablet } from "~/composables/useBreakpoint";
 import { onClickOutside } from "@vueuse/core";
@@ -137,8 +207,10 @@ const listNavs = reactive([
 
 const menuStore = useMenuStore();
 const { menu_mobile } = storeToRefs(menuStore);
+const colorMode = useColorMode();
 
 const targetMenu = useTemplateRef<HTMLElement>("targetMenu");
+const targetDeepMenu = useTemplateRef<HTMLElement>("targetDeepMenu");
 
 const onClickNav = (key: string) => {
   listNavs.forEach((nav) => {
@@ -175,6 +247,24 @@ const setStoreMenuPath = (active_path: string) => {
   }
 };
 
+const show_menu_deep = ref(false);
+
+const toggleMenuDeep = () => {
+  if (show_menu_deep.value) {
+    return;
+  } else {
+    show_menu_deep.value = !show_menu_deep.value;
+  }
+};
+
+const toggleTheme = () => {
+  if (colorMode.preference == "dark") {
+    colorMode.preference = "light";
+  } else {
+    colorMode.preference = "dark";
+  }
+};
+
 const handleToggleMobileMenu = () => {
   menuStore.toggleMobileMenu();
 };
@@ -185,6 +275,12 @@ menuStore.$subscribe((mutation, state) => {
 
 onClickOutside(targetMenu, () => {
   menuStore.hideMobileMenu();
+});
+
+onClickOutside(targetDeepMenu, () => {
+  setTimeout(() => {
+    show_menu_deep.value = !show_menu_deep.value;
+  }, 50);
 });
 
 onMounted(() => {

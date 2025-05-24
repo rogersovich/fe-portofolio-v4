@@ -108,7 +108,7 @@
               <NuxtLink :to="myProfileSpotify" target="_blank">
                 <Button
                   severity="secondary"
-                  class="text-[12px] md:text-sm shadow"
+                  class="!text-[12px] md:!text-sm shadow"
                   >Visit profile</Button
                 >
               </NuxtLink>
