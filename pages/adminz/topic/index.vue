@@ -159,7 +159,7 @@ const paginate = reactive({
 });
 const sorts = reactive({
   sort: "DESC",
-  order: "id",
+  order: "updated_at",
 });
 const sortField = ref("");
 const sortOrder = ref(1);
@@ -230,7 +230,7 @@ const handleRefresh = () => {
     page: 1,
     limit: 5,
     sort: "DESC",
-    order: "id",
+    order: "updated_at",
   });
 };
 

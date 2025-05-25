@@ -115,6 +115,19 @@
           </template>
         </Column>
         <Column
+          field="is_highlight"
+          header="Highlight"
+          sortable
+          :showFilterMenu="false"
+          bodyClass="!text-center"
+        >
+          <template #body="{ data }">
+            <span>
+              {{ data.is_highlight ? "Yes" : "No" }}
+            </span>
+          </template>
+        </Column>
+        <Column
           field="published_at"
           header="Published at"
           sortable
@@ -175,7 +188,7 @@ definePageMeta({
 });
 
 const confirm = useConfirm();
-const MINIO_BASE_URL = useMinioUrl()
+const MINIO_BASE_URL = useMinioUrl();
 
 const paginate = reactive({
   page: 0,

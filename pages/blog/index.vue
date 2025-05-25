@@ -184,7 +184,6 @@ import { isMobile, isTablet } from "~/composables/useBreakpoint";
 import {
   IconBook2,
 } from "@tabler/icons-vue";
-import dayjs from "dayjs";
 import type { TBaseResponse } from "~/types/base.type";
 import type {
   TParamsFilterPublicBlog,

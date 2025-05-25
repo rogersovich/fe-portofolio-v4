@@ -115,21 +115,17 @@
           </template>
         </Column>
         <Column
-          field="repository_url"
-          header="Repository"
+          field="is_highlight"
+          header="Highlight"
           sortable
           :showFilterMenu="false"
           style="width: 6rem"
+          bodyClass="!text-center"
         >
           <template #body="{ data }">
-            <a
-              v-if="data.repository_url"
-              :href="data.repository_url"
-              target="_blank"
-              class="underline text-blue-500"
-            >
-              Repository
-            </a>
+            <span>
+              {{ data.is_highlight ? "Yes" : "No" }}
+            </span>
           </template>
         </Column>
         <Column
@@ -202,7 +198,7 @@ const paginate = reactive({
 });
 const sorts = reactive({
   sort: "DESC",
-  order: "id",
+  order: "updated_at",
 });
 const sortField = ref("");
 const sortOrder = ref(1);
@@ -276,7 +272,7 @@ const handleRefresh = () => {
     page: 1,
     limit: 10,
     sort: "DESC",
-    order: "id",
+    order: "updated_at",
   });
 };
 

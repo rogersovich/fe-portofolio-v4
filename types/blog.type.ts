@@ -12,6 +12,7 @@ export interface TBlog {
   summary: string;
   status: string;
   slug: string;
+  is_highlight: boolean
   published_at: string;
   created_at: string;
 }
@@ -26,6 +27,7 @@ export interface TBlogDetail {
   summary: string;
   status: string;
   slug: string;
+  is_highlight: boolean
   published_at: string;
   created_at: string;
   statistic_id: number;
@@ -86,6 +88,7 @@ export interface TPublicBlog {
   banner_file_name: string;
   summary: string;
   slug: string;
+  is_highlight: boolean
   published_at: string;
   author: TBlogAuthor;
   reading_time: TBlogReadingTime;
@@ -114,6 +117,7 @@ export interface TPublicBlogDetail {
   banner_url: string
   banner_file_name: string
   slug: string
+  is_highlight: boolean
   status: string
   published_at: string
   author: TBlogAuthor;

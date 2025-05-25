@@ -6,6 +6,7 @@ export interface TTestimonial {
   via: string
   role: string
   working_at: string
+  message: string
   is_used: string
   created_at: string
 }

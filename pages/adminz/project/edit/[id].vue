@@ -108,7 +108,7 @@
               </div>
             </div>
 
-            <div class="col-span-4">
+            <div class="col-span-3">
               <div class="flex flex-col gap-1 text-left">
                 <label for="is_published" class="mb-1">Status</label>
                 <Select
@@ -122,7 +122,21 @@
               </div>
             </div>
 
-            <div class="col-span-8">
+            <div class="col-span-3">
+              <div class="flex flex-col gap-1 text-left">
+                <label for="is_highlight" class="mb-1">Highlight</label>
+                <Select
+                  v-model="forms.is_highlight"
+                  :options="is_highlight_options"
+                  optionLabel="label"
+                  option-value="value"
+                  placeholder="Select"
+                  class="w-full"
+                />
+              </div>
+            </div>
+
+            <div class="col-span-6">
               <div class="flex flex-col gap-1 text-left">
                 <label for="slug" class="mb-1">Slug</label>
                 <InputText
@@ -313,10 +327,15 @@ const forms = ref<any>({
   is_published: "N",
   technology_ids: [],
   image_url: "",
+  is_highlight: "N",
 });
 const is_published_options = ref([
   { label: "Published", value: "Y" },
   { label: "Unpublished", value: "N" },
+]);
+const is_highlight_options = ref([
+  { label: "Highlight", value: "Y" },
+  { label: "Not Highlight", value: "N" },
 ]);
 
 const descriptionHtmlError = ref<string>("");
@@ -413,6 +432,7 @@ watch(projectData, (newData) => {
       is_published: newData.status == "Published" ? "Y" : "N",
       technology_ids: newData.technologies.map((tech) => tech.tech_id),
       image_url: MINIO_BASE_URL + newData.image_file_name,
+      is_highlight: newData.is_highlight ? "Y" : "N",
     };
   } else {
     forms.value = {
@@ -424,6 +444,7 @@ watch(projectData, (newData) => {
       is_published: "N",
       technology_ids: [],
       image_url: "",
+      is_highlight: "N",
     };
   }
 });
@@ -461,6 +482,9 @@ const onFormSubmit = async () => {
       formData.append("repository_url", forms.value.repository_url);
     }
     formData.append("is_published", forms.value.is_published);
+
+    const isHighlight = forms.value.is_highlight;
+    formData.append("is_highlight", isHighlight);
 
     const formattedTechIds = forms.value.technology_ids.map((id: number) => ({ tech_id: id }));
     const techIdsStringify = JSON.stringify(formattedTechIds);

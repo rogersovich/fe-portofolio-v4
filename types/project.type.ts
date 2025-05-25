@@ -10,6 +10,7 @@ export interface TProject {
   summary: string
   status: string
   slug: string
+  is_highlight: boolean
   published_at: string
   created_at: string
 }
@@ -27,6 +28,7 @@ export interface TProjectDetail {
   published_at: string
   created_at: string
   statistic_id: number
+  is_highlight: boolean
   statistic: {
     id: number
     likes: number
@@ -62,6 +64,7 @@ export interface TPublicProject {
   image_file_name: string
   repository_url: string
   slug: string
+  is_highlight: boolean
   published_at: string
   technologies: {
     tech_id: number
@@ -89,6 +92,7 @@ export interface TPublicProjectDetail {
   image_file_name: string
   repository_url: string
   slug: string
+  is_highlight: boolean
   status: string
   published_at: string
   statistic: {
