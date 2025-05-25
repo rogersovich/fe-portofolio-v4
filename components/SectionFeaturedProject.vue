@@ -1,6 +1,10 @@
 <template>
-  <div class="layout flex flex-col justify-start items-start space-y-12 pb-24 md:pb-32">
-    <div class="flex flex-col items-center md:items-start justify-center md:justify-start gap-3 md:gap-2 w-full">
+  <div
+    class="layout flex flex-col justify-start items-start space-y-12 pb-24 md:pb-32"
+  >
+    <div
+      class="flex flex-col items-center md:items-start justify-center md:justify-start gap-3 md:gap-2 w-full"
+    >
       <ClientOnly>
         <div
           v-if="isMobile"
@@ -32,6 +36,12 @@
             <ProjectCard :project="project" />
           </template>
         </template>
+        <template v-else>
+          <BaseNotFound title="Projects" />
+        </template>
+      </template>
+      <template v-else>
+        <BaseNotFound title="Projects" />
       </template>
 
       <div class="w-full text-center">
@@ -93,6 +103,6 @@ const { data: dataProjects, pending } = await useAsyncData(
 const routeToPath = (path: string) => {
   menuStore.setActivePath(path);
   navigateTo(path);
-}
+};
 </script>
 <style lang=""></style>

@@ -9,30 +9,13 @@
         Im sorry the {{ title }} you are looking for is not found
       </div>
     </div>
-    <Button
-      type="button"
-      variant="outlined"
-      class="text-sm justify-start"
-      @click="clearSearch"
-    >
-      <IconRefresh class="size-4" />
-      <span> Clear Search </span>
-    </Button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { IconMoodSad, IconRefresh } from "@tabler/icons-vue";
-
-const emit = defineEmits<{
-  (e: "clear-search"): void;
-}>();
+import { IconMoodSad } from "@tabler/icons-vue";
 
 const { title } = defineProps<{
   title: string;
 }>();
-
-const clearSearch = () => {
-  emit("clear-search");
-};
 </script>

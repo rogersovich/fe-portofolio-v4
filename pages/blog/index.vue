@@ -116,7 +116,7 @@
                 </template>
               </template>
               <template v-else>
-                <BaseEmptyData @clear-search="onClearSearch()" />
+                <BaseEmptyData @clear-search="onClearSearch()" title="Blogs" />
               </template>
             </div>
             <ClientOnly>
@@ -173,7 +173,7 @@
           </Paginator>
         </template>
         <template v-else>
-          <BaseEmptyData @clear-search="onClearSearch()" />
+          <BaseEmptyData @clear-search="onClearSearch()" title="Blogs" />
         </template>
       </div>
     </div>

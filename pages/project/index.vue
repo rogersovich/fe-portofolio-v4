@@ -62,7 +62,7 @@
             </template>
           </template>
           <template v-else>
-            <BaseEmptyData @clear-search="onClearSearch()" />
+            <BaseEmptyData @clear-search="onClearSearch()" title="Projects" />
           </template>
           <Paginator
             :first="first"
@@ -73,7 +73,7 @@
           </Paginator>
         </template>
         <template v-else>
-          <BaseEmptyData @clear-search="onClearSearch()" />
+          <BaseEmptyData @clear-search="onClearSearch()" title="Projects" />
         </template>
       </div>
     </div>

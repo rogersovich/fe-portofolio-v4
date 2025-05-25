@@ -41,13 +41,13 @@
               </template>
             </template>
             <template v-else>
-              <!-- <BaseEmptyData @clear-search="onClearSearch()" /> -->
+              <BaseNotFound title="Blogs" />
             </template>
           </div>
         </div>
       </template>
       <template v-else>
-        <!-- <BaseEmptyData @clear-search="onClearSearch()" /> -->
+        <BaseNotFound title="Blogs" />
       </template>
 
       <div class="w-full text-center">
@@ -110,6 +110,6 @@ const { data: dataBlogs, pending } = await useAsyncData(
 const routeToPath = (path: string) => {
   menuStore.setActivePath(path);
   navigateTo(path);
-}
+};
 </script>
 <style lang=""></style>
