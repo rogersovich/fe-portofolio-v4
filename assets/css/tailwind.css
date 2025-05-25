@@ -109,7 +109,7 @@ body {
 }
 
 .layout {
-  @apply max-w-5xl mx-auto w-11/12;
+  @apply max-w-6xl mx-auto w-11/12;
 }
 
 @media (max-width: 1024px) {

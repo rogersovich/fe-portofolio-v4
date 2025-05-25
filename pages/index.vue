@@ -3,6 +3,7 @@
     <BaseHeroComponent />
     <SectionFeaturedProject />
     <SectionFeaturedBlog />
+    <GroupTestimonial />
   </div>
 </template>
 <script setup lang="ts">
