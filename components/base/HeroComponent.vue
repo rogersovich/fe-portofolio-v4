@@ -1,6 +1,6 @@
 <template>
   <div
-    class="layout text-center pb-12 pt-12 min-h-[calc(100vh-80px)] md:pb-20 md:pt-36 flex flex-col justify-center relative overflow-hidden"
+    class="layout text-center min-h-screen pb-12 pt-12 md:pb-24 md:pt-36 flex flex-col justify-center relative overflow-hidden"
   >
     <ClientOnly>
       <template v-if="isMobile">

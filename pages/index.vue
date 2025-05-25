@@ -1,6 +1,8 @@
 <template lang="">
-  <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+  <div class="bg-zinc-50 dark:bg-zinc-950">
     <BaseHeroComponent />
+    <SectionFeaturedProject />
+    <SectionFeaturedBlog />
   </div>
 </template>
 <script setup lang="ts">

@@ -19,7 +19,7 @@
           </div>
           <div
             class="text-muted-foreground font-light text-sm md:text-base"
-            v-html="project.summary"
+            v-html="truncatedText"
           ></div>
           <div class="flex items-center gap-3 mt-5">
             <div class="text-muted-foreground text-sm">Stack:</div>
@@ -96,5 +96,17 @@ const { project } = defineProps<{
 }>();
 
 const MINIO_BASE_URL = useMinioUrl();
+
+const truncatedText = computed(() => {
+  // 1) strip all tags
+  const plain = project.summary.replace(/<[^>]+>/g, '');
+
+  // 2) if under limit, return as-is
+  if (plain.length <= 250) return plain;
+
+  // 3) otherwise cut and add ellipsis
+  return plain.slice(0, 250) + '…';
+});
+
 </script>
 <style lang=""></style>

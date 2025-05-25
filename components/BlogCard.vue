@@ -15,7 +15,7 @@
             {{ formatDate(blog.published_at) }}
           </span>
         </div>
-        <div class="mt-4 font-rethink mb-0 text-xl md:text-2xl font-bold">
+        <div class="mt-4 font-rethink mb-1 text-xl md:text-2xl font-bold">
           {{ blog.title }}
         </div>
         <div
