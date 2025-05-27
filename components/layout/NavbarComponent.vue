@@ -30,22 +30,23 @@
         ref="targetDeepMenu"
         class="nav-container-deep-menu"
       >
-        <div
-          class="nav-item-deep-menu group"
-        >
-          <IconSignature class="size-6 text-foreground group-hover:text-orange-500" />
-          <div class="text-[14px] font-rethink group-hover:text-orange-300">Write Message</div>
+        <div class="nav-item-deep-menu group" @click="handleWriteMessage">
+          <IconSignature
+            class="size-6 text-foreground group-hover:text-orange-500"
+          />
+          <div class="text-[14px] font-rethink group-hover:text-orange-300">
+            Write Message
+          </div>
         </div>
-        <div
-          class="nav-item-deep-menu group"
-        >
-          <IconSparkles class="size-6 text-foreground group-hover:text-orange-500" />
-          <div class="text-[14px] font-rethink group-hover:text-orange-300">Useful Website</div>
+        <div class="nav-item-deep-menu group" @click="router.push('/useful-website')">
+          <IconSparkles
+            class="size-6 text-foreground group-hover:text-orange-500"
+          />
+          <div class="text-[14px] font-rethink group-hover:text-orange-300">
+            Useful Website
+          </div>
         </div>
-        <div
-          class="nav-item-deep-menu group"
-          @click="toggleTheme"
-        >
+        <div class="nav-item-deep-menu group" @click="toggleTheme">
           <IconMoon
             v-if="colorMode.preference == 'dark'"
             class="size-4 text-foreground group-hover:text-orange-500"
@@ -54,8 +55,13 @@
             v-else-if="colorMode.preference == 'light'"
             class="size-4 text-foreground group-hover:text-orange-500"
           />
-          <IconSunMoon v-else class="size-4 text-foreground group-hover:text-orange-500" />
-          <div class="text-[14px] font-rethink group-hover:text-orange-300">Switch Theme</div>
+          <IconSunMoon
+            v-else
+            class="size-4 text-foreground group-hover:text-orange-500"
+          />
+          <div class="text-[14px] font-rethink group-hover:text-orange-300">
+            Switch Theme
+          </div>
         </div>
       </div>
     </div>
@@ -77,14 +83,9 @@
         v-if="menu_mobile"
         class="fixed top-20 right-5 z-50 transition-transform duration-300"
       >
-        <div
-          class="nav-mobile-container"
-        >
+        <div class="nav-mobile-container">
           <template v-for="nav in listNavs" :key="nav.key">
-            <div
-              @click="onClickNav(nav.key)"
-              class="nav-mobile-item"
-            >
+            <div @click="onClickNav(nav.key)" class="nav-mobile-item">
               <div
                 class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
               >
@@ -116,10 +117,7 @@
               </div>
             </div>
           </template>
-          <div
-            class="nav-switch-theme"
-            @click="toggleTheme"
-          >
+          <div class="nav-switch-theme" @click="toggleTheme">
             <div
               class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
             >
@@ -139,6 +137,36 @@
               </div>
               <div class="text-[11px] mt-1 text-muted-foreground">
                 Change theme if you want
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="nav-switch-theme" @click="handleWriteMessage">
+              <div
+                class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
+              >
+                <IconSignature
+                  class="size-5 text-foreground"
+                />
+              </div>
+              <div>
+                <div class="text-[12px] font-rethink text-foreground">
+                  Write Message
+                </div>
+              </div>
+            </div>
+            <div class="nav-switch-theme" @click="router.push('/useful-website')">
+              <div
+                class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
+              >
+                <IconSparkles
+                  class="size-5 text-foreground"
+                />
+              </div>
+              <div>
+                <div class="text-[12px] font-rethink text-foreground">
+                  Useful Website
+                </div>
               </div>
             </div>
           </div>
@@ -289,6 +317,10 @@ onClickOutside(targetDeepMenu, () => {
     show_menu_deep.value = !show_menu_deep.value;
   }, 50);
 });
+
+const handleWriteMessage = () => {
+  window.open("https://forms.gle/sGrVntiG7itXn5QF6", "_blank");
+};
 
 onMounted(() => {
   setActivePath();
