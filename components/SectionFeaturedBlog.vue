@@ -1,5 +1,7 @@
 <template>
-  <div class="layout flex flex-col justify-start items-start space-y-12 pb-24 md:pb-32">
+  <div
+    class="layout flex flex-col justify-start items-start space-y-12 pb-24 md:pb-32"
+  >
     <div
       class="flex flex-col items-center md:items-start justify-center md:justify-start gap-3 md:gap-2 w-full"
     >
@@ -12,13 +14,14 @@
         </div>
       </ClientOnly>
       <div class="text-3xl md:text-5xl font-rethink font-bold">
-        <span> Featured </span>
+        <span>My Latest </span>
         <BaseTextHighlight :duration="500" class="text-head-highlight">
-          Blogs
+          Posts
         </BaseTextHighlight>
       </div>
       <div class="text-muted-foreground text-sm md:text-base md:mt-3">
-        Showcasing my best work and creative projects
+        Explore my thoughts, insights, and latest articles on a variety of
+        topics.
       </div>
     </div>
     <div class="flex flex-col gap-6 w-full">

@@ -20,7 +20,7 @@
         </BaseTextHighlight>
       </div>
       <div class="text-muted-foreground text-sm md:text-base md:mt-3">
-        Showcasing my best work and creative projects
+        Hear directly from those I've collaborated with and helped.
       </div>
     </div>
     <div class="w-full">

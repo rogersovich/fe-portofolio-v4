@@ -33,7 +33,7 @@
           </BaseTextHighlight>
         </div>
         <div class="text-muted-foreground text-sm md:text-base md:mt-3">
-          A story of growth and experiences
+          Delve into my journey, passions, and what drives me.
         </div>
       </div>
     </div>

@@ -24,16 +24,16 @@
           </div>
         </ClientOnly>
         <div class="text-4xl md:text-6xl font-rethink font-bold">
-          <span> My </span>
+          <span> The </span>
           <BaseTextHighlight
             :duration="500"
             class="text-head-highlight"
           >
-            Blogs
+            Blog
           </BaseTextHighlight>
         </div>
         <div class="text-muted-foreground text-sm md:text-base md:mt-3">
-          Insights, tutorials, and stories from my journey
+          Explore my thoughts, insights, and latest articles on a variety of topics.
         </div>
       </div>
     </div>

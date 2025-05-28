@@ -14,13 +14,13 @@
         </div>
       </ClientOnly>
       <div class="text-3xl md:text-5xl font-rethink font-bold">
-        <span> Featured </span>
+        <span> Project </span>
         <BaseTextHighlight :duration="500" class="text-head-highlight">
-          Projects
+          Spotlight
         </BaseTextHighlight>
       </div>
       <div class="text-muted-foreground text-sm md:text-base md:mt-3">
-        Showcasing my best work and creative projects
+        Discover a showcase of my proudest work and creative endeavors.
       </div>
     </div>
 
