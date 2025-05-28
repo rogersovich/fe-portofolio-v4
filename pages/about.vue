@@ -25,10 +25,7 @@
         </ClientOnly>
         <div class="text-4xl md:text-6xl font-rethink font-bold">
           <span> About </span>
-          <BaseTextHighlight
-            :duration="500"
-            class="text-head-highlight"
-          >
+          <BaseTextHighlight :duration="500" class="text-head-highlight">
             Me
           </BaseTextHighlight>
         </div>
@@ -97,6 +94,7 @@
         </div>
       </div>
     </section>
+    <SectionCertificates />
     <section
       class="layout text-center pb-6 pt-6 md:pb-24 md:pt-12 flex flex-col justify-center"
     >
