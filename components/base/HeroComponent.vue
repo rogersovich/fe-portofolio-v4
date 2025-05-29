@@ -34,7 +34,9 @@
             />
           </div>
         </div>
-        <div class="absolute top-14 -right-20 rotate-[45deg] fcc z-1 rotating-invert">
+        <div
+          class="absolute top-14 -right-20 rotate-[45deg] fcc z-1 rotating-invert"
+        >
           <div
             class="h-[200px] w-[200px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-full relative fcc"
           >
@@ -76,14 +78,21 @@
         >
         </BaseSparklesText>
         <div class="font-light text-muted-foreground text-sm md:text-base">
-          I work with React Ecosystem, and write to teach people how to rebuild
-          and redefine fundamental concepts through mental models.
+          As a Full-Stack Developer, I bridge the artistry of the interface with
+          the power of the infrastructure, crafting seamless web solutions from
+          front to back.
         </div>
         <div class="flex flex-start gap-4 pt-4">
-          <Button severity="contrast" class="!text-[12px] md:!text-base shadow" @click="exploreMore"
+          <Button
+            severity="contrast"
+            class="!text-[12px] md:!text-base shadow"
+            @click="exploreMore"
             >Explore more</Button
           >
-          <Button severity="secondary" class="!text-[12px] md:!text-base shadow" @click="moreAboutMe"
+          <Button
+            severity="secondary"
+            class="!text-[12px] md:!text-base shadow"
+            @click="moreAboutMe"
             >More about me</Button
           >
         </div>
@@ -132,15 +141,16 @@ const exploreMore = () => {
   const section = document.getElementById("section-project");
   if (section) {
     const yOffset = -40; // adjust this value for your desired offset (e.g., -80px for header)
-    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    const y =
+      section.getBoundingClientRect().top + window.pageYOffset + yOffset;
     window.scrollTo({ top: y, behavior: "smooth" });
   }
 };
 
 const moreAboutMe = () => {
-  menuStore.setActivePath('/about');
-  navigateTo('/about');
-}
+  menuStore.setActivePath("/about");
+  navigateTo("/about");
+};
 </script>
 <style scoped>
 @-webkit-keyframes rotating /* Safari and Chrome */ {

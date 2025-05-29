@@ -33,11 +33,12 @@
       </div>
       <div class="col-span-12">
         <div
-          class="grid grid-cols-4 md:grid-cols-6 grid-rows-10 md:grid-rows-9 gap-2 md:gap-4"
+          class="grid grid-cols-4 md:grid-cols-6 grid-rows-4 md:grid-rows-9 gap-2 md:gap-4"
         >
           <div
-            class="col-start-1 row-start-1 col-span-2 row-span-2 md:col-start-1 md:row-start-1 md:col-span-2 md:row-span-4 rounded-lg"
+            class="col-start-1 row-start-1 col-span-2 row-span-1 md:col-start-1 md:row-start-1 md:col-span-2 md:row-span-4 rounded-lg"
           >
+          
             <NuxtImg
               :src="MINIO_BASE_URL + 'pet/IMG_7542_11zon.jpeg'"
               class="w-full h-full rounded-lg object-cover"
@@ -45,7 +46,7 @@
             />
           </div>
           <div
-            class="col-start-3 row-start-1 col-span-2 row-span-2 md:col-start-3 md:row-start-1 md:col-span-2 md:row-span-3 rounded-lg"
+            class="col-start-3 row-start-1 col-span-2 row-span-1 md:col-start-3 md:row-start-1 md:col-span-2 md:row-span-3 rounded-lg"
           >
             <NuxtImg
               :src="
@@ -55,7 +56,7 @@
             />
           </div>
           <div
-            class="col-start-1 row-start-3 col-span-2 row-span-2 md:col-start-3 md:row-start-4 md:col-span-2 md:row-span-3 rounded-lg"
+            class="col-start-1 row-start-2 col-span-2 row-span-1 md:col-start-3 md:row-start-4 md:col-span-2 md:row-span-3 rounded-lg"
           >
             <NuxtImg
               :src="
@@ -65,7 +66,7 @@
             />
           </div>
           <div
-            class="col-start-3 row-start-3 col-span-2 row-span-2 md:col-start-5 md:row-start-1 md:col-span-2 md:row-span-4 rounded-lg"
+            class="col-start-3 row-start-2 col-span-2 row-span-1 md:col-start-5 md:row-start-1 md:col-span-2 md:row-span-4 rounded-lg"
           >
             <NuxtImg
               :src="
@@ -75,7 +76,7 @@
             />
           </div>
           <div
-            class="col-start-1 row-start-5 col-span-2 row-span-2 md:col-start-1 md:row-start-5 md:col-span-2 md:row-span-4 rounded-lg"
+            class="col-start-1 row-start-3 col-span-2 row-span-1 md:col-start-1 md:row-start-5 md:col-span-2 md:row-span-4 rounded-lg"
           >
             <NuxtImg
               :src="
@@ -85,7 +86,7 @@
             />
           </div>
           <div
-            class="col-start-3 row-start-5 col-span-2 row-span-2 md:col-start-5 md:row-start-5 md:col-span-2 md:row-span-4 rounded-lg"
+            class="col-start-3 row-start-3 col-span-2 row-span-1 md:col-start-5 md:row-start-5 md:col-span-2 md:row-span-4 rounded-lg"
           >
             <NuxtImg
               :src="
@@ -96,7 +97,7 @@
             />
           </div>
           <div
-            class="col-start-1 row-start-7 col-span-2 row-span-2 md:col-start-3 md:row-start-7 md:col-span-2 md:row-span-3 rounded-lg"
+            class="col-start-1 row-start-4 col-span-2 row-span-1 md:col-start-3 md:row-start-7 md:col-span-2 md:row-span-3 rounded-lg"
           >
             <NuxtImg
               :src="
