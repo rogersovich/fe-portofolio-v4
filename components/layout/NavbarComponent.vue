@@ -38,7 +38,7 @@
             Write Message
           </div>
         </div>
-        <div class="nav-item-deep-menu group" @click="router.push('/useful-website')">
+        <div class="nav-item-deep-menu group" @click="routeToUsefulWebsite('/useful-website')">
           <IconSparkles
             class="size-6 text-foreground group-hover:text-orange-500"
           />
@@ -155,7 +155,7 @@
                 </div>
               </div>
             </div>
-            <div class="nav-switch-theme" @click="router.push('/useful-website')">
+            <div class="nav-switch-theme" @click="routeToUsefulWebsite('/useful-website')">
               <div
                 class="bg-zinc-400/60 dark:bg-zinc-800/60 p-2 rounded-lg flex items-center justify-center"
               >
@@ -320,6 +320,13 @@ onClickOutside(targetDeepMenu, () => {
 
 const handleWriteMessage = () => {
   window.open("https://forms.gle/sGrVntiG7itXn5QF6", "_blank");
+};
+
+const routeToUsefulWebsite = (path: string) => {
+  listNavs.forEach((nav) => {
+    nav.active = false;
+  });
+  navigateTo(path)
 };
 
 onMounted(() => {

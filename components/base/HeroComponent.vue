@@ -80,10 +80,10 @@
           and redefine fundamental concepts through mental models.
         </div>
         <div class="flex flex-start gap-4 pt-4">
-          <Button severity="contrast" class="!text-[12px] md:!text-base shadow"
+          <Button severity="contrast" class="!text-[12px] md:!text-base shadow" @click="exploreMore"
             >Explore more</Button
           >
-          <Button severity="secondary" class="!text-[12px] md:!text-base shadow"
+          <Button severity="secondary" class="!text-[12px] md:!text-base shadow" @click="moreAboutMe"
             >More about me</Button
           >
         </div>
@@ -126,36 +126,21 @@
 <script setup>
 import { isMobile } from "~/composables/useBreakpoint";
 
-import { ref, computed, onMounted } from "vue";
+const menuStore = useMenuStore();
 
-const rotation = ref(0);
-const isRotating = ref(false);
-const rotationStep = 1;
-const frameDelay = 100;
-
-// this computed builds the inline style object
-const rotateStyle = computed(() => ({
-  transform: `rotate(${rotation.value}deg)`,
-  transition: "transform 0.3s ease-in-out",
-}));
-
-function animateRotation() {
-  if (isRotating.value) return;
-  isRotating.value = true;
-
-  function rotate() {
-    rotation.value = (rotation.value + rotationStep) % 360;
-    frameDelay > 0
-      ? setTimeout(rotate, frameDelay)
-      : requestAnimationFrame(rotate);
+const exploreMore = () => {
+  const section = document.getElementById("section-project");
+  if (section) {
+    const yOffset = -40; // adjust this value for your desired offset (e.g., -80px for header)
+    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
   }
+};
 
-  rotate();
+const moreAboutMe = () => {
+  menuStore.setActivePath('/about');
+  navigateTo('/about');
 }
-
-// onMounted(() => {
-//   animateRotation();
-// });
 </script>
 <style scoped>
 @-webkit-keyframes rotating /* Safari and Chrome */ {

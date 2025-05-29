@@ -1,5 +1,6 @@
 <template>
   <div
+    id="section-project"
     class="layout flex flex-col justify-start items-start space-y-12 pb-24 md:pb-32"
   >
     <div

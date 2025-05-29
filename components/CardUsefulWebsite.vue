@@ -5,17 +5,17 @@
     <a
       :href="url"
       target="_blank"
-      class="font-rethink text-foreground font-semibold text-2xl hover:underline flex items-center gap-2 cursor-pointer"
+      class="font-rethink text-foreground font-semibold text-2xl hover:underline flex items-center gap-2 cursor-pointer z-5"
     >
       <span> {{ title }} </span>
       <IconExternalLink class="size-4" />
     </a>
-    <div class="mt-1 text-muted-foreground font-light leading-6 line-clamp-3">
+    <div class="mt-1 text-muted-foreground font-light leading-6 line-clamp-3 z-5">
       {{ description }}
     </div>
     <ClientOnly>
       <div
-        class="absolute top-3 right-5 text-zinc-950/[.2] dark:text-zinc-50/[.2]"
+        class="absolute top-3 right-5 text-zinc-950/[.2] dark:text-zinc-50/[.2] z-1"
       >
         <span class="text-[6rem]">
           {{ getRandomEmoji() }}
