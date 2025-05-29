@@ -123,6 +123,7 @@
         </ClientOnly>
         <FunFactListSong :listFavoriteSongs="listFavoriteSongs" />
       </div>
+      <FunFactSectionPet />
     </div>
   </div>
 </template>
@@ -207,18 +208,30 @@ const listFavoriteSongs = [
     album_url: "https://open.spotify.com/album/0FZK97MXMm5mUQ8mtudjuK",
     artist_url: "https://open.spotify.com/artist/7FBcuc1gsnv6Y1nwFtNRCb",
   },
-  // {
-  //   title: "Gala Bunga Matahari",
-  //   artist: "Sal Priadi",
-  //   album: "MARKERS AND SUCH PENS FLASHDISKS",
-  //   year: "2024",
-  //   duration: "3:29",
-  //   total_listeners: "152,164,348",
-  //   url_img: "",
-  //   song_url: "",
-  //   album_url: "",
-  //   artist_url: "",
-  // },
+  {
+    title: "Kisah Dari Selatan Jakarta",
+    artist: "White Shoes & The Couples Company",
+    album: "Together Whatever Sessions",
+    year: "2018",
+    duration: "4:15",
+    total_listeners: "12,175,672",
+    url_img: "https://i.scdn.co/image/ab67616d0000b2737d81d49764e4eb156f1039a9",
+    song_url: "https://open.spotify.com/track/20qm0yBgr7ylY91vKp7SpY",
+    album_url: "https://open.spotify.com/album/0eXX7sZMrUItp9FT6FTWdl",
+    artist_url: "https://open.spotify.com/artist/5wm369wshLgPTaW2TDwkus",
+  },
+  {
+    title: "33x",
+    artist: "Perunggu",
+    album: "Memorandum",
+    year: "2022",
+    duration: "7:14",
+    total_listeners: "15,852,789",
+    url_img: "https://i.scdn.co/image/ab67616d0000b2737b75822516f485d6fc90b60e",
+    song_url: "https://open.spotify.com/track/0I3I9hgBRat6HR5Gzy26jx",
+    album_url: "https://open.spotify.com/album/2ZI3XeIrCM1PsOtK3rlMth",
+    artist_url: "https://open.spotify.com/artist/0NbKRRBuiIUwS9irPvi7wD",
+  },
 ];
 
 const totalHourSongs = computed(() => {
