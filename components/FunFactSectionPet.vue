@@ -41,8 +41,7 @@
           
             <NuxtImg
               :src="MINIO_BASE_URL + 'pet/IMG_7542_11zon.jpeg'"
-              class="w-full h-full rounded-lg object-cover"
-              style="height: -webkit-fill-available;"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover"
             />
           </div>
           <div
@@ -52,7 +51,7 @@
               :src="
                 MINIO_BASE_URL + 'pet/C6C8435A-A0F7-49DE-8172-EBC868195976.jpg'
               "
-              class="w-full h-full rounded-lg object-cover object-left-bottom"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-left-bottom"
             />
           </div>
           <div
@@ -62,7 +61,7 @@
               :src="
                 MINIO_BASE_URL + 'pet/AF8F302D-C930-4FA4-8E8F-B029459B34BE.jpg'
               "
-              class="w-full h-full rounded-lg object-cover object-center"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-center"
             />
           </div>
           <div
@@ -72,7 +71,7 @@
               :src="
                 MINIO_BASE_URL + 'pet/EFDA4BCE-F878-471F-84CC-B4BA0FA7617D.jpg'
               "
-              class="w-full h-full rounded-lg object-cover"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover"
             />
           </div>
           <div
@@ -82,7 +81,7 @@
               :src="
                 MINIO_BASE_URL + 'pet/AA45CB48-D466-43BB-9828-340A8255C50F.jpg'
               "
-              class="w-full h-full rounded-lg object-cover"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover"
             />
           </div>
           <div
@@ -93,7 +92,7 @@
                 MINIO_BASE_URL +
                 'pet/65A24810-279C-4C0C-8C3A-C10740F8CED0_11zon.jpg'
               "
-              class="w-full h-full rounded-lg object-cover object-top"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-top"
             />
           </div>
           <div
@@ -103,7 +102,7 @@
               :src="
                 MINIO_BASE_URL + 'pet/28084A7F-E19F-4ED7-A8DD-C7D0AFF3F433_11zon.jpg'
               "
-              class="w-full h-full rounded-lg object-cover object-top max-h-[500px]"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-top max-h-[500px]"
             />
           </div>
         </div>
