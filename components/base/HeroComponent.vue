@@ -70,6 +70,14 @@
     </ClientOnly>
     <div class="grid grid-cols-12 md:gap-12">
       <div class="col-span-12 md:col-span-6 flex flex-col gap-4 text-left">
+        <div class="border border-solid border-zinc-50/[.1] rounded-full ml-2 mb-2 w-fit px-1 py-1 flex items-center justify-center shadow-md shadow-orange-400/50">
+          <NuxtImg
+            src="/images/logo.png"
+            height="60"
+            width="60"
+            densities="x1 x2"
+          />
+        </div>
         <BaseSparklesText
           text="Dimas Roger W"
           class="text-foreground font-rethink text-5xl md:text-6xl"
@@ -92,9 +100,11 @@
           <Button
             severity="secondary"
             class="!text-[12px] md:!text-base shadow"
-            @click="moreAboutMe"
-            >More about me</Button
+            @click="getMyResume"
           >
+            <IconFileText class="size-4" />
+            Get my resume
+          </Button>
         </div>
       </div>
       <ClientOnly>
@@ -134,6 +144,7 @@
 </template>
 <script setup>
 import { isMobile } from "~/composables/useBreakpoint";
+import { IconFileText } from "@tabler/icons-vue";
 
 const menuStore = useMenuStore();
 
@@ -147,9 +158,11 @@ const exploreMore = () => {
   }
 };
 
-const moreAboutMe = () => {
-  menuStore.setActivePath("/about");
-  navigateTo("/about");
+const getMyResume = () => {
+  window.open(
+    "https://drive.google.com/file/d/1U3oV00jaxs73-xjrNFyrYd2CT0hFLfcK/view?usp=sharing",
+    "_blank"
+  );
 };
 </script>
 <style scoped>

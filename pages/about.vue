@@ -38,17 +38,94 @@
       class="layout text-center pb-6 pt-6 md:pb-8 md:pt-8 flex flex-col justify-center"
     >
       <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-12 md:col-span-6 flex items-center justify-center">
+        <div
+          class="col-span-12 md:col-span-6 flex-col items-start justify-center space-y-4 relative overflow-hidden"
+        >
           <template v-if="pending">
             <div>loading profie...</div>
           </template>
           <template v-else>
-            <NuxtImg
-              :src="MINIO_BASE_URL + profiles?.about.avatar_file_name"
-              class="rounded-lg max-h-[400px] aspect-square object-cover"
-              densities="x1 x2"
-              :quality="40"
-            />
+            <div>
+              <NuxtImg
+                :src="MINIO_BASE_URL + profiles?.about.avatar_file_name"
+                class="rounded-lg max-h-[400px] aspect-square object-cover"
+                densities="x1 x2"
+                :quality="40"
+              >
+              </NuxtImg>
+            </div>
+          </template>
+          <div class="flex items-center justify-center gap-4">
+            <div
+              class="btn-soul-transform"
+              :class="{
+                '!border-orange-500': soul_active === 'Angel',
+              }"
+              @click="changeSoul('Angel')"
+            >
+              😇
+            </div>
+            <div
+              class="btn-soul-transform"
+              :class="{
+                '!border-orange-500': soul_active === 'Devil',
+              }"
+              @click="changeSoul('Devil')"
+            >
+              😈
+            </div>
+            <div
+              class="btn-soul-transform"
+              :class="{
+                '!border-orange-500': soul_active === 'Human',
+              }"
+              @click="changeSoul('Human')"
+            >
+              👨‍💻
+            </div>
+          </div>
+
+          <template v-if="soul_active === 'Angel'">
+            <div
+              class="absolute inset-x-0 left-[18rem] top-[4rem] md:top-[4rem] scale-y-[-1] rotate-[210deg]"
+            >
+              <NuxtImg
+                src="/images/icons/phoenix-wing.png"
+                height="130"
+                width="130"
+              />
+            </div>
+            <div
+              class="absolute inset-x-0 right-[14rem] top-[4rem] md:top-[4rem] rotate-[-20deg]"
+            >
+              <NuxtImg
+                src="/images/icons/phoenix-wing.png"
+                height="130"
+                width="130"
+              />
+            </div>
+          </template>
+          <template v-if="soul_active === 'Devil'">
+            <div
+              id="right-wing"
+              class="absolute inset-x-0 left-[18rem] top-[4.5rem] md:top-[4.5rem] scale-y-[-1] rotate-[190deg]"
+            >
+              <NuxtImg
+                src="/images/icons/old-wing.png"
+                height="120"
+                width="120"
+              />
+            </div>
+            <div
+              id="left-wing"
+              class="absolute inset-x-0 right-[14rem] top-[4.5rem] md:top-[4.5rem] rotate-[0deg]"
+            >
+              <NuxtImg
+                src="/images/icons/old-wing.png"
+                height="120"
+                width="120"
+              />
+            </div>
           </template>
         </div>
         <div class="col-span-12 md:col-span-6 text-left">
@@ -150,5 +227,11 @@ const { data: profiles, pending } = await useAsyncData(
     }
   }
 );
+
+const soul_active = ref("Devil");
+
+const changeSoul = (soul: "Human" | "Devil" | "Angel") => {
+  soul_active.value = soul;
+};
 </script>
 <style lang=""></style>

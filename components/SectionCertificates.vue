@@ -12,7 +12,7 @@
         <div class="text-2xl font-rethink font-bold">Certificates</div>
       </div>
       <div class="grid grid-cols-12 gap-6">
-        <template v-for="(cert, i) in LIST_CERTIFICATES" :key="i">
+        <template v-for="(cert, i) in LIST_CERTIFICATES.reverse()" :key="i">
           <CardCertificate :cert="cert" />
         </template>
       </div>
@@ -27,6 +27,14 @@ const LIST_CERTIFICATES: {
   cert_type: string;
   cert_url: string;
 }[] = [
+  {
+    title: "Ruby Fundamental Programming",
+    instructor: "",
+    cert_id: "",
+    cert_type: "School",
+    cert_url:
+      "https://files.dimasroger.com/portofolio-v4/certificate/Sertifikat_Ruby.pdf",
+  },
   {
     title: "React - The Complete Guide with React Hook Redux",
     instructor: "Kim Chen",
@@ -76,12 +84,12 @@ const LIST_CERTIFICATES: {
       "https://udemy-certificate.s3.amazonaws.com/image/UC-3e59f876-d846-4ea9-88e7-a18a06b9adbd.jpg",
   },
   {
-    title: "Ruby Fundamental Programming",
-    instructor: "",
-    cert_id: "",
-    cert_type: "School",
+    title: "Pemograman Go-Lang : Pemula sampai Mahir",
+    instructor: "Programmer Zaman Now",
+    cert_id: "UC-d9c65a4c-5d27-4a10-b1e0-8cee03ef2b94",
+    cert_type: "Udemy",
     cert_url:
-      "https://files.dimasroger.com/portofolio-v4/certificate/Sertifikat_Ruby.pdf",
+      "https://udemy-certificate.s3.amazonaws.com/image/UC-d9c65a4c-5d27-4a10-b1e0-8cee03ef2b94.jpg",
   },
 ];
 </script>
