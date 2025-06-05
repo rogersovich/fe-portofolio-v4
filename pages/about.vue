@@ -85,7 +85,7 @@
             </div>
           </div>
 
-          <template v-if="soul_active === 'Angel'">
+          <template v-if="soul_active === 'Angel' && !pending">
             <div
               id="right-wing"
               class="absolute right-[-1rem] md:right-[5rem] top-[3.5rem] md:top-[3.5rem] scale-y-[-1] rotate-[210deg]"
@@ -107,7 +107,7 @@
               />
             </div>
           </template>
-          <template v-if="soul_active === 'Devil'">
+          <template v-if="soul_active === 'Devil' && !pending">
             <div
               id="right-wing"
               class="absolute right-[-0.5rem] md:right-[5rem] top-[4.5rem] md:top-[4.5rem] scale-y-[-1] rotate-[190deg]"
