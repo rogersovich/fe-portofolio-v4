@@ -13,6 +13,7 @@
             <template v-if="!moviesOnHover[index]">
               <NuxtImg
                 :src="movie.image"
+                :quality="40"
                 class="rounded-lg w-full h-[150px] md:h-[300px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05]"
               />
             </template>
@@ -64,6 +65,7 @@
           <div class="w-full flex items-start space-x-3">
             <NuxtImg
               :src="movie.image"
+              :quality="40"
               class="rounded-lg h-[175px] w-[125px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05]"
             />
             <div class="flex flex-col items-start gap-[5px] py-2">

@@ -10,6 +10,7 @@
           <NuxtImg
             v-if="isMobile"
             :src="MINIO_BASE_URL + project.image_file_name"
+            :quality="40"
             class="rounded-lg w-full max-h-[200px] object-cover"
           />
           <div
@@ -33,6 +34,7 @@
                 >
                   <NuxtImg
                     :src="MINIO_BASE_URL + tech.tech_logo_file_name"
+                    :quality="40"
                     height="20px"
                     width="20px"
                     densities="x1 x2"
@@ -78,6 +80,7 @@
           class="p-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl h-full flex items-center justify-center"
         >
           <NuxtImg
+            :quality="40"
             :src="MINIO_BASE_URL + project.image_file_name"
             class="rounded-lg w-full max-h-[200px] object-cover"
           />
