@@ -87,7 +87,8 @@
 
           <template v-if="soul_active === 'Angel'">
             <div
-              class="absolute inset-x-0 left-[18rem] top-[4rem] md:top-[4rem] scale-y-[-1] rotate-[210deg]"
+              id="right-wing"
+              class="absolute right-[-1rem] md:right-[5rem] top-[3.5rem] md:top-[3.5rem] scale-y-[-1] rotate-[210deg]"
             >
               <NuxtImg
                 src="/images/icons/phoenix-wing.png"
@@ -96,7 +97,8 @@
               />
             </div>
             <div
-              class="absolute inset-x-0 right-[14rem] top-[4rem] md:top-[4rem] rotate-[-20deg]"
+              id="left-wing"
+              class="absolute left-[1.5rem] md:left-[6rem]  top-[3.5rem] md:top-[3.5rem] rotate-[-20deg]"
             >
               <NuxtImg
                 src="/images/icons/phoenix-wing.png"
@@ -108,7 +110,7 @@
           <template v-if="soul_active === 'Devil'">
             <div
               id="right-wing"
-              class="absolute inset-x-0 left-[18rem] top-[4.5rem] md:top-[4.5rem] scale-y-[-1] rotate-[190deg]"
+              class="absolute right-[-0.5rem] md:right-[5rem] top-[4.5rem] md:top-[4.5rem] scale-y-[-1] rotate-[190deg]"
             >
               <NuxtImg
                 src="/images/icons/old-wing.png"
@@ -118,7 +120,7 @@
             </div>
             <div
               id="left-wing"
-              class="absolute inset-x-0 right-[14rem] top-[4.5rem] md:top-[4.5rem] rotate-[0deg]"
+              class="absolute left-[1.5rem] md:left-[6.5rem] top-[4.5rem] md:top-[4.5rem] rotate-[0deg]"
             >
               <NuxtImg
                 src="/images/icons/old-wing.png"
