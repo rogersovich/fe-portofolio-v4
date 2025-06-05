@@ -12,6 +12,7 @@
                 MINIO_BASE_URL + 'pet/449D0FD5-6323-40F0-B33C-A0CF91039112.jpg'
               "
               class="rounded-full h-[150px] md:h-[300px] w-[150px] md:w-[300px] object-cover object-top"
+              :quality="40"
             />
           </div>
           <div class="text-[3rem] md:text-[5rem] animated-rtl">👈</div>
@@ -42,6 +43,7 @@
             <NuxtImg
               :src="MINIO_BASE_URL + 'pet/IMG_7542_11zon.jpeg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover"
+              :quality="40"
             />
           </div>
           <div
@@ -52,6 +54,7 @@
                 MINIO_BASE_URL + 'pet/C6C8435A-A0F7-49DE-8172-EBC868195976.jpg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-left-bottom"
+              :quality="40"
             />
           </div>
           <div
@@ -62,6 +65,7 @@
                 MINIO_BASE_URL + 'pet/AF8F302D-C930-4FA4-8E8F-B029459B34BE.jpg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-center"
+              :quality="40"
             />
           </div>
           <div
@@ -72,6 +76,7 @@
                 MINIO_BASE_URL + 'pet/EFDA4BCE-F878-471F-84CC-B4BA0FA7617D.jpg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover"
+              :quality="40"
             />
           </div>
           <div
@@ -82,6 +87,7 @@
                 MINIO_BASE_URL + 'pet/AA45CB48-D466-43BB-9828-340A8255C50F.jpg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover"
+              :quality="40"
             />
           </div>
           <div
@@ -93,6 +99,7 @@
                 'pet/65A24810-279C-4C0C-8C3A-C10740F8CED0_11zon.jpg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-top"
+              :quality="40"
             />
           </div>
           <div
@@ -103,6 +110,7 @@
                 MINIO_BASE_URL + 'pet/28084A7F-E19F-4ED7-A8DD-C7D0AFF3F433_11zon.jpg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-top max-h-[500px]"
+              :quality="40"
             />
           </div>
         </div>

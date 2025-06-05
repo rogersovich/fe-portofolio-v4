@@ -60,7 +60,7 @@
             <ClientOnly>
               <div v-if="isMobile" class="col-span-12">
                 <div
-                  class="py-4 px-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
+                  class="p-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
                 >
                   <div class="mb-6">
                     <div class="mb-3 text-[13px] tracking-wider">

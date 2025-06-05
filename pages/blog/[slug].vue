@@ -42,6 +42,13 @@
     <div class="layout grid grid-cols-12 gap-6 z-10 relative">
       <div class="col-span-12 md:col-span-9">
         <template v-if="blogs">
+          <div class="mb-4 md:px-4">
+            <NuxtImg
+              :src="MINIO_BASE_URL + blogs.data.banner_file_name"
+              class="w-full rounded-lg object-cover"
+              :quality="70"
+            />
+          </div>
           <div
             id="description-content"
             class="text-muted-foreground md:px-4 text-sm md:text-base"
