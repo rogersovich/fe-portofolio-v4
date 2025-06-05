@@ -98,7 +98,7 @@
             </div>
             <div
               id="left-wing"
-              class="absolute left-[1.5rem] md:left-[6rem]  top-[3.5rem] md:top-[3.5rem] rotate-[-20deg]"
+              class="absolute left-[1.5rem] md:left-[6rem] top-[3.5rem] md:top-[3.5rem] rotate-[-20deg]"
             >
               <NuxtImg
                 src="/images/icons/phoenix-wing.png"
