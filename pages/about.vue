@@ -45,8 +45,9 @@
           <template v-else>
             <NuxtImg
               :src="MINIO_BASE_URL + profiles?.about.avatar_file_name"
-              class="rounded-lg w-full"
+              class="rounded-lg max-h-[400px] aspect-square object-cover"
               densities="x1 x2"
+              :quality="40"
             />
           </template>
         </div>
