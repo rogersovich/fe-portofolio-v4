@@ -1,5 +1,4 @@
 import customTheme from "./themes/customTheme";
-const config = useRuntimeConfig()
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
