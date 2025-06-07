@@ -15,12 +15,15 @@ export default defineNuxtConfig({
     "@primevue/nuxt-module",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
+    "nuxt-umami",
   ],
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       minio_endpoint: process.env.NUXT_PUBLIC_MINIO_ENDPOINT,
       minio_bucket: process.env.NUXT_PUBLIC_MINIO_BUCKET,
+      umamiId: process.env.NUXT_PUBLIC_UMAMI_ID || '',
+      umamiHost: process.env.NUXT_PUBLIC_UMAMI_HOST || '',
     },
   },
   plugins: [],
@@ -54,4 +57,9 @@ export default defineNuxtConfig({
     },
     autoImport: true,
   },
+  umami: {
+    autoTrack: true,
+    enabled: true,
+    ignoreLocalhost: false
+  }
 });
