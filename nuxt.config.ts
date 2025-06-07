@@ -58,8 +58,8 @@ export default defineNuxtConfig({
     autoImport: true,
   },
   umami: {
-    id: process.env.NUXT_PUBLIC_UMAMI_ID,
-    host: process.env.NUXT_PUBLIC_UMAMI_HOST,
+    id: import.meta.env.NUXT_PUBLIC_UMAMI_ID,
+    host: import.meta.env.NUXT_PUBLIC_UMAMI_HOST,
     autoTrack: true,
     enabled: true,
     ignoreLocalhost: true,
