@@ -1,4 +1,5 @@
 import customTheme from "./themes/customTheme";
+const config = useRuntimeConfig()
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
@@ -58,8 +59,8 @@ export default defineNuxtConfig({
     autoImport: true,
   },
   umami: {
-    id: import.meta.env.NUXT_PUBLIC_UMAMI_ID,
-    host: import.meta.env.NUXT_PUBLIC_UMAMI_HOST,
+    id: config.public.umamiId,
+    host: config.public.umamiHost,
     autoTrack: true,
     enabled: true,
     ignoreLocalhost: true,
