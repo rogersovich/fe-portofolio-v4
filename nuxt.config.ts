@@ -62,6 +62,7 @@ export default defineNuxtConfig({
     host: process.env.NUXT_PUBLIC_UMAMI_HOST,
     autoTrack: true,
     enabled: true,
-    ignoreLocalhost: false
+    ignoreLocalhost: true,
+    logErrors: true,
   }
 });
