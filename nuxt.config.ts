@@ -22,8 +22,6 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       minio_endpoint: process.env.NUXT_PUBLIC_MINIO_ENDPOINT,
       minio_bucket: process.env.NUXT_PUBLIC_MINIO_BUCKET,
-      umamiId: process.env.NUXT_PUBLIC_UMAMI_ID || '',
-      umamiHost: process.env.NUXT_PUBLIC_UMAMI_HOST || '',
     },
   },
   plugins: [],
@@ -63,6 +61,6 @@ export default defineNuxtConfig({
     autoTrack: true,
     enabled: true,
     ignoreLocalhost: true,
-    logErrors: true,
+    logErrors: false,
   }
 });
