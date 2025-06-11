@@ -70,7 +70,7 @@
         @click="onClickIcon('linkedin')"
         v-tooltip.top="'Linkedin'"
       />
-      <IconBrandUpwork class="cursor-pointer size-5 hover:text-orange-400" v-tooltip.top="'Upwork'" />
+      <!-- <IconBrandUpwork class="cursor-pointer size-5 hover:text-orange-400" v-tooltip.top="'Upwork'" /> -->
     </div>
   </div>
 </template>

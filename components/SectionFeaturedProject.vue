@@ -81,7 +81,7 @@ const params = reactive<TParamsFilterPublicProject>({
 });
 
 const { data: dataProjects, pending } = await useAsyncData(
-  "publicProjects",
+  "publicFeaturedProjects",
   async () => {
     try {
       const response = await $fetch<TPublicProjectListResponse>(

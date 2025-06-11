@@ -90,7 +90,7 @@ const params = reactive<TParamsFilterPublicBlog>({
 });
 
 const { data: dataBlogs, pending } = await useAsyncData(
-  "public-blogs",
+  "publicFeaturedBlogs",
   async () => {
     try {
       const response = await $fetch<TPublicBlogListResponse>(
