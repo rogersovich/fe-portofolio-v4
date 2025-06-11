@@ -58,16 +58,19 @@
       <IconMail
         class="cursor-pointer size-5 hover:text-orange-400"
         @click="onClickIcon('mail')"
+        v-tooltip.top="'Email'"
       />
       <IconBrandGithub
         class="cursor-pointer size-5 hover:text-orange-400"
         @click="onClickIcon('github')"
+        v-tooltip.top="'Github'"
       />
       <IconBrandLinkedin
         class="cursor-pointer size-5 hover:text-orange-400"
         @click="onClickIcon('linkedin')"
+        v-tooltip.top="'Linkedin'"
       />
-      <IconBrandUpwork class="cursor-pointer size-5 hover:text-orange-400" />
+      <IconBrandUpwork class="cursor-pointer size-5 hover:text-orange-400" v-tooltip.top="'Upwork'" />
     </div>
   </div>
 </template>

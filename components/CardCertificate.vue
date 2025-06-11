@@ -20,7 +20,7 @@
       <a
         :href="cert.cert_url"
         target="_blank"
-        class="font-rethink font-bold text-xl md:text-3xl text-foreground no-underline hover:md:underline cursor-pointer"
+        class="font-rethink font-bold text-xl md:text-3xl text-muted-foreground no-underline hover:md:underline cursor-pointer"
       >
         <span>{{ cert.title }}</span>
       </a>

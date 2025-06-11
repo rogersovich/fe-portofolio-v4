@@ -13,9 +13,7 @@
             :quality="40"
             class="rounded-lg w-full max-h-[200px] object-cover"
           />
-          <div
-            class="mt-0 font-rethink text-2xl font-bold mb-2"
-          >
+          <div class="mt-0 font-rethink text-2xl font-bold mb-2">
             {{ project.title }}
           </div>
           <div
@@ -39,6 +37,7 @@
                     width="20px"
                     densities="x1 x2"
                     class="object-contain"
+                    v-tooltip.top="tech.tech_name"
                   />
                 </div>
               </template>
@@ -91,7 +90,7 @@
 </template>
 <script setup lang="ts">
 import { isMobile, isTablet } from "~/composables/useBreakpoint";
-import { IconLink, IconChevronRight} from "@tabler/icons-vue";
+import { IconLink, IconChevronRight } from "@tabler/icons-vue";
 import type { TPublicProject } from "~/types/project.type";
 
 const { project } = defineProps<{
@@ -102,14 +101,13 @@ const MINIO_BASE_URL = useMinioUrl();
 
 const truncatedText = computed(() => {
   // 1) strip all tags
-  const plain = project.summary.replace(/<[^>]+>/g, '');
+  const plain = project.summary.replace(/<[^>]+>/g, "");
 
   // 2) if under limit, return as-is
   if (plain.length <= 250) return plain;
 
   // 3) otherwise cut and add ellipsis
-  return plain.slice(0, 250) + '…';
+  return plain.slice(0, 250) + "…";
 });
-
 </script>
 <style lang=""></style>

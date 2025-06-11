@@ -56,7 +56,7 @@
                       <span>
                         {{ slotProps.data.role }}
                       </span>
-                      <template v-if="slotProps.data.working_at">
+                      <template v-if="slotProps.data.working_at && slotProps.data.working_at != '-'">
                         <span> - </span>
                         <a
                           href="https://v3.tailwindcss.com/docs/width#fixed-widths"
