@@ -9,7 +9,7 @@
           <div class="px-[2rem] md:px-[4rem]">
             <NuxtImg
               :src="
-                MINIO_BASE_URL + 'pet/449D0FD5-6323-40F0-B33C-A0CF91039112.jpg'
+                '/images/bimbim/thumbnail.jpg'
               "
               class="rounded-full h-[150px] md:h-[300px] w-[150px] md:w-[300px] object-cover object-top"
               :quality="40"
@@ -41,7 +41,7 @@
           >
           
             <NuxtImg
-              :src="MINIO_BASE_URL + 'pet/IMG_7542_11zon.jpeg'"
+              :src="'/images/bimbim/1.jpg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover"
               :quality="40"
             />
@@ -51,9 +51,9 @@
           >
             <NuxtImg
               :src="
-                MINIO_BASE_URL + 'pet/C6C8435A-A0F7-49DE-8172-EBC868195976.jpg'
+                '/images/bimbim/2.jpg'
               "
-              class="w-full h-[200px] md:h-full rounded-lg object-cover object-left-bottom"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-top md:object-left-bottom"
               :quality="40"
             />
           </div>
@@ -62,9 +62,9 @@
           >
             <NuxtImg
               :src="
-                MINIO_BASE_URL + 'pet/AF8F302D-C930-4FA4-8E8F-B029459B34BE.jpg'
+                '/images/bimbim/3.jpg'
               "
-              class="w-full h-[200px] md:h-full rounded-lg object-cover object-center"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-top md:object-center"
               :quality="40"
             />
           </div>
@@ -73,9 +73,9 @@
           >
             <NuxtImg
               :src="
-                MINIO_BASE_URL + 'pet/EFDA4BCE-F878-471F-84CC-B4BA0FA7617D.jpg'
+                '/images/bimbim/4.jpg'
               "
-              class="w-full h-[200px] md:h-full rounded-lg object-cover"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-right"
               :quality="40"
             />
           </div>
@@ -84,7 +84,7 @@
           >
             <NuxtImg
               :src="
-                MINIO_BASE_URL + 'pet/AA45CB48-D466-43BB-9828-340A8255C50F.jpg'
+                '/images/bimbim/5.jpg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover"
               :quality="40"
@@ -95,10 +95,9 @@
           >
             <NuxtImg
               :src="
-                MINIO_BASE_URL +
-                'pet/65A24810-279C-4C0C-8C3A-C10740F8CED0_11zon.jpg'
+               '/images/bimbim/6.jpg'
               "
-              class="w-full h-[200px] md:h-full rounded-lg object-cover object-top"
+              class="w-full h-[200px] md:h-full rounded-lg object-cover object-left"
               :quality="40"
             />
           </div>
@@ -107,7 +106,7 @@
           >
             <NuxtImg
               :src="
-                MINIO_BASE_URL + 'pet/28084A7F-E19F-4ED7-A8DD-C7D0AFF3F433_11zon.jpg'
+                '/images/bimbim/7.jpeg'
               "
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-top max-h-[500px]"
               :quality="40"
@@ -119,7 +118,6 @@
   </div>
 </template>
 <script setup lang="ts">
-const MINIO_BASE_URL = useMinioUrl();
 </script>
 <style lang="css">
 @keyframes moveLeftRight {
