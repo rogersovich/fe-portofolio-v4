@@ -15,6 +15,7 @@
                 :src="movie.image"
                 :quality="40"
                 class="rounded-lg w-full h-[150px] md:h-[300px] border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05]"
+                placeholder="/images/fallback-image.png"
               />
             </template>
             <template v-else>

@@ -5,8 +5,8 @@
     >
       <ClientOnly>
         <NuxtImg
-          :src="MINIO_BASE_URL + blogs?.data.banner_file_name"
-          class="rounded-lg w-full max-h-[200px] md:max-h-[300px] object-cover blur-sm brightness-125 saturate-[.25] dark:brightness-[.15] absolute top-0 left-0 z-1"
+          :src="getRandomBanner()"
+          class="rounded-lg w-full max-h-[200px] md:max-h-[300px] object-cover blur-[4px] absolute top-0 left-0 z-1"
         />
       </ClientOnly>
       <div class="flex flex-col gap-3 z-10">
@@ -165,6 +165,17 @@ const activeId: any = ref(null);
 const scrollDelay = 100;
 let observer: any = null;
 const isUserClicking = ref(false);
+
+const getRandomBanner = () => {
+  const banners = [
+    "/images/banner-detail-1.png",
+    "/images/banner-detail-2.png",
+    "/images/banner-detail-3.png",
+    "/images/banner-detail-4.png",
+  ]
+
+  return banners[Math.floor(Math.random() * banners.length)]
+}
 
 const generateToc = () => {
   tocLinks.value = [];

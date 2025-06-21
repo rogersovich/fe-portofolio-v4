@@ -50,6 +50,7 @@
                 :src="MINIO_BASE_URL + profiles?.about.avatar_file_name"
                 class="rounded-lg max-h-[300px] md:max-h-[400px] aspect-square object-cover"
                 :quality="20"
+                placeholder="/images/fallback-image.png"
               >
               </NuxtImg>
             </div>

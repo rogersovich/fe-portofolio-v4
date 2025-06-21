@@ -8,11 +8,10 @@
           <div class="text-[3rem] md:text-[5rem] animated-ltr">👉</div>
           <div class="px-[2rem] md:px-[4rem]">
             <NuxtImg
-              :src="
-                '/images/bimbim/thumbnail.jpg'
-              "
+              :src="'/images/bimbim/thumbnail.jpg'"
               class="rounded-full h-[150px] md:h-[300px] w-[150px] md:w-[300px] object-cover object-top"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
           <div class="text-[3rem] md:text-[5rem] animated-rtl">👈</div>
@@ -39,77 +38,71 @@
           <div
             class="col-start-1 row-start-1 col-span-2 row-span-1 md:col-start-1 md:row-start-1 md:col-span-2 md:row-span-4 rounded-lg"
           >
-          
             <NuxtImg
               :src="'/images/bimbim/1.jpg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
           <div
             class="col-start-3 row-start-1 col-span-2 row-span-1 md:col-start-3 md:row-start-1 md:col-span-2 md:row-span-3 rounded-lg"
           >
             <NuxtImg
-              :src="
-                '/images/bimbim/2.jpg'
-              "
+              :src="'/images/bimbim/2.jpg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-top md:object-left-bottom"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
           <div
             class="col-start-1 row-start-2 col-span-2 row-span-1 md:col-start-3 md:row-start-4 md:col-span-2 md:row-span-3 rounded-lg"
           >
             <NuxtImg
-              :src="
-                '/images/bimbim/3.jpg'
-              "
+              :src="'/images/bimbim/3.jpg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-top md:object-center"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
           <div
             class="col-start-3 row-start-2 col-span-2 row-span-1 md:col-start-5 md:row-start-1 md:col-span-2 md:row-span-4 rounded-lg"
           >
             <NuxtImg
-              :src="
-                '/images/bimbim/4.jpg'
-              "
+              :src="'/images/bimbim/4.jpg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-right"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
           <div
             class="col-start-1 row-start-3 col-span-2 row-span-1 md:col-start-1 md:row-start-5 md:col-span-2 md:row-span-4 rounded-lg"
           >
             <NuxtImg
-              :src="
-                '/images/bimbim/5.jpg'
-              "
+              :src="'/images/bimbim/5.jpg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
           <div
             class="col-start-3 row-start-3 col-span-2 row-span-1 md:col-start-5 md:row-start-5 md:col-span-2 md:row-span-4 rounded-lg"
           >
             <NuxtImg
-              :src="
-               '/images/bimbim/6.jpg'
-              "
+              :src="'/images/bimbim/6.jpg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-left"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
           <div
             class="col-start-1 row-start-4 col-span-2 row-span-1 md:col-start-3 md:row-start-7 md:col-span-2 md:row-span-3 rounded-lg"
           >
             <NuxtImg
-              :src="
-                '/images/bimbim/7.jpeg'
-              "
+              :src="'/images/bimbim/7.jpeg'"
               class="w-full h-[200px] md:h-full rounded-lg object-cover object-top max-h-[500px]"
               :quality="40"
+              placeholder="/images/fallback-image.png"
             />
           </div>
         </div>
@@ -117,8 +110,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 <style lang="css">
 @keyframes moveLeftRight {
   0% {

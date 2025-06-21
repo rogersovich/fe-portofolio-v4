@@ -12,6 +12,7 @@
             :src="MINIO_BASE_URL + project.image_file_name"
             :quality="40"
             class="rounded-lg w-full max-h-[200px] object-cover"
+            placeholder="/images/empty-data.png"
           />
           <div class="mt-0 font-rethink text-2xl font-bold mb-2">
             {{ project.title }}
@@ -81,6 +82,7 @@
             :quality="40"
             :src="MINIO_BASE_URL + project.image_file_name"
             class="rounded-lg w-full max-h-[200px] object-cover"
+            placeholder="/images/empty-data.png"
           />
         </div>
       </div>

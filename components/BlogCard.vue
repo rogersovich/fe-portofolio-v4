@@ -17,6 +17,7 @@
                   :src="MINIO_BASE_URL + blog.banner_file_name"
                   class="w-full max-h-[200px] rounded-lg object-cover"
                   :quality="40"
+                  placeholder="/images/empty-data.png"
                 />
               </div>
             </RouterLink>
@@ -97,6 +98,7 @@
                 :src="MINIO_BASE_URL + blog.banner_file_name"
                 class="w-full rounded-lg object-cover"
                 :quality="40"
+                placeholder="/images/empty-data.png"
               />
             </RouterLink>
           </ClientOnly>
