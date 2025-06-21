@@ -59,7 +59,7 @@
                       <template v-if="slotProps.data.working_at && slotProps.data.working_at != '-'">
                         <span> - </span>
                         <a
-                          href="https://v3.tailwindcss.com/docs/width#fixed-widths"
+                          :href="slotProps.data.company_url || fallbackCompUrl"
                           target="_blank"
                           class="text-orange-500"
                         >
@@ -88,6 +88,8 @@
 import { IconMessages } from "@tabler/icons-vue";
 import { isMobile } from "~/composables/useBreakpoint";
 import type { TPublicTestimonialResponse } from "~/types/testimonial.type";
+
+const fallbackCompUrl = "https://www.linkedin.com/in/dimasrogerw/"
 
 const responsiveOptions = ref([
   {

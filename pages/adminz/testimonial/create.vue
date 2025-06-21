@@ -22,7 +22,7 @@
       <form @submit.prevent="onFormSubmit" class="grid grid-cols-12 gap-6">
         <div class="col-span-12">
           <div class="text-2xl font-rethink font-bold">Form Create</div>
-          <hr class="border-zinc-50/[.15] mt-3" />
+          <hr class="seperator-line mt-3" />
         </div>
         <div class="col-span-4">
           <div class="flex flex-col gap-1 text-left">
@@ -116,6 +116,20 @@
         </div>
         <div class="col-span-8">
           <div class="flex flex-col gap-1 text-left">
+            <label for="company_url" class="mb-1">Company URL</label>
+            <InputText
+              v-model="forms.company_url"
+              id="company_url"
+              type="text"
+              placeholder="e.g. https://linkedin.com"
+              fluid
+              variant="outlined"
+              :disabled="loading"
+            />
+          </div>
+        </div>
+        <div class="col-span-8">
+          <div class="flex flex-col gap-1 text-left">
             <label for="message" class="mb-1">Message</label>
             <Textarea
               v-model="forms.message"
@@ -182,7 +196,8 @@ const forms = ref({
   role: "",
   working_at: "",
   is_used: "N",
-  message: ""
+  message: "",
+  company_url: "",
 });
 const is_used_options = ref([
   { label: "Yes", value: "Y" },
@@ -217,7 +232,8 @@ const onFormSubmit = async () => {
       role: forms.value.role,
       working_at: forms.value.working_at,
       is_used: forms.value.is_used,
-      message: forms.value.message
+      message: forms.value.message,
+      company_url: forms.value.company_url
     };
 
     await storeTestimonial(formData);

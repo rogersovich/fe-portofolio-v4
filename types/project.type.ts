@@ -81,6 +81,7 @@ export interface TParamsFilterPublicProject {
   sort?: string
   order?: string
   search?: string
+  is_highlight?: string
 }
 
 export interface TPublicProjectDetail {

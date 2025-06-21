@@ -74,10 +74,11 @@ const menuStore = useMenuStore();
 
 const params = reactive<TParamsFilterPublicProject>({
   page: "1",
-  limit: "2",
+  limit: "3",
   sort: "DESC",
   order: "updated_at",
   search: "",
+  is_highlight: "Y"
 });
 
 const { data: dataProjects, pending } = await useAsyncData(

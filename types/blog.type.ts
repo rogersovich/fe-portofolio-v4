@@ -103,6 +103,7 @@ export interface TParamsFilterPublicBlog {
   order?: string;
   search?: string;
   topics?: string;
+  is_highlight?: string
 }
 
 type TPublicBlogPaginateResponse = TBasePaginateResponse<TPublicBlog[]>;

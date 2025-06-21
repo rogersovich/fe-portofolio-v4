@@ -82,11 +82,12 @@ const menuStore = useMenuStore();
 
 const params = reactive<TParamsFilterPublicBlog>({
   page: "1",
-  limit: "2",
+  limit: "3",
   sort: "DESC",
   order: "updated_at",
   search: "",
   topics: "[]",
+  is_highlight: "Y",
 });
 
 const { data: dataBlogs, pending } = await useAsyncData(

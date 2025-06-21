@@ -8,6 +8,7 @@ export interface TTestimonial {
   working_at: string
   message: string
   is_used: string
+  company_url: string
   created_at: string
 }
 
@@ -31,6 +32,7 @@ export interface TPublicTestimonial {
   message: string
   is_used: string
   image?: string
+  company_url?: string
   created_at: string
 }
 

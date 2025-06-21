@@ -289,3 +289,7 @@ ul>li>p {
 .btn-soul-transform {
   @apply border border-solid border-zinc-950/10 dark:border-zinc-50/10 hover:!border-orange-500 cursor-pointer flex items-center justify-center px-3.5 py-2.5 rounded-md;
 }
+
+.seperator-line {
+  @apply border-zinc-50/[.15] border-t-0 border-x-0 border-b;
+}

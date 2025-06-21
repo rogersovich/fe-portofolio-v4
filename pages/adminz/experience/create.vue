@@ -22,7 +22,7 @@
       <form @submit.prevent="onFormSubmit" class="grid grid-cols-12 gap-6">
         <div class="col-span-12">
           <div class="text-2xl font-rethink font-bold">Form Create</div>
-          <hr class="border-zinc-50/[.15] mt-3" />
+          <hr class="seperator-line mt-3" />
         </div>
         <div class="col-span-3">
           <div class="flex flex-col gap-1 text-left">

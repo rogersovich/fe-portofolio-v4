@@ -22,7 +22,7 @@
           <div class="flex justify-between">
             <div class="text-2xl font-rethink font-bold">Form Edit</div>
           </div>
-          <hr class="border-zinc-50/[.15] mt-3" />
+          <hr class="seperator-line mt-3" />
         </div>
         <div class="col-span-3">
           <div class="flex flex-col gap-1 text-left">
