@@ -70,12 +70,14 @@
     </ClientOnly>
     <div class="grid grid-cols-12 md:gap-12">
       <div class="col-span-12 md:col-span-6 flex flex-col gap-4 text-left">
-        <div class="border border-solid border-zinc-50/[.1] rounded-full ml-2 mb-2 w-fit px-1 py-1 flex items-center justify-center shadow-md shadow-orange-400/50">
+        <div
+          class="border border-solid border-zinc-50/[.1] rounded-full ml-2 mb-2 w-fit px-1 py-1 flex items-center justify-center shadow-md shadow-orange-400/50"
+        >
           <NuxtImg
             src="/images/logo.png"
             height="60"
             width="60"
-            densities="x1 x2"
+            :quality="40"
           />
         </div>
         <BaseSparklesText
@@ -94,8 +96,8 @@
           <Button
             severity="contrast"
             class="!text-[12px] md:!text-base shadow"
-            @click="exploreMore"
-            >Explore more</Button
+            @click="goToPageAboutMe"
+            >More about me</Button
           >
           <Button
             severity="secondary"
@@ -106,6 +108,20 @@
             Get my resume
           </Button>
         </div>
+        <ClientOnly>
+          <template v-if="isMobile">
+            <div
+              class="absolute bottom-40 flex justify-center items-center w-full"
+            >
+              <div
+                class="rounded-full p-4 flex justify-center items-center bg-zinc-50/[.05] border border-solid border-zinc-50/[.075] cursor-pointer animate-bounce"
+                @click="exploreMore"
+              >
+                <IconArrowDown class="size-[1.25rem]" />
+              </div>
+            </div>
+          </template>
+        </ClientOnly>
       </div>
       <ClientOnly>
         <div v-if="!isMobile" class="col-span-6 fcc">
@@ -144,7 +160,7 @@
 </template>
 <script setup>
 import { isMobile } from "~/composables/useBreakpoint";
-import { IconFileText } from "@tabler/icons-vue";
+import { IconFileText, IconArrowDown } from "@tabler/icons-vue";
 
 const menuStore = useMenuStore();
 
@@ -164,6 +180,11 @@ const getMyResume = () => {
     "_blank"
   );
 };
+
+const goToPageAboutMe = () => {
+  menuStore.setActivePath("/about");
+  navigateTo("/about");
+}
 </script>
 <style scoped>
 @-webkit-keyframes rotating /* Safari and Chrome */ {

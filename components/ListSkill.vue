@@ -7,7 +7,6 @@
             :src="MINIO_BASE_URL + skill.logo_file_name"
             height="50"
             :quality="40"
-            densities="x1 x2"
             class="grayscale group-hover:grayscale-0 transition-transform duration-300 group-hover:rotate-[360deg] group-hover:scale-150"
           />
         </div>

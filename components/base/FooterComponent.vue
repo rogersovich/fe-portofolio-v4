@@ -8,7 +8,7 @@
         height="50"
         width="50"
         class="rounded-lg"
-        densities="x1 x2"
+        :quality="40"
       />
       <div class="text-2xl font-bold font-rethink">Dimas Roger W</div>
       <div class="text-muted-foreground font-light text-[13px]">
@@ -50,11 +50,11 @@
   <div
     class="layout pb-12 md:pb-24 flex flex-col md:flex-row justify-between gap-6"
   >
-    <div class="text-muted-foreground font-light text-[14px]">
+    <div class="text-muted-foreground font-light text-[14px] text-center md:text-left">
       Copyright © {{ new Date().getFullYear() }} Dimas Roger W. All rights
       reserved.
     </div>
-    <div class="flex gap-4">
+    <div class="flex justify-center md:justify-start gap-4">
       <IconMail
         class="cursor-pointer size-5 hover:text-orange-400"
         @click="onClickIcon('mail')"

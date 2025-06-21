@@ -35,7 +35,6 @@
                     :quality="40"
                     height="20px"
                     width="20px"
-                    densities="x1 x2"
                     class="object-contain"
                     v-tooltip.top="tech.tech_name"
                   />
@@ -44,11 +43,11 @@
             </div>
           </div>
           <div class="flex items-center justify-between mt-8">
-            <RouterLink :to="`/project/${project.slug}`">
+            <RouterLink :to="`/project/${project.slug}`" class="w-full md:w-fit">
               <Button
                 variant="outlined"
                 size="large"
-                class="!text-[12px] md:!text-sm !text-foreground group !border-orange-500/[.2]"
+                class="!text-[12px] md:!text-sm !text-foreground group !border-orange-500/[.2] w-full md:w-fit"
               >
                 <span> View Project </span>
                 <IconChevronRight

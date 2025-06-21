@@ -16,7 +16,7 @@
                   <NuxtImg
                     :src="MINIO_BASE_URL + about?.avatar_file_name"
                     class="rounded-lg w-full"
-                    densities="x1 x2"
+                    :quality="40"
                   />
                   <div class="w-full">
                     <router-link :to="`/adminz/about/edit/${about?.id}`">

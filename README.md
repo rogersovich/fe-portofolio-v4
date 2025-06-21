@@ -75,4 +75,4 @@ bun run preview
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
 ## Nuxt Image
-<NuxtImg src="/images/gopay-logo.png" height="50" densities="x1 x2" />
+<NuxtImg src="/images/gopay-logo.png" height="50" />

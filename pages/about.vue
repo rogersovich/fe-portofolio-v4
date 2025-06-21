@@ -48,9 +48,8 @@
             <div>
               <NuxtImg
                 :src="MINIO_BASE_URL + profiles?.about.avatar_file_name"
-                class="rounded-lg max-h-[400px] aspect-square object-cover"
-                densities="x1 x2"
-                :quality="40"
+                class="rounded-lg max-h-[300px] md:max-h-[400px] aspect-square object-cover"
+                :quality="20"
               >
               </NuxtImg>
             </div>
@@ -94,6 +93,7 @@
                 src="/images/icons/phoenix-wing.png"
                 height="130"
                 width="130"
+                :quality="20"
               />
             </div>
             <div
@@ -104,6 +104,7 @@
                 src="/images/icons/phoenix-wing.png"
                 height="130"
                 width="130"
+                :quality="20"
               />
             </div>
           </template>
@@ -116,6 +117,7 @@
                 src="/images/icons/old-wing.png"
                 height="120"
                 width="120"
+                :quality="20"
               />
             </div>
             <div
@@ -126,6 +128,7 @@
                 src="/images/icons/old-wing.png"
                 height="120"
                 width="120"
+                :quality="20"
               />
             </div>
           </template>

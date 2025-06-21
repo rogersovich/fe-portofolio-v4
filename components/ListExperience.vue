@@ -29,7 +29,6 @@
                     <NuxtImg
                       :src="MINIO_BASE_URL + experience.comp_image_file_name"
                       height="20"
-                      densities="x1 x2"
                       :quality="40"
                     />
                   </div>
@@ -60,7 +59,7 @@
                     <NuxtImg
                       :src="MINIO_BASE_URL + experience.comp_image_file_name"
                       height="20"
-                      densities="x1 x2"
+                      :quality="40"
                     />
                   </div>
                   <nuxt-link

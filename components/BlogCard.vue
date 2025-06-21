@@ -23,7 +23,7 @@
           </ClientOnly>
         </div>
         <div class="col-span-12 md:col-span-9">
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2" v-if="blog.published_at">
             <IconCalendar class="h-[18px] w-[18px] text-muted-foreground" />
             <span class="text-[12px] md:text-[13px]">
               {{ formatDate(blog.published_at) }}
@@ -76,11 +76,11 @@
             </div>
           </div>
           <div class="flex items-center justify-between">
-            <RouterLink :to="`/blog/${blog.slug}`">
+            <RouterLink :to="`/blog/${blog.slug}`" class="w-full md:w-fit">
               <Button
                 variant="outlined"
                 size="large"
-                class="!text-[12px] md:!text-sm text-foreground group !border-orange-500/[.2]"
+                class="!text-[12px] md:!text-sm text-foreground group !border-orange-500/[.2] w-full md:w-fit"
               >
                 <span> View blog </span>
                 <IconChevronRight
