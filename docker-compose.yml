@@ -10,3 +10,10 @@ services:
     ports:
       - '3000:3000'         # host:container
     restart: unless-stopped
+    expose:
+      - "3000"
+    networks: [web]
+
+networks:
+  web:
+    external: true
