@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: my-app-portfolio:latest
-    container_name: app_portfolio
+    image: fe-portfolio:latest
+    container_name: fe-portfolio
     env_file:
       - .env
     ports:
