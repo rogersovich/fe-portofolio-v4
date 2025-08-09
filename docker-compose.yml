@@ -7,8 +7,6 @@ services:
     container_name: fe-portfolio
     env_file:
       - .env
-    ports:
-      - '3000:3000'         # host:container
     restart: unless-stopped
     expose:
       - "3000"
