@@ -21,8 +21,8 @@ pipeline {
         sh '''
           set -e
           cd "${APP_DIR}"
-          docker compose build --no-cache app
-          docker compose up -d app
+          docker compose build --no-cache nuxt
+          docker compose up -d nuxt
           docker image prune -f || true
         '''
       }
