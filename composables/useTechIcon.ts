@@ -13,7 +13,7 @@ const techIconMap: Record<string, string> = {
   'typescript': '/images/tech/typescript.png',
   'tailwind': '/images/tech/tailwindcss.png',
   'amazon-web-services': '/images/tech/aws.png',
-  'react-redux"': '/images/tech/redux.png',
+  'react-redux': '/images/tech/redux.png',
   'promotheus': '/images/tech/promotheus.png',
   'postgresql': '/images/tech/postgresql.png',
   'nuxt-js': '/images/tech/nuxt.png',

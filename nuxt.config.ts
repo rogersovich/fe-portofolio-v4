@@ -47,6 +47,9 @@ export default defineNuxtConfig({
     options: {
       theme: {
         preset: customTheme,
+        options: {
+          darkModeSelector: ".dark",
+        },
       },
       ripple: true,
       inputVariant: "outlined",
