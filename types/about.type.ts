@@ -30,8 +30,7 @@ export interface TPublicCurrentWork {
 export interface TPublicTechnology {
   tech_id: number
   name: string
-  logo_url: string
-  logo_file_name: string
+  slug: string
 }
 
 export interface TPublicExperience {

@@ -4,7 +4,7 @@
       <div class="card-skill group">
         <div class="text-2xl">
           <NuxtImg
-            :src="skill.logo_url"
+            :src="useTechIcon(skill.slug)"
             height="50"
             :quality="40"
             class="grayscale group-hover:grayscale-0 transition-transform duration-300 group-hover:rotate-[360deg] group-hover:scale-150"
@@ -23,6 +23,5 @@ import type { TPublicTechnology } from "~/types/about.type";
 defineProps<{
   technologies: TPublicTechnology[];
 }>();
-
 </script>
 <style lang=""></style>
