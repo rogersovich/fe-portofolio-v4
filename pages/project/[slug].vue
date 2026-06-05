@@ -127,7 +127,6 @@ const slug = route.params.slug as string;
 
 const runtimeConfig = useRuntimeConfig();
 const BASE_API = runtimeConfig.public.apiBase;
-const MINIO_BASE_URL = useMinioUrl();
 
 useHead({
   title: `${slugToStringUppercase(slug)}`,

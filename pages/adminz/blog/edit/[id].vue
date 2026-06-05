@@ -328,7 +328,6 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl();
 
 const refBanner = ref("");
 const bannerNew = ref({
@@ -452,7 +451,7 @@ watch(blogData, (newData) => {
       summary: newData.summary,
       is_published: newData.status == "Published" ? "Y" : "N",
       topic_ids: newData.topics.map((topic) => topic.id),
-      banner_url: MINIO_BASE_URL + newData.banner_file_name,
+      banner_url: newData.banner_url,
       author_id: newData.author.id,
       is_highlight: newData.is_highlight ? "Y" : "N",
     };

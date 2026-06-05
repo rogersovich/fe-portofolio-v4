@@ -27,7 +27,7 @@
                 <div class="flex gap-3">
                   <div>
                     <NuxtImg
-                      :src="MINIO_BASE_URL + experience.comp_image_file_name"
+                      :src="experience.comp_image_url"
                       height="20"
                       :quality="40"
                     />
@@ -57,7 +57,7 @@
                 <div class="flex flex-row items-center gap-2">
                   <div class="flex items-center justify-center">
                     <NuxtImg
-                      :src="MINIO_BASE_URL + experience.comp_image_file_name"
+                      :src="experience.comp_image_url"
                       height="20"
                       :quality="40"
                     />
@@ -102,7 +102,6 @@ defineProps<{
   experiences: TPublicExperience[];
 }>();
 
-const MINIO_BASE_URL = useMinioUrl();
 
 const formatDate = (dateString: string, format: string = "YYYY MMM") => {
   return dayjs(dateString).format(format);

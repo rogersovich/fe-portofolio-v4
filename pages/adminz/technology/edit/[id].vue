@@ -181,7 +181,6 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl();
 
 const refLogo = ref("");
 const logoNew = ref({
@@ -256,7 +255,7 @@ watch(technologyData, (newData) => {
   if (newData) {
     forms.value = {
       ...newData,
-      logo_url: MINIO_BASE_URL + newData.logo_file_name,
+      logo_url: newData.logo_url,
     };
   } else {
     forms.value = {

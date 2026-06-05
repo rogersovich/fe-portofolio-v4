@@ -44,7 +44,7 @@
         <template v-if="blogs">
           <div class="mb-4 md:px-4">
             <NuxtImg
-              :src="MINIO_BASE_URL + blogs.data.banner_file_name"
+              :src="blogs.data.banner_url"
               class="w-full rounded-lg object-cover"
               :quality="70"
             />
@@ -138,7 +138,6 @@ const slug = route.params.slug as string;
 
 const runtimeConfig = useRuntimeConfig();
 const BASE_API = runtimeConfig.public.apiBase;
-const MINIO_BASE_URL = useMinioUrl();
 
 useHead({
   title: `${slugToStringUppercase(slug)}`,

@@ -67,7 +67,7 @@
           headerClass="w-[100px]"
         >
           <template #body="{ data }">
-            <NuxtImg :src="MINIO_BASE_URL+ data.avatar_file_name" fit="cover" class="rounded-md h-[70px]" />
+            <NuxtImg :src="data.avatar_url" fit="cover" class="rounded-md h-[70px]" />
           </template>
         </Column>
         <Column field="name" header="Name" sortable :showFilterMenu="false">
@@ -147,7 +147,6 @@ definePageMeta({
   middleware: "auth",
 });
 
-const MINIO_BASE_URL = useMinioUrl()
 const confirm = useConfirm();
 
 const paginate = reactive({

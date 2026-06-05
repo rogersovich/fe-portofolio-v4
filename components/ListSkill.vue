@@ -4,7 +4,7 @@
       <div class="card-skill group">
         <div class="text-2xl">
           <NuxtImg
-            :src="MINIO_BASE_URL + skill.logo_file_name"
+            :src="skill.logo_url"
             height="50"
             :quality="40"
             class="grayscale group-hover:grayscale-0 transition-transform duration-300 group-hover:rotate-[360deg] group-hover:scale-150"
@@ -24,6 +24,5 @@ defineProps<{
   technologies: TPublicTechnology[];
 }>();
 
-const MINIO_BASE_URL = useMinioUrl();
 </script>
 <style lang=""></style>

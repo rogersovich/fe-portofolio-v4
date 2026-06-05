@@ -310,7 +310,6 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl()
 
 const refImage = ref("");
 const imageNew = ref({
@@ -431,7 +430,7 @@ watch(projectData, (newData) => {
       repository_url: newData.repository_url,
       is_published: newData.status == "Published" ? "Y" : "N",
       technology_ids: newData.technologies.map((tech) => tech.tech_id),
-      image_url: MINIO_BASE_URL + newData.image_file_name,
+      image_url: newData.image_url,
       is_highlight: newData.is_highlight ? "Y" : "N",
     };
   } else {

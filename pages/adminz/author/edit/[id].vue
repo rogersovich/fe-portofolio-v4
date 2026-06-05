@@ -139,7 +139,6 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl();
 
 const loading = ref(false);
 const refAvatar = ref("");
@@ -196,7 +195,7 @@ watch(authorData, (newAuthor) => {
   if (newAuthor) {
     forms.value = {
       ...newAuthor,
-      avatar_url: MINIO_BASE_URL + newAuthor.avatar_file_name,
+      avatar_url: newAuthor.avatar_url,
     };
   } else {
     forms.value = { name: "", avatar_url: "" };

@@ -14,7 +14,7 @@
               <template v-if="!loadingAbout && about">
                 <div class="flex flex-col items-start justify-center gap-4">
                   <NuxtImg
-                    :src="MINIO_BASE_URL + about?.avatar_file_name"
+                    :src="about?.avatar_url"
                     class="rounded-lg w-full"
                     :quality="40"
                   />
@@ -76,7 +76,6 @@ definePageMeta({
   middleware: "auth",
 });
 
-const MINIO_BASE_URL = useMinioUrl()
 const about = ref<TAbout | null>(null);
 
 const { fetchAbouts, loading: loadingAbout, aboutData } = useAboutAPI();

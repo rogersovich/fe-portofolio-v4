@@ -204,7 +204,6 @@ const isUsedOptions = [
 ];
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl();
 
 const forms = ref({
   title: "",
@@ -247,7 +246,7 @@ const fillForm = (data: TAbout) => {
     title: data.title,
     is_used: data.is_used == "Y" ? true : false,
     description_html: data.description_html,
-    avatar_old: MINIO_BASE_URL + data.avatar_file_name,
+    avatar_old: data.avatar_url,
   };
 };
 

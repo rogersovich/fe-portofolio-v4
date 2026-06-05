@@ -383,7 +383,6 @@ definePageMeta({
 });
 
 const route = useRoute();
-const MINIO_BASE_URL = useMinioUrl();
 
 const refLogo = ref("");
 const logoNew = ref({
@@ -518,7 +517,7 @@ watch(experienceData, (newData) => {
       summary_html: newData.summary_html,
       is_current: newData.is_current,
       comp_website_url: newData.comp_website_url,
-      comp_image_url: MINIO_BASE_URL + newData.comp_image_file_name,
+      comp_image_url: newData.comp_image_url,
     };
   } else {
     forms.value = {

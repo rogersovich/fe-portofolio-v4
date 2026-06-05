@@ -14,7 +14,7 @@
             <RouterLink :to="`/blog/${blog.slug}`">
               <div class="mb-4">
                 <NuxtImg
-                  :src="MINIO_BASE_URL + blog.banner_file_name"
+                  :src="blog.banner_url"
                   class="w-full max-h-[200px] rounded-lg object-cover"
                   :quality="40"
                   placeholder="/images/empty-data.png"
@@ -95,7 +95,7 @@
           <ClientOnly>
             <RouterLink :to="`/blog/${blog.slug}`">
               <NuxtImg
-                :src="MINIO_BASE_URL + blog.banner_file_name"
+                :src="blog.banner_url"
                 class="w-full rounded-lg object-cover"
                 :quality="40"
                 placeholder="/images/empty-data.png"
@@ -125,7 +125,6 @@ const { blog } = defineProps<{
   filterTopics: any[];
 }>();
 
-const MINIO_BASE_URL = useMinioUrl();
 
 const formatDate = (dateString: string, format: string = "MMM DD, YYYY") => {
   return dayjs(dateString).format(format);

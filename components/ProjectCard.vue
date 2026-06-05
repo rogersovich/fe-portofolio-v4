@@ -9,7 +9,7 @@
         >
           <NuxtImg
             v-if="isMobile"
-            :src="MINIO_BASE_URL + project.image_file_name"
+            :src="project.image_url"
             :quality="40"
             class="rounded-lg w-full max-h-[200px] object-cover"
             placeholder="/images/empty-data.png"
@@ -32,7 +32,7 @@
                   class="bg-zinc-950/[.075] dark:bg-zinc-50/[.075] p-1 flex items-center rounded-full"
                 >
                   <NuxtImg
-                    :src="MINIO_BASE_URL + tech.tech_logo_file_name"
+                    :src="tech.tech_logo_url"
                     :quality="40"
                     height="20px"
                     width="20px"
@@ -80,7 +80,7 @@
         >
           <NuxtImg
             :quality="40"
-            :src="MINIO_BASE_URL + project.image_file_name"
+            :src="project.image_url"
             class="rounded-lg w-full max-h-[200px] object-cover"
             placeholder="/images/empty-data.png"
           />
@@ -98,7 +98,6 @@ const { project } = defineProps<{
   project: TPublicProject;
 }>();
 
-const MINIO_BASE_URL = useMinioUrl();
 
 const truncatedText = computed(() => {
   // 1) strip all tags
