@@ -21,9 +21,9 @@ pipeline {
         sh '''
           set -e
           cd "${APP_DIR}"
-          docker compose build --no-cache nuxt
-          docker compose up -d nuxt
-          docker image prune -f || true
+          npm ci --prefer-offline
+          npm run build
+          pm2 restart fe-portofolio || pm2 start "node .output/server/index.mjs" --name fe-portofolio
         '''
       }
     }

@@ -38,8 +38,8 @@ A modern personal portfolio application built with Nuxt.js 3, showcasing project
 - **Tabler Icons** - Icon set
 
 ### Development Tools
-- **Docker** - Containerization
 - **Jenkins** - CI/CD pipeline
+- **PM2** - Production process manager
 - **ESLint** - Code linting
 
 ## 🚀 Quick Start
@@ -79,8 +79,6 @@ cp .env.example .env
 Edit the `.env` file and fill in the appropriate configuration:
 ```env
 NUXT_PUBLIC_API_BASE=your_api_endpoint
-NUXT_PUBLIC_MINIO_ENDPOINT=your_minio_endpoint
-NUXT_PUBLIC_MINIO_BUCKET=your_minio_bucket
 ```
 
 4. **Start development server**
@@ -132,19 +130,25 @@ yarn preview
 bun run preview
 ```
 
-### Docker Deployment
-```bash
-# Build image
-docker build -t web-portofolio-v4 .
+### Production (VPS with PM2)
 
-# Run container
-docker run -p 3000:3000 web-portofolio-v4
+```bash
+# Install dependencies and build
+npm ci --prefer-offline
+npm run build
+
+# Start (first time)
+pm2 start "node .output/server/index.mjs" --name fe-portofolio
+
+# Restart (subsequent deploys)
+pm2 restart fe-portofolio
+
+# Save pm2 process list (run once, so it survives VPS reboot)
+pm2 save
+pm2 startup
 ```
 
-### Docker Compose
-```bash
-docker-compose up -d
-```
+> **Note:** `Dockerfile` and `docker-compose.yml` are kept as reference but **not used in production**. The app is deployed as a Nitro server managed by PM2.
 
 ## 📝 Usage
 
