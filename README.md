@@ -38,7 +38,6 @@ A modern personal portfolio application built with Nuxt.js 3, showcasing project
 - **Tabler Icons** - Icon set
 
 ### Development Tools
-- **Jenkins** - CI/CD pipeline
 - **PM2** - Production process manager
 - **ESLint** - Code linting
 
