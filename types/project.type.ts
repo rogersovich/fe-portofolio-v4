@@ -69,8 +69,7 @@ export interface TPublicProject {
   technologies: {
     tech_id: number
     tech_name: string
-    tech_logo_url: string
-    tech_logo_file_name: string
+    tech_slug: string
     tech_link: string
   }[]
 }
@@ -105,8 +104,7 @@ export interface TPublicProjectDetail {
   technologies: {
     tech_id: number
     tech_name: string
-    tech_logo_url: string
-    tech_logo_file_name: string
+    tech_slug: string
     tech_link: string
   }[]
   images: {

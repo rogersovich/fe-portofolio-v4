@@ -23,7 +23,6 @@ export type TBaseParamsTechnology = TBasePaginateParams & Partial<TBaseSortingPa
 export interface TPublicTechnology {
   id: number
   name: string
-  logo_url: string
-  logo_file_name: string
+  slug: string
   is_major: string
 }

@@ -32,7 +32,7 @@
                   class="bg-zinc-950/[.075] dark:bg-zinc-50/[.075] p-1 flex items-center rounded-full"
                 >
                   <NuxtImg
-                    :src="tech.tech_logo_url"
+                    :src="useTechIcon(tech.tech_slug)"
                     :quality="40"
                     height="20px"
                     width="20px"
