@@ -92,8 +92,8 @@ useHead({
 const params = reactive<TParamsFilterPublicProject>({
   page: "1",
   limit: "3",
-  sort: "DESC",
-  order: "updated_at",
+  sort: "ASC",
+  order: "sort_order",
   search: "",
 });
 const rows = ref(3);

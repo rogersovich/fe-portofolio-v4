@@ -178,6 +178,29 @@ export const useProjectAPI = () => {
     }
   };
 
+  const reorderProjects = async (projectIds: number[]) => {
+    loading.value = true;
+    try {
+      const { data }: AxiosResponse<TBaseResponse<any>> = await axios.post(
+        "/api/projects/reorder",
+        { project_ids: projectIds }
+      );
+
+      const message = toCapitalize(data.message);
+
+      alertStore.setAlert({
+        severity: "info",
+        summary: message,
+        show_alert: true,
+      });
+
+      loading.value = false;
+    } catch (error: any) {
+      loading.value = false;
+      resultErrMessage(error);
+    }
+  };
+
   return {
     loading,
     error,
@@ -191,5 +214,6 @@ export const useProjectAPI = () => {
     storeProject,
     deleteProject,
     fetchPublicProjects,
+    reorderProjects,
   };
 };

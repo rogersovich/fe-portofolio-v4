@@ -39,11 +39,18 @@
               <router-link to="project/create">
                 <Button
                   variant="filled"
-                  class="py-2.5 bg-blue-600 !border-none hover:!bg-blue-700 !text-white"
+                  class="py-2.5 bg-blue-600 !border-none hover:!bg-blue-700 !text-white mr-2"
                 >
                   <IconPlus class="size-5" />
                 </Button>
               </router-link>
+              <Button
+                variant="filled"
+                class="py-2.5 bg-green-600 !border-none hover:!bg-green-700 !text-white"
+                @click="openReorderModal"
+              >
+                <IconSortAscending class="size-5" />
+              </Button>
               <Button
                 icon="pi pi-refresh"
                 class="!text-white bg-zinc-600 hover:!bg-zinc-700 !border-none"
@@ -170,12 +177,60 @@
           </template>
         </Column>
       </DataTable>
+
+      <Dialog
+        v-model:visible="reorderModalVisible"
+        modal
+        header="Reorder Projects"
+        :style="{ width: '450px' }"
+        :closable="!reorderLoading"
+      >
+        <div class="mb-4 text-sm text-muted-foreground">
+          Drag and drop items to change their ordering.
+        </div>
+        <div class="max-h-[400px] overflow-y-auto">
+          <OrderList
+            v-model="reorderProjectsList"
+            dataKey="id"
+          >
+            <template #option="{ option }">
+              <div class="flex items-center gap-3 py-1">
+                <NuxtImg
+                  :src="option.image_url"
+                  class="w-12 h-10 object-cover rounded"
+                />
+                <span class="font-medium text-sm text-white truncate max-w-[280px]">
+                  {{ option.title }}
+                </span>
+              </div>
+            </template>
+          </OrderList>
+        </div>
+        <template #footer>
+          <div class="flex justify-end gap-2 mt-4">
+            <Button
+              type="button"
+              label="Cancel"
+              severity="secondary"
+              @click="reorderModalVisible = false"
+              :disabled="reorderLoading"
+            />
+            <Button
+              type="button"
+              label="Save Order"
+              severity="contrast"
+              @click="handleSaveOrder"
+              :loading="reorderLoading"
+            />
+          </div>
+        </template>
+      </Dialog>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
-import { IconEdit, IconTrash, IconPlus } from "@tabler/icons-vue";
+import { IconEdit, IconTrash, IconPlus, IconSortAscending } from "@tabler/icons-vue";
 import type { TBaseParamsProject, TProject } from "~/types/project.type";
 
 useHead({
@@ -196,8 +251,8 @@ const paginate = reactive({
   first: 0,
 });
 const sorts = reactive({
-  sort: "DESC",
-  order: "updated_at",
+  sort: "ASC",
+  order: "sort_order",
 });
 const sortField = ref("");
 const sortOrder = ref(1);
@@ -225,7 +280,7 @@ const debouncedFilterCallback = useDebounceFn(
 );
 
 // API
-const { loading, projectListData, totalRecords, fetchProjects, deleteProject } =
+const { loading, projectListData, totalRecords, fetchProjects, deleteProject, reorderProjects } =
   useProjectAPI();
 
 // Watch data
@@ -235,6 +290,45 @@ watch(
     projects.value = newValue || [];
   }
 );
+
+const reorderModalVisible = ref(false);
+const reorderProjectsList = ref<TProject[]>([]);
+const reorderLoading = ref(false);
+
+const openReorderModal = async () => {
+  reorderLoading.value = true;
+  reorderModalVisible.value = true;
+  const axios = useAxios();
+  try {
+    const { data } = await axios.get("/api/projects", {
+      params: {
+        page: 1,
+        limit: 100,
+        sort: "ASC",
+        order: "sort_order",
+      }
+    });
+    reorderProjectsList.value = data.data.items || [];
+  } catch (error) {
+    console.error("Failed to fetch projects for reordering", error);
+  } finally {
+    reorderLoading.value = false;
+  }
+};
+
+const handleSaveOrder = async () => {
+  reorderLoading.value = true;
+  try {
+    const ids = reorderProjectsList.value.map((p) => p.id);
+    await reorderProjects(ids);
+    reorderModalVisible.value = false;
+    await handleAPIFetchProjects();
+  } catch (error) {
+    console.error("Failed to save projects order", error);
+  } finally {
+    reorderLoading.value = false;
+  }
+};
 
 const onPageChange = async (event: any) => {
   paginate.page = event.page;

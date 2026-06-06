@@ -12,6 +12,7 @@ export interface TProject {
   status: string
   slug: string
   is_highlight: boolean
+  sort_order?: number
   published_at: string
   created_at: string
 }
@@ -31,6 +32,7 @@ export interface TProjectDetail {
   created_at: string
   statistic_id: number
   is_highlight: boolean
+  sort_order?: number
   statistic: {
     id: number
     likes: number
@@ -68,6 +70,7 @@ export interface TPublicProject {
   website_url?: string
   slug: string
   is_highlight: boolean
+  sort_order?: number
   published_at: string
   technologies: {
     tech_id: number
