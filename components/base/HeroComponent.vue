@@ -176,7 +176,7 @@ const exploreMore = () => {
 
 const getMyResume = () => {
   window.open(
-    "https://drive.google.com/file/d/1U3oV00jaxs73-xjrNFyrYd2CT0hFLfcK/view?usp=sharing",
+    "https://drive.google.com/file/d/1SsDNcOAuKVXWib6fkJBsfIL6GDV42Bg-/view?usp=sharing",
     "_blank"
   );
 };
