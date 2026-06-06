@@ -77,7 +77,7 @@
         >
           <template #body="{ data }">
             <NuxtImg
-              :src="data.logo_url"
+              :src="useTechIconByName(data.name)"
               fit="cover"
               class="rounded-md h-[40px]"
             />

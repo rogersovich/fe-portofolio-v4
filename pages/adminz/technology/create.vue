@@ -241,11 +241,6 @@ const validateDescriptionHtml = () => {
 
 const validateLogo = () => {
   logoError.value = "";
-  if (!forms.value.logo_file.file) {
-    logoError.value = "Logo is required.";
-    return false;
-  }
-
   return true;
 };
 
@@ -255,12 +250,7 @@ watch(
     validateDescriptionHtml();
   }
 );
-watch(
-  () => [forms.value.logo_file.file],
-  () => {
-    validateLogo();
-  }
-);
+// Logo file watch removed since logo is optional
 
 watch(
   () => [forms.value.name],
@@ -283,8 +273,10 @@ const onFormSubmit = async () => {
     formData.append("name", forms.value.name);
     formData.append("is_major", forms.value.is_major);
     formData.append("description_html", forms.value.description_html);
-    const avatarNewFile = forms.value.logo_file.file as unknown as File;
-    formData.append("logo_file", avatarNewFile);
+    if (forms.value.logo_file.file) {
+      const avatarNewFile = forms.value.logo_file.file as unknown as File;
+      formData.append("logo_file", avatarNewFile);
+    }
 
     await storeTechnology(formData);
   }

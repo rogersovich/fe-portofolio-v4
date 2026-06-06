@@ -32,9 +32,28 @@ const techIconMap: Record<string, string> = {
   'github': '/images/tech/github.png',
   'docker': '/images/tech/docker.png',
   'css': '/images/tech/css.png',
-  'bitbucket': '/images/tech/bitbucket.png'
+  'bitbucket': '/images/tech/bitbucket.png',
+  'figma': '/images/tech/figma.svg',
+  'auth-google': '/images/tech/google.png',
+  'prisma-orm': '/images/tech/prisma-orm.png',
+  'supabase': '/images/tech/supabase.png',
+  'vercel': '/images/tech/vercel.png'
 }
 
 export const useTechIcon = (slug: string): string => {
   return techIconMap[slug] ?? '/images/tech/default.png'
+}
+
+export const useTechIconByName = (name: string): string => {
+  if (!name) return '/images/tech/default.png';
+  let slug = name.toLowerCase();
+  slug = slug.replace(/c\+\+/g, 'cpp');
+  slug = slug.replace(/c#/g, 'csharp');
+  slug = slug.replace(/\.net/g, 'dotnet');
+  slug = slug.replace(/\./g, '');
+  slug = slug.replace(/\s+/g, '-');
+  slug = slug.replace(/[^a-z0-9\-]/g, '');
+  slug = slug.replace(/-+/g, '-');
+  slug = slug.replace(/^-+|-+$/g, '');
+  return useTechIcon(slug);
 }
