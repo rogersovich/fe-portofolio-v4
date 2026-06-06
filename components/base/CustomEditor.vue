@@ -305,6 +305,7 @@ import sql from "highlight.js/lib/languages/sql";
 import php from "highlight.js/lib/languages/php";
 import clean from "highlight.js/lib/languages/clean";
 import { all, createLowlight } from "lowlight";
+import { DOMParser as PmDOMParser } from "@tiptap/pm/model";
 import {
   IconQuoteFilled,
   IconH1,
@@ -646,6 +647,27 @@ export default {
       editorProps: {
         attributes: {
           class: "tiptap-content",
+        },
+        handlePaste: (view, event) => {
+          const text = event.clipboardData.getData("text/plain");
+          const isHTML = /<[a-z/][\s\S]*>/i.test(text);
+
+          if (isHTML) {
+            const { state } = view;
+            const { selection } = state;
+            const isCodeBlock = state.schema.nodes.codeBlock && selection.$from.parent.type.name === 'codeBlock';
+            if (isCodeBlock) {
+              return false;
+            }
+
+            const htmlDocument = new window.DOMParser().parseFromString(text, "text/html");
+            const parser = PmDOMParser.fromSchema(state.schema);
+            const slice = parser.parseSlice(htmlDocument.body);
+            const transaction = state.tr.replaceSelection(slice);
+            view.dispatch(transaction);
+            return true;
+          }
+          return false;
         },
       },
       onUpdate: () => {

@@ -7,6 +7,7 @@ export interface TProject {
   image_url: string
   image_file_name: string
   repository_url: string
+  website_url?: string
   summary: string
   status: string
   slug: string
@@ -22,6 +23,7 @@ export interface TProjectDetail {
   image_url: string
   image_file_name: string
   repository_url: string
+  website_url?: string
   summary: string
   status: string
   slug: string
@@ -63,6 +65,7 @@ export interface TPublicProject {
   image_url: string
   image_file_name: string
   repository_url: string
+  website_url?: string
   slug: string
   is_highlight: boolean
   published_at: string
@@ -91,6 +94,7 @@ export interface TPublicProjectDetail {
   image_url: string
   image_file_name: string
   repository_url: string
+  website_url?: string
   slug: string
   is_highlight: boolean
   status: string

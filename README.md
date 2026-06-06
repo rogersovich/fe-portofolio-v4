@@ -137,14 +137,44 @@ npm ci --prefer-offline
 npm run build
 
 # Start (first time)
-pm2 start "node .output/server/index.mjs" --name fe-portofolio
+pm2 start .output/server/index.mjs --name nuxt-portofolio-fe
 
 # Restart (subsequent deploys)
-pm2 restart fe-portofolio
+pm2 restart nuxt-portofolio-fe
 
 # Save pm2 process list (run once, so it survives VPS reboot)
 pm2 save
 pm2 startup
+```
+
+### Re-deploy (Update)
+
+Run these commands every time you push new changes to the VPS:
+
+```bash
+git pull
+npm install
+npm run build
+pm2 restart nuxt-portofolio-fe
+```
+
+### PM2 Useful Commands
+
+```bash
+# Check status
+pm2 status
+
+# View logs
+pm2 logs nuxt-portofolio-fe
+
+# View logs (last 100 lines)
+pm2 logs nuxt-portofolio-fe --lines 100
+
+# Stop
+pm2 stop nuxt-portofolio-fe
+
+# Delete from pm2 list
+pm2 delete nuxt-portofolio-fe
 ```
 
 > **Note:** `Dockerfile` and `docker-compose.yml` are kept as reference but **not used in production**. The app is deployed as a Nitro server managed by PM2.

@@ -56,21 +56,38 @@
                 />
               </Button>
             </RouterLink>
-            <template v-if="project.repository_url">
-              <a
-                :href="project.repository_url"
-                target="_blank"
-                class="flex items-center gap-2 group cursor-pointer no-underline"
-              >
-                <IconLink
-                  class="size-[14px] md:size-[20px] text-zinc-500 group-hover:text-orange-400"
-                />
-                <span
-                  class="text-[12px] md:text-[14px] font-light text-foreground group-hover:underline"
-                  >Open Repository</span
+            <div class="flex items-center gap-4">
+              <template v-if="project.repository_url">
+                <a
+                  :href="project.repository_url"
+                  target="_blank"
+                  class="flex items-center gap-2 group cursor-pointer no-underline"
                 >
-              </a>
-            </template>
+                  <IconLink
+                    class="size-[14px] md:size-[20px] text-zinc-500 group-hover:text-orange-400"
+                  />
+                  <span
+                    class="text-[12px] md:text-[14px] font-light text-foreground group-hover:underline"
+                    >Open Repository</span
+                  >
+                </a>
+              </template>
+              <template v-if="project.website_url">
+                <a
+                  :href="project.website_url"
+                  target="_blank"
+                  class="flex items-center gap-2 group cursor-pointer no-underline"
+                >
+                  <IconWorld
+                    class="size-[14px] md:size-[20px] text-zinc-500 group-hover:text-orange-400"
+                  />
+                  <span
+                    class="text-[12px] md:text-[14px] font-light text-foreground group-hover:underline"
+                    >Open Website</span
+                  >
+                </a>
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -91,7 +108,7 @@
 </template>
 <script setup lang="ts">
 import { isMobile, isTablet } from "~/composables/useBreakpoint";
-import { IconLink, IconChevronRight } from "@tabler/icons-vue";
+import { IconLink, IconChevronRight, IconWorld } from "@tabler/icons-vue";
 import type { TPublicProject } from "~/types/project.type";
 
 const { project } = defineProps<{

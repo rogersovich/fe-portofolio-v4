@@ -14,7 +14,7 @@ const techIconMap: Record<string, string> = {
   'tailwind': '/images/tech/tailwindcss.png',
   'amazon-web-services': '/images/tech/aws.png',
   'react-redux': '/images/tech/redux.png',
-  'promotheus': '/images/tech/promotheus.png',
+  'promotheus': '/images/tech/prometheus.png',
   'postgresql': '/images/tech/postgresql.png',
   'nuxt-js': '/images/tech/nuxt.png',
   'node-js': '/images/tech/nodejs.png',

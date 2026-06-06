@@ -56,6 +56,21 @@
           Repository
         </span>
       </a>
+      <a
+        v-if="project.website_url"
+        :href="project.website_url"
+        target="_blank"
+        class="flex items-center gap-2 group cursor-pointer no-underline"
+      >
+        <IconWorld
+          class="icon-statistic group-hover:text-orange-400"
+        />
+        <span
+          class="text-statistic group-hover:underline"
+        >
+          Website
+        </span>
+      </a>
     </div>
   </div>
 </template>
@@ -66,6 +81,7 @@ import {
   IconEye,
   IconHeart,
   IconBrandGithub,
+  IconWorld,
 } from "@tabler/icons-vue";
 
 const { project } = defineProps<{

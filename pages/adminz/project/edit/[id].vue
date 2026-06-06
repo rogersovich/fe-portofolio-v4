@@ -180,7 +180,7 @@
                     <div class="flex items-center">
                       <img
                         :alt="slotProps.option.name"
-                        :src="slotProps.option.logo_url"
+                        :src="useTechIcon(slotProps.option.slug)"
                         class="mr-2 w-[22px]"
                       />
                       <div>{{ slotProps.option.name }}</div>
@@ -215,6 +215,21 @@
                   id="repository_url"
                   type="text"
                   placeholder="e.g. repository_url"
+                  fluid
+                  variant="outlined"
+                  :disabled="loading || loadingTech"
+                />
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="flex flex-col gap-1 text-left">
+                <label for="website_url" class="mb-1">Website URL</label>
+                <InputText
+                  v-model="forms.website_url"
+                  id="website_url"
+                  type="text"
+                  placeholder="e.g. website_url"
                   fluid
                   variant="outlined"
                   :disabled="loading || loadingTech"
@@ -323,6 +338,7 @@ const forms = ref<any>({
   description: "",
   summary: "",
   repository_url: "",
+  website_url: "",
   is_published: "N",
   technology_ids: [],
   image_url: "",
@@ -428,6 +444,7 @@ watch(projectData, (newData) => {
       description: newData.description,
       summary: newData.summary,
       repository_url: newData.repository_url,
+      website_url: newData.website_url,
       is_published: newData.status == "Published" ? "Y" : "N",
       technology_ids: newData.technologies.map((tech) => tech.tech_id),
       image_url: newData.image_url,
@@ -440,6 +457,7 @@ watch(projectData, (newData) => {
       description: "",
       summary: "",
       repository_url: "",
+      website_url: "",
       is_published: "N",
       technology_ids: [],
       image_url: "",
@@ -479,6 +497,9 @@ const onFormSubmit = async () => {
     formData.append("summary", forms.value.summary);
     if (forms.value.repository_url) {
       formData.append("repository_url", forms.value.repository_url);
+    }
+    if (forms.value.website_url) {
+      formData.append("website_url", forms.value.website_url);
     }
     formData.append("is_published", forms.value.is_published);
 
