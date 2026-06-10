@@ -53,9 +53,17 @@
           </template>
         </div>
         <template v-else-if="projects.length > 0">
-          <template v-for="project in projects" :key="project.id">
-            <ProjectCard :project="project" />
-          </template>
+          <TransitionGroup
+            name="fade-slide"
+            tag="div"
+            class="flex flex-col gap-6"
+          >
+            <ProjectCard
+              v-for="project in projects"
+              :key="project.id"
+              :project="project"
+            />
+          </TransitionGroup>
 
           <div
             v-if="hasMore"
@@ -156,18 +164,22 @@ const { data: initialData, pending: isInitialLoading, refresh } = await useAsync
   "publicProjects",
   async () => {
     try {
-      const response = await $fetch<TPublicProjectListResponse>(
-        `${BASE_API}/api-public/projects`,
-        {
-          params: {
-            page: "1",
-            limit: params.limit,
-            sort: params.sort,
-            order: params.order,
-            search: params.search,
-          },
-        }
-      );
+      const delayDuration = import.meta.client ? 500 : 0;
+      const [response] = await Promise.all([
+        $fetch<TPublicProjectListResponse>(
+          `${BASE_API}/api-public/projects`,
+          {
+            params: {
+              page: "1",
+              limit: params.limit,
+              sort: params.sort,
+              order: params.order,
+              search: params.search,
+            },
+          }
+        ),
+        new Promise((resolve) => setTimeout(resolve, delayDuration))
+      ]);
       return response.data;
     } catch (err) {
       console.error("Error fetching initial projects data:", err);
@@ -217,18 +229,22 @@ const loadNextPage = async () => {
 
   try {
     const nextPage = page.value + 1;
-    const response = await $fetch<TPublicProjectListResponse>(
-      `${BASE_API}/api-public/projects`,
-      {
-        params: {
-          page: nextPage.toString(),
-          limit: params.limit,
-          sort: params.sort,
-          order: params.order,
-          search: params.search,
-        },
-      }
-    );
+    const delayDuration = import.meta.client ? 500 : 0;
+    const [response] = await Promise.all([
+      $fetch<TPublicProjectListResponse>(
+        `${BASE_API}/api-public/projects`,
+        {
+          params: {
+            page: nextPage.toString(),
+            limit: params.limit,
+            sort: params.sort,
+            order: params.order,
+            search: params.search,
+          },
+        }
+      ),
+      new Promise((resolve) => setTimeout(resolve, delayDuration))
+    ]);
 
     if (response && response.data) {
       projects.value = [...projects.value, ...response.data.items];
@@ -269,7 +285,26 @@ useIntersectionObserver(
     if (isIntersecting && !isNextPageLoading.value && !errorLoading.value && hasMore.value) {
       loadNextPage();
     }
+  },
+  {
+    rootMargin: "300px",
   }
 );
 </script>
-<style lang=""></style>
+<style scoped>
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.fade-slide-move {
+  transition: transform 0.5s ease;
+}
+</style>

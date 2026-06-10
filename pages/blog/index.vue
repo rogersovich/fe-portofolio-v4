@@ -103,17 +103,20 @@
             </ClientOnly>
             <div class="col-span-12 md:col-span-9">
               <template v-if="blogs.length > 0">
-                <template
-                  v-for="(blog, index) in blogs"
-                  :key="blog.id"
+                <TransitionGroup
+                  name="fade-slide"
+                  tag="div"
+                  class="flex flex-col"
                 >
                   <BlogCard
+                    v-for="(blog, index) in blogs"
+                    :key="blog.id"
                     :blog="blog"
                     :blog_length="blogs.length"
                     :index="index"
                     :filter-topics="filterTopics"
                   />
-                </template>
+                </TransitionGroup>
               </template>
               <template v-else>
                 <BaseEmptyData @clear-search="onClearSearch()" title="Blogs" />
@@ -272,19 +275,23 @@ const { data: initialData, pending: isInitialLoading, refresh } = await useAsync
   "public-blogs",
   async () => {
     try {
-      const response = await $fetch<TPublicBlogListResponse>(
-        `${BASE_API}/api-public/blogs`,
-        {
-          params: {
-            page: "1",
-            limit: params.limit,
-            sort: params.sort,
-            order: params.order,
-            search: params.search,
-            topics: params.topics,
-          },
-        }
-      );
+      const delayDuration = import.meta.client ? 500 : 0;
+      const [response] = await Promise.all([
+        $fetch<TPublicBlogListResponse>(
+          `${BASE_API}/api-public/blogs`,
+          {
+            params: {
+              page: "1",
+              limit: params.limit,
+              sort: params.sort,
+              order: params.order,
+              search: params.search,
+              topics: params.topics,
+            },
+          }
+        ),
+        new Promise((resolve) => setTimeout(resolve, delayDuration))
+      ]);
       return response.data;
     } catch (err) {
       console.error("Error fetching initial blogs data:", err);
@@ -350,19 +357,23 @@ const loadNextPage = async () => {
 
   try {
     const nextPage = page.value + 1;
-    const response = await $fetch<TPublicBlogListResponse>(
-      `${BASE_API}/api-public/blogs`,
-      {
-        params: {
-          page: nextPage.toString(),
-          limit: params.limit,
-          sort: params.sort,
-          order: params.order,
-          search: params.search,
-          topics: params.topics,
-        },
-      }
-    );
+    const delayDuration = import.meta.client ? 500 : 0;
+    const [response] = await Promise.all([
+      $fetch<TPublicBlogListResponse>(
+        `${BASE_API}/api-public/blogs`,
+        {
+          params: {
+            page: nextPage.toString(),
+            limit: params.limit,
+            sort: params.sort,
+            order: params.order,
+            search: params.search,
+            topics: params.topics,
+          },
+        }
+      ),
+      new Promise((resolve) => setTimeout(resolve, delayDuration))
+    ]);
 
     if (response && response.data) {
       blogs.value = [...blogs.value, ...response.data.items];
@@ -415,7 +426,26 @@ useIntersectionObserver(
     if (isIntersecting && !isNextPageLoading.value && !errorLoading.value && hasMore.value) {
       loadNextPage();
     }
+  },
+  {
+    rootMargin: "300px",
   }
 );
 </script>
-<style lang=""></style>
+<style scoped>
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.fade-slide-move {
+  transition: transform 0.5s ease;
+}
+</style>
