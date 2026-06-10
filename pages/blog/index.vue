@@ -50,12 +50,12 @@
             class="input-search"
           />
         </div>
-        <div v-if="pending">
-          <template v-for="i in 3" :key="i">
+        <div v-if="isInitialLoading && blogs.length === 0">
+          <template v-for="i in 5" :key="i">
             <Skeleton width="100%" height="8rem" class="mb-2"></Skeleton>
           </template>
         </div>
-        <template v-else-if="dataBlogs">
+        <template v-else-if="blogs.length > 0 || (!errorLoading && blogs.length === 0)">
           <div class="grid grid-cols-12 gap-6">
             <ClientOnly>
               <div v-if="isMobile" class="col-span-12">
@@ -102,14 +102,14 @@
               </div>
             </ClientOnly>
             <div class="col-span-12 md:col-span-9">
-              <template v-if="dataBlogs.items.length > 0">
+              <template v-if="blogs.length > 0">
                 <template
-                  v-for="(blog, index) in dataBlogs.items"
+                  v-for="(blog, index) in blogs"
                   :key="blog.id"
                 >
                   <BlogCard
                     :blog="blog"
-                    :blog_length="dataBlogs.items.length"
+                    :blog_length="blogs.length"
                     :index="index"
                     :filter-topics="filterTopics"
                   />
@@ -118,6 +118,34 @@
               <template v-else>
                 <BaseEmptyData @clear-search="onClearSearch()" title="Blogs" />
               </template>
+
+              <!-- Scroll sentinel for infinite scroll -->
+              <div
+                v-if="hasMore"
+                ref="loadMoreSentinel"
+                class="w-full flex flex-col items-center justify-center py-6"
+              >
+                <template v-if="isNextPageLoading">
+                  <div class="flex items-center gap-2 text-zinc-500 font-medium dark:text-zinc-400">
+                    <i class="pi pi-spin pi-spinner text-lg"></i>
+                    <span>Loading more blogs...</span>
+                  </div>
+                </template>
+                <template v-else-if="errorLoading">
+                  <div class="flex flex-col items-center gap-2">
+                    <span class="text-red-500 text-sm font-medium">Failed to load more blogs.</span>
+                    <Button
+                      type="button"
+                      severity="secondary"
+                      class="text-sm"
+                      @click="handleLoadMore"
+                    >
+                      <i class="pi pi-refresh mr-1"></i>
+                      <span>Load More</span>
+                    </Button>
+                  </div>
+                </template>
+              </div>
             </div>
             <ClientOnly>
               <div v-if="!isMobile && !isTablet" class="col-span-3">
@@ -164,13 +192,25 @@
               </div>
             </ClientOnly>
           </div>
-          <Paginator
-            :first="first"
-            :rows="rows"
-            :totalRecords="dataBlogs?.pagination.total"
-            @page="onPageChange"
-          >
-          </Paginator>
+        </template>
+        <template v-else-if="errorLoading && blogs.length === 0">
+          <div class="flex flex-col items-center justify-center py-12 gap-3 text-center">
+            <div class="p-3 bg-red-500/10 rounded-full text-red-500 mb-2">
+              <i class="pi pi-exclamation-triangle text-2xl"></i>
+            </div>
+            <span class="text-zinc-950 dark:text-zinc-50 font-semibold text-lg">Failed to load blogs</span>
+            <span class="text-muted-foreground text-sm max-w-xs">
+              Something went wrong while retrieving blogs. Please check your connection and try again.
+            </span>
+            <Button
+              type="button"
+              class="text-sm mt-2"
+              @click="handleLoadMore"
+            >
+              <i class="pi pi-refresh mr-2"></i>
+              <span>Retry</span>
+            </Button>
+          </div>
         </template>
         <template v-else>
           <BaseEmptyData @clear-search="onClearSearch()" title="Blogs" />
@@ -188,6 +228,7 @@ import type { TBaseResponse } from "~/types/base.type";
 import type {
   TParamsFilterPublicBlog,
   TPublicBlogListResponse,
+  TPublicBlog,
 } from "~/types/blog.type";
 import type { TPublicTopic } from "~/types/topic.type";
 
@@ -201,14 +242,13 @@ const BASE_API = runtimeConfig.public.apiBase;
 
 const params = reactive<TParamsFilterPublicBlog>({
   page: "1",
-  limit: "3",
+  limit: "5",
   sort: "DESC",
   order: "updated_at",
   search: "",
   topics: "[]",
 });
-const rows = ref(3);
-const first = ref(1);
+
 const searchQuery = ref("");
 const filterDate = ref(null);
 const filterTopics = ref([]);
@@ -217,7 +257,18 @@ const debouncedFilterCallback = useDebounceFn(async () => {
   params.search = searchQuery.value;
 }, 500);
 
-const { data: dataBlogs, pending } = await useAsyncData(
+const blogs = ref<TPublicBlog[]>([]);
+const page = ref(1);
+const total = ref(0);
+const isNextPageLoading = ref(false);
+const errorLoading = ref(false);
+
+const hasMore = computed(() => {
+  return blogs.value.length < total.value;
+});
+
+// Fetch first page (runs on SSR and watches filter parameters)
+const { data: initialData, pending: isInitialLoading, refresh } = await useAsyncData(
   "public-blogs",
   async () => {
     try {
@@ -225,22 +276,28 @@ const { data: dataBlogs, pending } = await useAsyncData(
         `${BASE_API}/api-public/blogs`,
         {
           params: {
-            ...params,
+            page: "1",
+            limit: params.limit,
+            sort: params.sort,
+            order: params.order,
+            search: params.search,
+            topics: params.topics,
           },
         }
       );
-
       return response.data;
     } catch (err) {
-      console.error("Error fetching data:", err);
+      console.error("Error fetching initial blogs data:", err);
+      errorLoading.value = true;
       return null;
     }
   },
   {
-    watch: [params],
+    watch: [() => params.search, () => params.topics],
   }
 );
 
+// Fetch topics metadata once (no watch: [params] to avoid duplicate calls on scroll)
 const { data: dataTopics, pending: pendingTopic } = await useAsyncData(
   "public-topics",
   async () => {
@@ -250,25 +307,92 @@ const { data: dataTopics, pending: pendingTopic } = await useAsyncData(
       );
       return response.data;
     } catch (err) {
-      console.error("Error fetching data:", err);
+      console.error("Error fetching topics data:", err);
       return null;
     }
-  },
-  {
-    watch: [params],
   }
 );
+
+// Watch for initial load or filter updates to reset and set first page items
+watch(
+  initialData,
+  (newData) => {
+    if (newData) {
+      blogs.value = [...newData.items];
+      total.value = newData.pagination.total;
+      page.value = 1;
+      errorLoading.value = false;
+    } else {
+      blogs.value = [];
+      total.value = 0;
+      page.value = 1;
+      errorLoading.value = true;
+    }
+  },
+  { immediate: true }
+);
+
+// Clear the blogs list immediately when search or topic filters change to show skeletons
+watch(
+  [() => params.search, () => params.topics],
+  () => {
+    blogs.value = [];
+    errorLoading.value = false;
+  }
+);
+
+// Fetch subsequent pages
+const loadNextPage = async () => {
+  if (isNextPageLoading.value || isInitialLoading.value || !hasMore.value) return;
+
+  isNextPageLoading.value = true;
+  errorLoading.value = false;
+
+  try {
+    const nextPage = page.value + 1;
+    const response = await $fetch<TPublicBlogListResponse>(
+      `${BASE_API}/api-public/blogs`,
+      {
+        params: {
+          page: nextPage.toString(),
+          limit: params.limit,
+          sort: params.sort,
+          order: params.order,
+          search: params.search,
+          topics: params.topics,
+        },
+      }
+    );
+
+    if (response && response.data) {
+      blogs.value = [...blogs.value, ...response.data.items];
+      page.value = nextPage;
+      total.value = response.data.pagination.total;
+    } else {
+      throw new Error("Invalid response data");
+    }
+  } catch (err) {
+    console.error("Error loading next blogs page:", err);
+    errorLoading.value = true;
+  } finally {
+    isNextPageLoading.value = false;
+  }
+};
+
+// Retry handler for load failures
+const handleLoadMore = () => {
+  if (blogs.value.length === 0) {
+    refresh();
+  } else {
+    loadNextPage();
+  }
+};
 
 const onClearSearch = () => {
   filterTopics.value = [];
   params.search = "";
   params.topics = "[]";
   searchQuery.value = "";
-};
-
-const onPageChange = (event: any) => {
-  params.page = event.page + 1;
-  first.value = event.first;
 };
 
 const onClickTopic = (topicId: number) => {
@@ -280,5 +404,18 @@ const onClickTopic = (topicId: number) => {
 
   params.topics = JSON.stringify(filterTopics.value);
 };
+
+// Scroll Sentinel ref
+const loadMoreSentinel = ref<HTMLElement | null>(null);
+
+// Intersection observer configuration to trigger page load on scrolling near bottom
+useIntersectionObserver(
+  loadMoreSentinel,
+  ([{ isIntersecting }]) => {
+    if (isIntersecting && !isNextPageLoading.value && !errorLoading.value && hasMore.value) {
+      loadNextPage();
+    }
+  }
+);
 </script>
 <style lang=""></style>
