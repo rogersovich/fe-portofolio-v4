@@ -59,6 +59,9 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
+    // Pure static output. Without this, Nitro auto-detects the Cloudflare
+    // build env (WORKERS_CI) and emits a Worker config that hijacks wrangler.
+    preset: "static",
     prerender: {
       crawlLinks: true,
       routes: ["/", ...contentRoutes("blog"), ...contentRoutes("project")],
