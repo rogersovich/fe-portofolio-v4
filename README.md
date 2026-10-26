@@ -1,6 +1,6 @@
 # 🚀 Web Portfolio v4
 
-Personal portfolio built with Nuxt 3. Fully static: all content lives in this repo (Markdown + JSON), every page is prerendered at build time, and the site is hosted on Cloudflare Pages. There is no backend or database.
+Personal portfolio built with Nuxt 3. Fully static: all content lives in this repo (Markdown + JSON), every page is prerendered at build time, and the site is hosted on Cloudflare Workers (static assets). There is no backend or database.
 
 ## ✨ Features
 
@@ -111,26 +111,26 @@ Technology names should match `data/technologies.json`, which provides the link.
 - `npm run generate` fails if any `/uploads/` path is left, so a local image can never reach production.
 - Displayed Cloudinary images get `f_auto,q_auto,w_…` automatically (`cloudinaryUrl` in `composables/usePortfolioContent.ts`).
 
-## ☁️ Deploy: Cloudflare Pages
+## ☁️ Deploy: Cloudflare Workers (static assets)
+
+`wrangler.jsonc` serves `.output/public` as static assets. There is no server code, and unknown URLs get `404.html`.
 
 First-time setup:
 
-1. Push this repo to GitHub.
-2. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → pick the repo.
-3. Build settings:
-   - Framework preset: **None**
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Import a repository** → pick `fe-portofolio-v4`.
+2. Fill in:
+   - Project name: `fe-portofolio-v4` (must match `name` in `wrangler.jsonc`)
    - Build command: `npm run generate`
-   - Build output directory: `.output/public`
-   - Production branch: `main`
-4. **Environment variables** (Production and Preview): `NODE_VERSION` = `22`
-5. **Save and Deploy**, then check the site on the `*.pages.dev` URL.
-6. **Custom domains** → **Set up a custom domain** → `dimasroger.com`. If the domain's DNS is already on Cloudflare, the record is created for you. Otherwise follow the CNAME instructions shown.
+   - Deploy command: `npx wrangler deploy`
+3. **Advanced settings** → **Build variables**: `NODE_VERSION` = `22`
+4. **Deploy**, then check the site on the `*.workers.dev` URL.
+5. Worker → **Settings** → **Domains & Routes** → **Add** → **Custom domain** → `dimasroger.com`.
 
-After that, every push to `main` deploys automatically. Pushes to other branches get preview URLs.
+After that, every push to `main` deploys automatically.
 
-**Rollback:** Pages project → **Deployments** → pick an older deployment → **Rollback to this deployment**.
+**Rollback:** Worker → **Deployments** → pick an older version → **Rollback**.
 
-The output is plain static files, so it can also be served from any static host (`npx serve .output/public`, nginx, etc.).
+The output is plain static files, so it can also be served from any static host (`npx serve .output/public`, nginx, Cloudflare Pages, etc.).
 
 ## 🗄️ Migration from the old backend
 
