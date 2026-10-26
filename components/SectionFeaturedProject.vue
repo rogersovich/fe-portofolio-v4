@@ -63,43 +63,11 @@
 <script setup lang="ts">
 import { IconBriefcase, IconChevronRight } from "@tabler/icons-vue";
 import { isMobile } from "~/composables/useBreakpoint";
-import type {
-  TParamsFilterPublicProject,
-  TPublicProjectListResponse,
-} from "~/types/project.type";
-
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
 const menuStore = useMenuStore();
 
-const params = reactive<TParamsFilterPublicProject>({
-  page: "1",
-  limit: "3",
-  sort: "DESC",
-  order: "updated_at",
-  search: "",
-  is_highlight: "Y"
-});
-
 const { data: dataProjects, pending } = await useAsyncData(
-  "publicFeaturedProjects",
-  async () => {
-    try {
-      const response = await $fetch<TPublicProjectListResponse>(
-        `${BASE_API}/api-public/projects`,
-        {
-          params: {
-            ...params,
-          },
-        }
-      );
-
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      return null;
-    }
-  }
+  "featuredProjects",
+  async () => ({ items: await fetchFeaturedProjects(3) })
 );
 
 const routeToPath = (path: string) => {

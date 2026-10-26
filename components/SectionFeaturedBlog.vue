@@ -71,44 +71,11 @@
 <script setup lang="ts">
 import { IconBook2, IconChevronRight } from "@tabler/icons-vue";
 import { isMobile } from "~/composables/useBreakpoint";
-import type {
-  TParamsFilterPublicBlog,
-  TPublicBlogListResponse,
-} from "~/types/blog.type";
-
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
 const menuStore = useMenuStore();
 
-const params = reactive<TParamsFilterPublicBlog>({
-  page: "1",
-  limit: "3",
-  sort: "DESC",
-  order: "updated_at",
-  search: "",
-  topics: "[]",
-  is_highlight: "Y",
-});
-
 const { data: dataBlogs, pending } = await useAsyncData(
-  "publicFeaturedBlogs",
-  async () => {
-    try {
-      const response = await $fetch<TPublicBlogListResponse>(
-        `${BASE_API}/api-public/blogs`,
-        {
-          params: {
-            ...params,
-          },
-        }
-      );
-
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      return null;
-    }
-  }
+  "featuredBlogs",
+  async () => ({ items: await fetchFeaturedBlogs(3) })
 );
 
 const routeToPath = (path: string) => {

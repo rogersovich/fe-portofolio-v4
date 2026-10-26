@@ -1,0 +1,218 @@
+[
+  {
+    "name": "Angular JS",
+    "isMajor": true,
+    "descriptionHtml": "<p>github heheh</p>ssss",
+    "link": ""
+  },
+  {
+    "name": "React Js",
+    "isMajor": true,
+    "descriptionHtml": "<p>React</p>",
+    "link": ""
+  },
+  {
+    "name": "Vue ",
+    "isMajor": true,
+    "descriptionHtml": "<p>ini vue bro</p>",
+    "link": ""
+  },
+  {
+    "name": "Typescript",
+    "isMajor": true,
+    "descriptionHtml": "<p>typescript</p>",
+    "link": ""
+  },
+  {
+    "name": "Tailwind",
+    "isMajor": true,
+    "descriptionHtml": "<p>tailwind v3</p>",
+    "link": ""
+  },
+  {
+    "name": "Amazon Web Services",
+    "isMajor": false,
+    "descriptionHtml": "<p>ini adalah aws</p>",
+    "link": ""
+  },
+  {
+    "name": "React Redux",
+    "isMajor": false,
+    "descriptionHtml": "<p>Redux</p>",
+    "link": ""
+  },
+  {
+    "name": "Promotheus",
+    "isMajor": false,
+    "descriptionHtml": "<p>Promotheus</p>",
+    "link": ""
+  },
+  {
+    "name": "Postgresql",
+    "isMajor": false,
+    "descriptionHtml": "<p>Database Postgresql</p>",
+    "link": ""
+  },
+  {
+    "name": "Nuxt JS",
+    "isMajor": true,
+    "descriptionHtml": "<p>Nuxt Js</p>",
+    "link": ""
+  },
+  {
+    "name": "Node Js",
+    "isMajor": true,
+    "descriptionHtml": "<p>node js</p>",
+    "link": ""
+  },
+  {
+    "name": "Nginx",
+    "isMajor": false,
+    "descriptionHtml": "<p>Nginx</p>",
+    "link": ""
+  },
+  {
+    "name": "Next JS",
+    "isMajor": true,
+    "descriptionHtml": "<p>Next JS</p>",
+    "link": ""
+  },
+  {
+    "name": "Mysql",
+    "isMajor": true,
+    "descriptionHtml": "<p>Db Mysql</p>",
+    "link": ""
+  },
+  {
+    "name": "Mongo DB",
+    "isMajor": false,
+    "descriptionHtml": "<p>Mongo DB</p>",
+    "link": ""
+  },
+  {
+    "name": "Laravel",
+    "isMajor": true,
+    "descriptionHtml": "<p>Laravel</p>",
+    "link": ""
+  },
+  {
+    "name": "Javascript",
+    "isMajor": false,
+    "descriptionHtml": "<p>Javascript</p>",
+    "link": ""
+  },
+  {
+    "name": "HTML",
+    "isMajor": false,
+    "descriptionHtml": "<p>HTML</p>",
+    "link": ""
+  },
+  {
+    "name": "Graphql",
+    "isMajor": false,
+    "descriptionHtml": "<p>Graphql</p>",
+    "link": ""
+  },
+  {
+    "name": "Firebase",
+    "isMajor": false,
+    "descriptionHtml": "<p>Firebase</p>",
+    "link": ""
+  },
+  {
+    "name": "Golang",
+    "isMajor": true,
+    "descriptionHtml": "<p>golang</p>",
+    "link": ""
+  },
+  {
+    "name": "Git",
+    "isMajor": false,
+    "descriptionHtml": "<p>git</p>",
+    "link": ""
+  },
+  {
+    "name": "Github",
+    "isMajor": false,
+    "descriptionHtml": "<p>Github</p>",
+    "link": ""
+  },
+  {
+    "name": "Docker",
+    "isMajor": true,
+    "descriptionHtml": "<p>Docker</p>",
+    "link": ""
+  },
+  {
+    "name": "CSS",
+    "isMajor": false,
+    "descriptionHtml": "<p>CSS</p>",
+    "link": ""
+  },
+  {
+    "name": "Bitbucket",
+    "isMajor": false,
+    "descriptionHtml": "<p>Bitbucket</p>",
+    "link": ""
+  },
+  {
+    "name": "Chakra UI",
+    "isMajor": false,
+    "descriptionHtml": "<p>Chakra UI</p>",
+    "link": ""
+  },
+  {
+    "name": "Express JS",
+    "isMajor": false,
+    "descriptionHtml": "<p>Express JS</p>",
+    "link": ""
+  },
+  {
+    "name": "PHP",
+    "isMajor": false,
+    "descriptionHtml": "<p>PHP</p>",
+    "link": ""
+  },
+  {
+    "name": "Pinia",
+    "isMajor": false,
+    "descriptionHtml": "<p>Pinia</p>",
+    "link": ""
+  },
+  {
+    "name": "Vuetify",
+    "isMajor": false,
+    "descriptionHtml": "<p>Vuetify</p>",
+    "link": ""
+  },
+  {
+    "name": "Supabase",
+    "isMajor": false,
+    "descriptionHtml": "<p>Supabase</p>",
+    "link": ""
+  },
+  {
+    "name": "Figma",
+    "isMajor": false,
+    "descriptionHtml": "<p>Figma</p>",
+    "link": ""
+  },
+  {
+    "name": "Auth Google",
+    "isMajor": false,
+    "descriptionHtml": "<p>Auth Google</p>",
+    "link": ""
+  },
+  {
+    "name": "Vercel",
+    "isMajor": false,
+    "descriptionHtml": "<p>Vercel</p>",
+    "link": ""
+  },
+  {
+    "name": "Prisma ORM",
+    "isMajor": false,
+    "descriptionHtml": "<p>Prisma ORM</p>",
+    "link": ""
+  }
+]

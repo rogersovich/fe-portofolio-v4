@@ -1,0 +1,67 @@
+[
+  {
+    "position": "Frontend Developer",
+    "companyName": "PT Elabram System",
+    "workType": "Hybrid",
+    "country": "Indonesia",
+    "city": "Jakarta, Thamrin City",
+    "summaryHtml": "<p>Elabram Group oversees the global operations of Elabram HR Solution and Elabram Telco, specializing in human resources and telecommunications consulting with over 20 years of experience.</p><p>As a Frontend Developer i manage app product \"Axdif\" that provides a platform for task management, team communication, and employee self-service.</p><h5><strong>Project case studies:</strong></h5><ol><li><p>Axdif App</p><ul><li><p>Enhanced code organization by modularizing components into seperate folders (<em>feature-based architecture</em>)</p></li><li><p>Optimized frontend performance and <em>maintainability</em> through strategic restructuring</p></li><li><p>Enforced <em>lazy loading</em> for faster initial load</p></li><li><p>Implement Cache for request to API</p></li><li><p>Implement library table <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://www.ag-grid.com/\">AG Grid</a> for some menus</p></li><li><p>built features AI \"Analyze my perfomance\" for user</p></li><li><p>Built advanced filtering<strong> </strong>(multi-column, saved presets, and dynamic query builder)</p></li><li><p>Added export/import (Excel/PDF) with data validation and template generators</p></li><li><p>Integrated map selection (Google Maps API) for travel submissions with geofencing</p></li><li><p>Redesigned drag-and-drop board with custom CDK DropLists and store to Firebase</p></li><li><p>Implemented skeleton loading across all async operations (UX score +35%)</p></li><li><p>Tech: Angular.js + PrimeNG + NgRx + Firebase</p></li></ul></li><li><p>Website Axdif</p><ul><li><p>Create landing page axdif from scratch</p></li><li><p>Tech: Next JS + Tailwind + Framer Motion</p></li></ul></li></ol>",
+    "fromDate": "2023-09-01",
+    "toDate": null,
+    "compImageUrl": "https://res.cloudinary.com/dxlmdzryf/image/upload/v1780667290/project/1780667289_17dedf01-901b-495c-b10b-b4e1f96d92ff.png",
+    "compWebsiteUrl": "https://elabram.com/",
+    "isCurrent": true
+  },
+  {
+    "position": "Frontend Developer",
+    "companyName": "Zegen Solusi Mandiri",
+    "workType": "Office",
+    "country": "Indonesia",
+    "city": "Tangerang",
+    "summaryHtml": "<p>PT Zegen Solusi Mandiri, also known as Zegen, is a leading software developer in Indonesia. They provide the latest technology designed to fit customer needs without high costs. Their team of technology experts offers solutions for the ever-changing technology industry.</p><p>As a Frontend Developer, I built responsive interfaces and website using React.js, focusing on creating intuitive user experiences for complex systems.</p><h5><strong>Project Case Studies:</strong></h5><ol><li><p><strong>Learning Management System (LMS) Platform</strong></p><ul><li><p>Developed cross-platform mobile app with <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://flutter.dev/\"><em>Flutter</em></a> (attendance, scheduling, announcement)</p></li><li><p>Built admin dashboard with <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://react.dev/\"><em>React js</em></a>: student registration, master data management, attendance and etc.</p></li><li><p>Integrated with <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://go.dev/\"><em>Golang backend</em></a> via RESTful APIs</p></li><li><p>Implemented responsive designs for all device types</p></li></ul></li></ol>",
+    "fromDate": "2023-05-09",
+    "toDate": "2023-08-09",
+    "compImageUrl": "https://res.cloudinary.com/dxlmdzryf/image/upload/v1780667341/project/1780667341_5c3560e5-7ebd-4221-b1f4-b3ed5eb05d2b.jpg",
+    "compWebsiteUrl": "https://zegen.id/",
+    "isCurrent": false
+  },
+  {
+    "position": "Frontend Developer",
+    "companyName": "Tiranyx Digital Transformation",
+    "workType": "Office",
+    "country": "Indonesia",
+    "city": "Bogor",
+    "summaryHtml": "<p>Tiranyx Digital System is a Southeast Asia-based digital transformation agency that helps brands and businesses grow in the digital era through services like internet marketing, SEO, social media advertising, and web/mobile app development.</p><p>As a Frontend Developer, I built and maintained web applications using Vue.js, Nuxt.js, React, Next.js, Laravel, and PostgreSQL, delivering end-to-end solutions for diverse client needs.</p><h5><strong>Project case studies:</strong></h5><ol><li><p><strong>Bogor Football Club (PSB) Website</strong></p><ul><li><p>Developed <strong>landing page</strong> with dynamic content management</p></li><li><p>Built <strong>member portal</strong> with authentication and profile management</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://vuejs.org/\">Vue.js</a> + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://laravel.com/\">Laravel</a> + Mysql</p></li></ul></li><li><p><strong>Sininis Website</strong></p><ul><li><p>Created landing page with clean design and nice animation</p></li><li><p>Responsive for laptop, tablet or mobile</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://v2.nuxt.com/\">Nuxt v2</a></p></li></ul></li><li><p><strong>Sininis - All-in-One Social Media Management Platform</strong></p><ul><li><p>Generate post ideas and captions instantly</p></li><li><p>Auto-design tools with customizable templates (like canva)</p></li><li><p>Schedule/publish to Instagram, Facebook, Twitter, etc.</p></li><li><p>Unified inbox for engagement tracking</p></li><li><p>Campaign analytics with ROI measurement</p></li><li><p>Influencer collaboration tools with performance tracking</p></li><li><p>Built-in digital marketing courses</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://vuejs.org/\">Vue.js</a> + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://expressjs.com/\">Express Js</a> + PostgreSQL</p></li></ul></li><li><p><strong>Sininis - Sikoomar</strong></p><ul><li><p>Built point of sales (POS) dashboard mutli-tenant</p></li><li><p>Management product easly</p></li><li><p>generate report and statistic of each product</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://react.dev/\">React.js</a> + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://expressjs.com/\">Express Js</a> + PostgreSQL</p></li></ul></li></ol>",
+    "fromDate": "2021-05-05",
+    "toDate": "2023-05-05",
+    "compImageUrl": "https://res.cloudinary.com/dxlmdzryf/image/upload/v1780667329/project/1780667329_d46aff3d-ed69-48fa-b9fc-b00110227bb8.jpg",
+    "compWebsiteUrl": "https://www.linkedin.com/company/tiranyx-digital-system/",
+    "isCurrent": false
+  },
+  {
+    "position": "Junior Full-stack Developer",
+    "companyName": "Vconex IT and Multimedia",
+    "workType": "Office",
+    "country": "Indonesia",
+    "city": "Tangerang",
+    "summaryHtml": "<p>As a Full Stack Developer at Vconex IT and Multimedia, I delivered complete web solutions using modern JavaScript frameworks and robust backend technologies. My expertise spans the entire development stack with particular strength in Vue/Nuxt.js ecosystems.</p><p>As a Junior Full Stack Developer, I built immersive web experiences using Vue.js/Nuxt.js for frontend and Laravel js for backend systems, contributing to 6+ high-impact projects.</p><h5><strong>Project case studies:</strong></h5><ol><li><p><strong>Mercedes-Benz Landing Page</strong></p><ul><li><p>Developed website show product with specification</p></li><li><p>Implemented announcement for news from brand</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://v2.nuxt.com/\">Nuxt.js</a> + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://laravel.com/\">Laravel</a></p></li></ul></li><li><p><strong>Virtual Exhibition Portal </strong>(for Asosiasi Perusahaan Penjualan Langsung Indonesia)</p><ul><li><p>Created 3D virtual booth environment for website</p></li><li><p>Integrated live chat when the event starts</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://vuejs.org/\">Vue js</a></p></li></ul></li><li><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"http://Rumah.com\"><strong>Rumah.com</strong></a><strong> 3D Home Viewer</strong></p><ul><li><p>Built 3D virtual home tours for each brand</p></li><li><p>Developed admin dashboard for property management</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://react.dev/\">React</a> + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://laravel.com/\">Laravel</a></p></li></ul></li><li><p><strong>Rumah Galeri Virtual Art Exhibition</strong></p><ul><li><p>Implemented 360° artwork viewing interface</p></li><li><p>Add user reaction when exhibition started</p></li><li><p>Tech: A-Frame (WebVR) + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://vuejs.org/\">Vue.js</a></p></li></ul></li><li><p><strong>Vconex Corporate Website</strong></p><ul><li><p>Designed responsive landing page with CMS integration</p></li><li><p>Mobile friendly</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://v2.nuxt.com/\">Nuxt.js</a> + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://v3.tailwindcss.com/\">Tailwind CSS</a></p></li></ul></li><li><p><strong>Website Wedding Vconex</strong></p><ul><li><p>Designed landing page for user wedding</p></li><li><p>Add Gallery, Register, Invitation form and saved the date</p></li><li><p>Tech: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://v2.nuxt.com/\">Nuxt.js</a> + <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://v3.tailwindcss.com/\">Tailwind CSS</a> + animation</p></li></ul></li></ol>",
+    "fromDate": "2020-06-08",
+    "toDate": "2021-07-08",
+    "compImageUrl": "https://res.cloudinary.com/dxlmdzryf/image/upload/v1780667319/project/1780667319_2018cdc8-e1c3-4fc1-b6be-6282ebde2bfe.png",
+    "compWebsiteUrl": "https://vconex.id",
+    "isCurrent": false
+  },
+  {
+    "position": "Intern Web Developer",
+    "companyName": "PT. Zamasco Mitra Solusindo",
+    "workType": "Office",
+    "country": "Indonesia",
+    "city": "Jakarta Pusat",
+    "summaryHtml": "<p>PT. Zamasco Mitra Solusindo is an IT company specializing in custom software solutions for corporate clients, with particular expertise in delivering tailored technology services. During my 6-month internship, I joined the full-stack development team working on enterprise-grade web applications.</p><p>As a full-stack developer intern, I actively participated in the complete software development lifecycle including: brainstorming, coding, testing and problem solving.</p><ul><li><p>Understanding the fundamentals of HTML, CSS, and JavaScript in a production environment</p></li><li><p>Application of <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://jquery.com/\">jQuery</a> for DOM manipulation and AJAX</p></li><li><p>Using <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://getbootstrap.com/\">Bootstrap</a> to build a responsive UI</p></li><li><p>Backend programming with native PHP and the <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://cakephp.org/\">CakePHP</a> framework</p></li><li><p>Car Community Website Development</p></li><li><p>Assisted debugging of CakePHP-based CRM application</p></li><li><p>Modify report generator with native PHP</p></li></ul>",
+    "fromDate": "2019-01-10",
+    "toDate": "2019-06-11",
+    "compImageUrl": "https://res.cloudinary.com/dxlmdzryf/image/upload/v1780667305/project/1780667304_ee73cfe3-e59b-468d-96ce-7f18c3da18a2.png",
+    "compWebsiteUrl": "https://zamasco.co.id/",
+    "isCurrent": false
+  }
+]

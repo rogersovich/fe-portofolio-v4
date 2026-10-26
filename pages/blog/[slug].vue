@@ -15,36 +15,28 @@
         >
           <div
             class="text-3xl text-center md:text-left md:text-5xl font-rethink font-bold mb-3 w-full"
-            v-if="blogs"
+            v-if="blog"
           >
-            {{ blogs.data.title }}
+            {{ blog.title }}
           </div>
-          <template v-if="blogs">
+          <template v-if="blog">
             <div
               class="text-foreground dark:text-muted-foreground text-center md:text-left text-sm md:text-base w-full"
-              v-html="blogs.data.summary"
+              v-html="blog.summary"
             ></div>
           </template>
         </div>
-        <template v-if="blogs">
-          <template v-if="viewNew">
-            <BlogStatisticInfo
-              :statistic="blogs.data.statistic"
-              :reading_time="blogs.data.reading_time"
-              :is-like="isLike"
-              :new-like="likesNew"
-              :view-new="viewNew"
-            />
-          </template>
+        <template v-if="blog">
+          <BlogStatisticInfo :reading_time="blog.reading_time" />
         </template>
       </div>
     </div>
     <div class="layout grid grid-cols-12 gap-6 z-10 relative">
       <div class="col-span-12 md:col-span-9">
-        <template v-if="blogs">
+        <template v-if="blog">
           <div class="mb-4 md:px-4">
             <NuxtImg
-              :src="blogs.data.banner_url"
+              :src="blog.banner_url"
               class="w-full rounded-lg object-cover"
               :quality="70"
             />
@@ -53,8 +45,9 @@
             id="description-content"
             class="text-muted-foreground md:px-4 text-sm md:text-base"
             ref="htmlContent"
-            v-html="blogs.data.description_html"
-          ></div>
+          >
+            <ContentRenderer :value="blog.body" />
+          </div>
         </template>
       </div>
       <div class="hidden md:block md:col-span-3">
@@ -72,18 +65,11 @@
               </Button>
             </router-link>
           </div>
-          <div v-if="blogs" id="toc">
+          <div v-if="blog" id="toc">
             <TableOfContent
               :active-id="activeId"
               :toc-links="tocLinks"
               @handle-click-toc="onClickTOC"
-            />
-          </div>
-          <div v-if="viewNew && blogs" class="mt-3">
-            <BlogButtonLike
-              :blog="blogs?.data"
-              :view-new="viewNew"
-              @trigger-new-like="updateNewLike($event)"
             />
           </div>
         </div>
@@ -113,48 +99,27 @@
     />
 
     <ButtonBackDetail :url_back="'/blog'" />
-
-    <MobileBlogButtonLike
-      v-if="isMobile && viewNew && blogs"
-      :blog="blogs?.data"
-      :view-new="viewNew"
-      @trigger-new-like="updateNewLike($event)"
-    />
   </div>
 </template>
 <script setup lang="ts">
 import { IconArrowLeft } from "@tabler/icons-vue";
-import { isMobile } from "~/composables/useBreakpoint";
-import type { TBaseResponse } from "~/types/base.type";
-import type { TPublicBlogDetail } from "~/types/blog.type";
 
 import hljs from "highlight.js";
 import "./../../assets/css/editor-content.css";
 import "highlight.js/styles/atom-one-dark-reasonable.min.css";
 
 const route = useRoute();
-const { slugToStringUppercase } = useSlugify();
 const slug = route.params.slug as string;
 
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
+const { data: blog } = await useAsyncData(`blog-${slug}`, () => fetchBlog(slug));
+
+if (!blog.value) {
+  throw createError({ statusCode: 404, statusMessage: "Blog not found", fatal: true });
+}
 
 useHead({
-  title: `${slugToStringUppercase(slug)}`,
+  title: blog.value.title,
   titleTemplate: "%s | Blog",
-});
-
-const { data: blogs } = await useAsyncData("public-blog", async () => {
-  try {
-    const response = await $fetch<TBaseResponse<TPublicBlogDetail>>(
-      `${BASE_API}/api-public/blogs/${slug}`
-    );
-
-    return response;
-  } catch (err) {
-    console.error("Error fetching data:", err);
-    return null;
-  }
 });
 
 const tocLinks = ref<any[]>([]);
@@ -289,49 +254,10 @@ const highlightHtml = () => {
   }
 };
 
-const viewNew = ref<any>(null);
-const isLike = ref<boolean>(false);
-const likesNew = ref<any>(null);
-
-const updateNewLike = (newLike: any) => {
-  isLike.value = true;
-  likesNew.value = newLike;
-};
-
-const updateBlogStatisticAPI = async () => {
-  const viewOld = blogs.value?.data.statistic.views as unknown as number;
-  const body = {
-    blog_id: blogs.value?.data.id,
-    statistic_id: blogs.value?.data.statistic.id,
-    likes: blogs.value?.data.statistic.likes,
-    views: viewOld + 1,
-    type: "Blog",
-  };
-
-  try {
-    const response = await $fetch<TBaseResponse<any>>(
-      `${BASE_API}/api-public/update-statistic-blog`,
-      {
-        method: "POST",
-        body,
-      }
-    );
-
-    viewNew.value = response.data["views"];
-    return response;
-  } catch (err) {
-    console.error("Error update statistic:", err);
-    return null;
-  }
-};
-
 onMounted(() => {
   generateToc();
   highlightHtml();
   setupIntersectionObserver();
-  setTimeout(() => {
-    updateBlogStatisticAPI();
-  }, 500);
 });
 
 onUnmounted(() => {

@@ -15,37 +15,29 @@
         >
           <div
             class="text-4xl md:text-5xl font-rethink font-bold md:mb-3 text-center w-full"
-            v-if="projects"
+            v-if="project"
           >
-            {{ projects.data.title }}
+            {{ project.title }}
           </div>
-          <template v-if="projects">
+          <template v-if="project">
             <div
               class="text-foreground dark:text-muted-foreground text-center md:text-left text-sm md:text-base w-full"
-              v-html="projects.data.summary"
+              v-html="project.summary"
             ></div>
           </template>
         </div>
-        <template v-if="projects && projects.data.statistic">
-          <template v-if="viewNew">
-            <ProjectStatisticInfo
-              :project="projects?.data"
-              :is-like="isLike"
-              :new-like="likesNew"
-              :view-new="viewNew"
-            />
-          </template>
-        </template>
+        <ProjectStatisticInfo v-if="project" :project="project" />
       </div>
     </div>
     <div class="layout grid grid-cols-12 gap-6 z-10 relative">
       <div class="col-span-12 md:col-span-9">
-        <template v-if="projects">
+        <template v-if="project">
           <div
             id="description-content"
             class="text-muted-foreground md:px-4 text-sm md:text-base"
-            v-html="projects.data.description"
-          ></div>
+          >
+            <ContentRenderer :value="project.body" />
+          </div>
         </template>
       </div>
       <div class="hidden md:block col-span-3">
@@ -63,18 +55,11 @@
               </Button>
             </router-link>
           </div>
-          <div v-if="projects" id="toc">
+          <div v-if="project" id="toc">
             <TableOfContent
               :active-id="activeId"
               :toc-links="tocLinks"
               @handle-click-toc="onClickTOC"
-            />
-          </div>
-          <div v-if="viewNew && projects" class="mt-3">
-            <ProjectButtonLike
-              :project="projects?.data"
-              :view-new="viewNew"
-              @trigger-new-like="updateNewLike($event)"
             />
           </div>
         </div>
@@ -104,46 +89,24 @@
     />
 
     <ButtonBackDetail :url_back="'/project'" />
-
-    <MobileProjectButtonLike
-      v-if="isMobile && viewNew && projects"
-      :project="projects?.data"
-      :view-new="viewNew"
-      @trigger-new-like="updateNewLike($event)"
-    />
   </div>
 </template>
 <script setup lang="ts">
-import { isMobile } from "~/composables/useBreakpoint";
 import { IconArrowLeft } from "@tabler/icons-vue";
 import "./../../assets/css/editor-content.css";
 
-import type { TBaseResponse } from "~/types/base.type";
-import type { TPublicProjectDetail } from "~/types/project.type";
-
 const route = useRoute();
-const { slugToStringUppercase } = useSlugify();
 const slug = route.params.slug as string;
 
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
+const { data: project } = await useAsyncData(`project-${slug}`, () => fetchProject(slug));
+
+if (!project.value) {
+  throw createError({ statusCode: 404, statusMessage: "Project not found", fatal: true });
+}
 
 useHead({
-  title: `${slugToStringUppercase(slug)}`,
+  title: project.value.title,
   titleTemplate: "%s | Project",
-});
-
-const { data: projects } = await useAsyncData("publicProject", async () => {
-  try {
-    const response = await $fetch<TBaseResponse<TPublicProjectDetail>>(
-      `${BASE_API}/api-public/projects/${slug}`
-    );
-
-    return response;
-  } catch (err) {
-    console.error("Error fetching data:", err);
-    return null;
-  }
 });
 
 const tocLinks = ref<any[]>([]);
@@ -240,49 +203,9 @@ const setupIntersectionObserver = () => {
   });
 };
 
-const viewNew = ref<any>(null);
-const isLike = ref<boolean>(false);
-const likesNew = ref<any>(null);
-
-const updateNewLike = (newLike: any) => {
-  isLike.value = true;
-  likesNew.value = newLike;
-};
-
-const updateProjectStatisticViewAPI = async () => {
-  if (projects.value?.data.statistic == null) return;
-  const viewOld = projects.value?.data.statistic.views as unknown as number;
-  const body = {
-    project_id: projects.value?.data.id,
-    statistic_id: projects.value?.data.statistic.id,
-    likes: projects.value?.data.statistic.likes,
-    views: viewOld + 1,
-    type: "Project",
-  };
-
-  try {
-    const response = await $fetch<TBaseResponse<any>>(
-      `${BASE_API}/api-public/update-statistic-project`,
-      {
-        method: "POST",
-        body,
-      }
-    );
-
-    viewNew.value = response.data["views"];
-    return response;
-  } catch (err) {
-    console.error("Error update statistic:", err);
-    return null;
-  }
-};
-
 onMounted(() => {
   generateToc();
   setupIntersectionObserver();
-  setTimeout(() => {
-    updateProjectStatisticViewAPI();
-  }, 500);
 });
 
 onUnmounted(() => {

@@ -207,31 +207,14 @@
 import "~/assets/css/about.css";
 import { IconUserSquare } from "@tabler/icons-vue";
 import { isMobile } from "~/composables/useBreakpoint";
-import type { TPublicProfileResponse } from "~/types/about.type";
 
 useHead({
   title: "About",
   titleTemplate: "%s | Portofolio",
 });
 
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
-
-const { data: profiles, pending } = await useAsyncData(
-  "public-profile",
-  async () => {
-    try {
-      const response = await $fetch<TPublicProfileResponse>(
-        `${BASE_API}/api-public/profile`
-      );
-
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      return null;
-    }
-  }
-);
+const profiles = ref(getProfile());
+const pending = false;
 
 const soul_active = ref("Devil");
 

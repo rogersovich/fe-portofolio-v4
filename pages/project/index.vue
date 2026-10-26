@@ -121,149 +121,60 @@
 <script setup lang="ts">
 import { isMobile } from "~/composables/useBreakpoint";
 import { IconBriefcase } from "@tabler/icons-vue";
-import type {
-  TParamsFilterPublicProject,
-  TPublicProjectListResponse,
-  TPublicProject,
-} from "~/types/project.type";
 
 useHead({
   title: "Project",
   titleTemplate: "%s | Portofolio",
 });
 
-const params = reactive<TParamsFilterPublicProject>({
-  page: "1",
-  limit: "5",
-  sort: "ASC",
-  order: "sort_order",
-  search: "",
-});
+const PAGE_SIZE = 5;
 
 const searchQuery = ref("");
+const search = ref("");
 
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
-
-const debouncedFilterCallback = useDebounceFn(async () => {
-  params.search = searchQuery.value;
+const debouncedFilterCallback = useDebounceFn(() => {
+  search.value = searchQuery.value;
 }, 500);
 
-const projects = ref<TPublicProject[]>([]);
-const page = ref(1);
-const total = ref(0);
+// All projects are prerendered into the page payload; filtering happens client-side
+const { data: allProjects, pending: isInitialLoading, refresh } = await useAsyncData(
+  "projects",
+  fetchProjects
+);
+const errorLoading = computed(() => !isInitialLoading.value && !allProjects.value);
 const isNextPageLoading = ref(false);
-const errorLoading = ref(false);
 
-const hasMore = computed(() => {
-  return projects.value.length < total.value;
+const filteredProjects = computed(() =>
+  (allProjects.value ?? []).filter((project) => matchesSearch(project, search.value))
+);
+
+const visibleCount = ref(PAGE_SIZE);
+const projects = computed(() => filteredProjects.value.slice(0, visibleCount.value));
+const hasMore = computed(() => projects.value.length < filteredProjects.value.length);
+
+watch(search, () => {
+  visibleCount.value = PAGE_SIZE;
 });
 
-// Fetch first page (runs on SSR and watches search input)
-const { data: initialData, pending: isInitialLoading, refresh } = await useAsyncData(
-  "publicProjects",
-  async () => {
-    try {
-      const delayDuration = import.meta.client ? 500 : 0;
-      const [response] = await Promise.all([
-        $fetch<TPublicProjectListResponse>(
-          `${BASE_API}/api-public/projects`,
-          {
-            params: {
-              page: "1",
-              limit: params.limit,
-              sort: params.sort,
-              order: params.order,
-              search: params.search,
-            },
-          }
-        ),
-        new Promise((resolve) => setTimeout(resolve, delayDuration))
-      ]);
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching initial projects data:", err);
-      errorLoading.value = true;
-      return null;
-    }
-  },
-  {
-    watch: [() => params.search],
-  }
-);
+// Scroll Sentinel ref
+const loadMoreSentinel = ref<HTMLElement | null>(null);
 
-// Watch for initial load or search update to reset and set first page items
-watch(
-  initialData,
-  (newData) => {
-    if (newData) {
-      projects.value = [...newData.items];
-      total.value = newData.pagination.total;
-      page.value = 1;
-      errorLoading.value = false;
-    } else {
-      projects.value = [];
-      total.value = 0;
-      page.value = 1;
-      errorLoading.value = true;
-    }
-  },
-  { immediate: true }
-);
+const isSentinelNearViewport = () => {
+  const rect = loadMoreSentinel.value?.getBoundingClientRect();
+  return !!rect && rect.top < window.innerHeight + 300;
+};
 
-// Clear the projects list immediately when search changes to show skeletons
-watch(
-  () => params.search,
-  () => {
-    projects.value = [];
-    errorLoading.value = false;
-  }
-);
-
-// Fetch subsequent pages
 const loadNextPage = async () => {
-  if (isNextPageLoading.value || isInitialLoading.value || !hasMore.value) return;
-
-  isNextPageLoading.value = true;
-  errorLoading.value = false;
-
-  try {
-    const nextPage = page.value + 1;
-    const delayDuration = import.meta.client ? 500 : 0;
-    const [response] = await Promise.all([
-      $fetch<TPublicProjectListResponse>(
-        `${BASE_API}/api-public/projects`,
-        {
-          params: {
-            page: nextPage.toString(),
-            limit: params.limit,
-            sort: params.sort,
-            order: params.order,
-            search: params.search,
-          },
-        }
-      ),
-      new Promise((resolve) => setTimeout(resolve, delayDuration))
-    ]);
-
-    if (response && response.data) {
-      projects.value = [...projects.value, ...response.data.items];
-      page.value = nextPage;
-      total.value = response.data.pagination.total;
-    } else {
-      throw new Error("Invalid response data");
-    }
-  } catch (err) {
-    console.error("Error loading next projects page:", err);
-    errorLoading.value = true;
-  } finally {
-    isNextPageLoading.value = false;
-  }
+  if (!hasMore.value) return;
+  visibleCount.value += PAGE_SIZE;
+  // The observer only fires on changes, so keep filling while the sentinel stays visible
+  await nextTick();
+  if (hasMore.value && isSentinelNearViewport()) loadNextPage();
 };
 
 // Retry handler for load failures
 const handleLoadMore = () => {
-  if (projects.value.length === 0) {
+  if (!allProjects.value) {
     refresh();
   } else {
     loadNextPage();
@@ -271,18 +182,15 @@ const handleLoadMore = () => {
 };
 
 const onClearSearch = () => {
-  params.search = "";
+  search.value = "";
   searchQuery.value = "";
 };
-
-// Scroll Sentinel ref
-const loadMoreSentinel = ref<HTMLElement | null>(null);
 
 // Intersection observer configuration to trigger page load on scrolling near bottom
 useIntersectionObserver(
   loadMoreSentinel,
   ([{ isIntersecting }]) => {
-    if (isIntersecting && !isNextPageLoading.value && !errorLoading.value && hasMore.value) {
+    if (isIntersecting && hasMore.value) {
       loadNextPage();
     }
   },

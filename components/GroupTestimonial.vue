@@ -87,7 +87,6 @@
 <script setup lang="ts">
 import { IconMessages } from "@tabler/icons-vue";
 import { isMobile } from "~/composables/useBreakpoint";
-import type { TPublicTestimonialResponse } from "~/types/testimonial.type";
 
 const fallbackCompUrl = "https://www.linkedin.com/in/dimasrogerw/"
 
@@ -124,24 +123,8 @@ const responsiveOptions = ref([
   },
 ]);
 
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
-
-const { data: testimonials, pending } = await useAsyncData(
-  "public-testimonials",
-  async () => {
-    try {
-      const response = await $fetch<TPublicTestimonialResponse>(
-        `${BASE_API}/api-public/testimonials`
-      );
-
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      return null;
-    }
-  }
-);
+const testimonials = ref(getTestimonials());
+const pending = false;
 
 const LIST_AVATAR = [
   "./images/avatars/alien.png",

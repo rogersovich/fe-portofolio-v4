@@ -62,24 +62,7 @@
                 <div
                   class="p-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
                 >
-                  <div class="mb-6">
-                    <div class="mb-3 text-[13px] tracking-wider">
-                      Filter by date
-                    </div>
-                    <div>
-                      <DatePicker
-                        v-model="filterDate"
-                        variant="outlined"
-                        selectionMode="range"
-                        fluid
-                        showButtonBar
-                        placeholder="Select date"
-                        inputClass="!border-zinc-50/[.05] !text-[12px]"
-                      />
-                    </div>
-                  </div>
-                  <template v-if="pendingTopic"> loading topic... </template>
-                  <div v-else-if="dataTopics">
+                  <div v-if="dataTopics.length">
                     <div class="mb-3 text-[13px] tracking-wider">
                       Filter by topic
                     </div>
@@ -91,7 +74,7 @@
                           class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-foreground"
                           :class="{
                             '!text-foreground !bg-orange-400/[.4]': filterTopics.includes(
-                              topic.id as never
+                              topic.id
                             ),
                           }"
                         />
@@ -155,24 +138,7 @@
                 <div
                   class="py-4 px-4 border border-solid border-zinc-950/[.05] dark:border-zinc-50/[.05] rounded-xl"
                 >
-                  <div class="mb-6">
-                    <div class="mb-3 text-[14px] tracking-wider">
-                      Filter by date
-                    </div>
-                    <div>
-                      <DatePicker
-                        v-model="filterDate"
-                        variant="outlined"
-                        selectionMode="range"
-                        fluid
-                        showButtonBar
-                        placeholder="Select date"
-                        inputClass="!border-zinc-50/[.05] text-sm"
-                      />
-                    </div>
-                  </div>
-                  <template v-if="pendingTopic"> loading topic... </template>
-                  <div v-else-if="dataTopics">
+                  <div v-if="dataTopics.length">
                     <div class="mb-3 text-[14px] tracking-wider">
                       Filter by topic
                     </div>
@@ -184,7 +150,7 @@
                           class="text-[12px] text-muted-foreground px-2.5 py-1.5 cursor-pointer hover:text-foreground"
                           :class="{
                             '!text-foreground !bg-orange-500/[.3]': filterTopics.includes(
-                              topic.id as never
+                              topic.id
                             ),
                           }"
                         />
@@ -224,175 +190,68 @@
 </template>
 <script setup lang="ts">
 import { isMobile, isTablet } from "~/composables/useBreakpoint";
-import {
-  IconBook2,
-} from "@tabler/icons-vue";
-import type { TBaseResponse } from "~/types/base.type";
-import type {
-  TParamsFilterPublicBlog,
-  TPublicBlogListResponse,
-  TPublicBlog,
-} from "~/types/blog.type";
-import type { TPublicTopic } from "~/types/topic.type";
+import { IconBook2 } from "@tabler/icons-vue";
 
 useHead({
   title: "Blog",
   titleTemplate: "%s | Portofolio",
 });
 
-const runtimeConfig = useRuntimeConfig();
-const BASE_API = runtimeConfig.public.apiBase;
-
-const params = reactive<TParamsFilterPublicBlog>({
-  page: "1",
-  limit: "5",
-  sort: "DESC",
-  order: "updated_at",
-  search: "",
-  topics: "[]",
-});
+const PAGE_SIZE = 5;
 
 const searchQuery = ref("");
-const filterDate = ref(null);
-const filterTopics = ref([]);
+const search = ref("");
+const filterTopics = ref<string[]>([]);
 
-const debouncedFilterCallback = useDebounceFn(async () => {
-  params.search = searchQuery.value;
+const debouncedFilterCallback = useDebounceFn(() => {
+  search.value = searchQuery.value;
 }, 500);
 
-const blogs = ref<TPublicBlog[]>([]);
-const page = ref(1);
-const total = ref(0);
+// All blogs are prerendered into the page payload; filtering happens client-side
+const { data: allBlogs, pending: isInitialLoading, refresh } = await useAsyncData(
+  "blogs",
+  fetchBlogs
+);
+const errorLoading = computed(() => !isInitialLoading.value && !allBlogs.value);
+const dataTopics = computed(() => getTopics(allBlogs.value ?? []));
 const isNextPageLoading = ref(false);
-const errorLoading = ref(false);
 
-const hasMore = computed(() => {
-  return blogs.value.length < total.value;
-});
-
-// Fetch first page (runs on SSR and watches filter parameters)
-const { data: initialData, pending: isInitialLoading, refresh } = await useAsyncData(
-  "public-blogs",
-  async () => {
-    try {
-      const delayDuration = import.meta.client ? 500 : 0;
-      const [response] = await Promise.all([
-        $fetch<TPublicBlogListResponse>(
-          `${BASE_API}/api-public/blogs`,
-          {
-            params: {
-              page: "1",
-              limit: params.limit,
-              sort: params.sort,
-              order: params.order,
-              search: params.search,
-              topics: params.topics,
-            },
-          }
-        ),
-        new Promise((resolve) => setTimeout(resolve, delayDuration))
-      ]);
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching initial blogs data:", err);
-      errorLoading.value = true;
-      return null;
-    }
-  },
-  {
-    watch: [() => params.search, () => params.topics],
-  }
+const filteredBlogs = computed(() =>
+  (allBlogs.value ?? []).filter(
+    (blog) =>
+      matchesSearch(blog, search.value) &&
+      (filterTopics.value.length === 0 ||
+        blog.topics.some((topic) => filterTopics.value.includes(topic.id)))
+  )
 );
 
-// Fetch topics metadata once (no watch: [params] to avoid duplicate calls on scroll)
-const { data: dataTopics, pending: pendingTopic } = await useAsyncData(
-  "public-topics",
-  async () => {
-    try {
-      const response = await $fetch<TBaseResponse<TPublicTopic[]>>(
-        `${BASE_API}/api-public/topics`
-      );
-      return response.data;
-    } catch (err) {
-      console.error("Error fetching topics data:", err);
-      return null;
-    }
-  }
-);
+const visibleCount = ref(PAGE_SIZE);
+const blogs = computed(() => filteredBlogs.value.slice(0, visibleCount.value));
+const hasMore = computed(() => blogs.value.length < filteredBlogs.value.length);
 
-// Watch for initial load or filter updates to reset and set first page items
-watch(
-  initialData,
-  (newData) => {
-    if (newData) {
-      blogs.value = [...newData.items];
-      total.value = newData.pagination.total;
-      page.value = 1;
-      errorLoading.value = false;
-    } else {
-      blogs.value = [];
-      total.value = 0;
-      page.value = 1;
-      errorLoading.value = true;
-    }
-  },
-  { immediate: true }
-);
+watch([search, filterTopics], () => {
+  visibleCount.value = PAGE_SIZE;
+}, { deep: true });
 
-// Clear the blogs list immediately when search or topic filters change to show skeletons
-watch(
-  [() => params.search, () => params.topics],
-  () => {
-    blogs.value = [];
-    errorLoading.value = false;
-  }
-);
+// Scroll Sentinel ref
+const loadMoreSentinel = ref<HTMLElement | null>(null);
 
-// Fetch subsequent pages
+const isSentinelNearViewport = () => {
+  const rect = loadMoreSentinel.value?.getBoundingClientRect();
+  return !!rect && rect.top < window.innerHeight + 300;
+};
+
 const loadNextPage = async () => {
-  if (isNextPageLoading.value || isInitialLoading.value || !hasMore.value) return;
-
-  isNextPageLoading.value = true;
-  errorLoading.value = false;
-
-  try {
-    const nextPage = page.value + 1;
-    const delayDuration = import.meta.client ? 500 : 0;
-    const [response] = await Promise.all([
-      $fetch<TPublicBlogListResponse>(
-        `${BASE_API}/api-public/blogs`,
-        {
-          params: {
-            page: nextPage.toString(),
-            limit: params.limit,
-            sort: params.sort,
-            order: params.order,
-            search: params.search,
-            topics: params.topics,
-          },
-        }
-      ),
-      new Promise((resolve) => setTimeout(resolve, delayDuration))
-    ]);
-
-    if (response && response.data) {
-      blogs.value = [...blogs.value, ...response.data.items];
-      page.value = nextPage;
-      total.value = response.data.pagination.total;
-    } else {
-      throw new Error("Invalid response data");
-    }
-  } catch (err) {
-    console.error("Error loading next blogs page:", err);
-    errorLoading.value = true;
-  } finally {
-    isNextPageLoading.value = false;
-  }
+  if (!hasMore.value) return;
+  visibleCount.value += PAGE_SIZE;
+  // The observer only fires on changes, so keep filling while the sentinel stays visible
+  await nextTick();
+  if (hasMore.value && isSentinelNearViewport()) loadNextPage();
 };
 
 // Retry handler for load failures
 const handleLoadMore = () => {
-  if (blogs.value.length === 0) {
+  if (!allBlogs.value) {
     refresh();
   } else {
     loadNextPage();
@@ -401,29 +260,23 @@ const handleLoadMore = () => {
 
 const onClearSearch = () => {
   filterTopics.value = [];
-  params.search = "";
-  params.topics = "[]";
+  search.value = "";
   searchQuery.value = "";
 };
 
-const onClickTopic = (topicId: number) => {
-  if (filterTopics.value.includes(topicId as never)) {
+const onClickTopic = (topicId: string) => {
+  if (filterTopics.value.includes(topicId)) {
     filterTopics.value = filterTopics.value.filter((id) => id !== topicId);
   } else {
-    filterTopics.value.push(topicId as never);
+    filterTopics.value.push(topicId);
   }
-
-  params.topics = JSON.stringify(filterTopics.value);
 };
-
-// Scroll Sentinel ref
-const loadMoreSentinel = ref<HTMLElement | null>(null);
 
 // Intersection observer configuration to trigger page load on scrolling near bottom
 useIntersectionObserver(
   loadMoreSentinel,
   ([{ isIntersecting }]) => {
-    if (isIntersecting && !isNextPageLoading.value && !errorLoading.value && hasMore.value) {
+    if (isIntersecting && hasMore.value) {
       loadNextPage();
     }
   },

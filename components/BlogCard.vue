@@ -43,14 +43,6 @@
           >
             <div class="flex items-center gap-5">
               <div class="flex items-center gap-2">
-                <IconEye class="size-4 text-orange-500 dark:text-orange-400" />
-                <span
-                  class="text-[11px] md:text-[12px]text-[12px] text-zinc-600 dark:text-zinc-300"
-                  >{{ blog.statistic.views }}
-                  views
-                </span>
-              </div>
-              <div class="flex items-center gap-2">
                 <IconBook class="size-4 text-orange-500 dark:text-orange-400" />
                 <span
                   class="text-[11px] md:text-[12px] text-zinc-600 dark:text-zinc-300"
@@ -69,7 +61,7 @@
                   class="text-[11px] md:text-[12px] text-muted-foreground px-2.5 py-1.5"
                   :class="{
                   'text-zinc-950 bg-orange-400/[.4]': filterTopics.includes(
-                    topic.id as never
+                    topic.id
                   ),
                 }"
                 />
@@ -114,7 +106,6 @@ import { isMobile } from "~/composables/useBreakpoint";
 import {
   IconCalendar,
   IconChevronRight,
-  IconEye,
   IconBook,
 } from "@tabler/icons-vue";
 
@@ -122,7 +113,7 @@ const { blog } = defineProps<{
   blog: TPublicBlog;
   blog_length: number;
   index: number;
-  filterTopics: any[];
+  filterTopics: string[];
 }>();
 
 

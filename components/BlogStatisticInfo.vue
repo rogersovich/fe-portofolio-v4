@@ -2,36 +2,6 @@
   <div
     class="container-card-statistic"
   >
-    <div class="flex items-center gap-3 md:gap-5">
-      <div class="flex items-center gap-2 group">
-        <IconEye
-          class="icon-statistic group-hover:text-orange-400"
-        />
-        <span class="text-statistic">
-          <template v-if="viewNew == statistic.views">
-            {{ statistic ? statistic.views : 0 }}
-          </template>
-          <template v-else>
-            {{ viewNew }}
-          </template>
-          views
-        </span>
-      </div>
-      <div class="flex items-center gap-2 group">
-        <IconHeart
-          class="icon-statistic group-hover:text-orange-400"
-        />
-        <span class="text-statistic">
-          <template v-if="!isLike">
-            {{ statistic ? statistic.likes : 0 }}
-          </template>
-          <template v-else>
-            {{ newLike }}
-          </template>
-          likes
-        </span>
-      </div>
-    </div>
     <div class="flex items-center gap-5">
       <div class="flex items-center gap-2 group">
         <IconBook
@@ -49,15 +19,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IconBook, IconEye, IconHeart } from "@tabler/icons-vue";
-import type { TBlogReadingTime, TBlogStatistic } from "~/types/blog.type";
+import { IconBook } from "@tabler/icons-vue";
+import type { TBlogReadingTime } from "~/types/blog.type";
 
-const { statistic } = defineProps<{
-  statistic: TBlogStatistic;
+defineProps<{
   reading_time: TBlogReadingTime;
-  isLike: boolean;
-  newLike: number | null;
-  viewNew: number;
 }>();
 
 const formatReadingTime = (estimated_seconds: number) => {

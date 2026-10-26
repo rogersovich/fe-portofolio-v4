@@ -24,3 +24,8 @@ logs
 !.env.example
 
 CLAUDE.md
+# DB dumps (contain user credentials)
+*.sql
+
+# Draft images, uploaded to Cloudinary by scripts/upload-images.mjs
+public/uploads/

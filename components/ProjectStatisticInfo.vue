@@ -11,34 +11,6 @@
           Personal
         </span>
       </div>
-      <div class="flex items-center gap-2 group">
-        <IconEye
-          class="icon-statistic group-hover:text-orange-400"
-        />
-        <span class="text-statistic">
-          <template v-if="viewNew == project.statistic.views">
-            {{ project.statistic ? project.statistic.views : 0 }}
-          </template>
-          <template v-else>
-            {{ viewNew }}
-          </template>
-          views
-        </span>
-      </div>
-      <div class="flex items-center gap-2 group">
-        <IconHeart
-          class="icon-statistic group-hover:text-orange-400"
-        />
-        <span class="text-statistic">
-          <template v-if="!isLike">
-            {{ project.statistic ? project.statistic.likes : 0 }}
-          </template>
-          <template v-else>
-            {{ newLike }}
-          </template>
-          likes
-        </span>
-      </div>
     </div>
     <div class="flex items-center gap-5" v-if="project">
       <a
@@ -75,20 +47,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { TPublicProjectDetail } from "~/types/project.type";
+import type { TPublicProject } from "~/types/project.type";
 import {
   IconUser,
-  IconEye,
-  IconHeart,
   IconBrandGithub,
   IconWorld,
 } from "@tabler/icons-vue";
 
-const { project } = defineProps<{
-  project: TPublicProjectDetail;
-  isLike: boolean;
-  newLike: number | null;
-  viewNew: number;
+defineProps<{
+  project: TPublicProject;
 }>();
 </script>
 <style lang=""></style>

@@ -9,9 +9,16 @@
     padding: 0 1rem;
     margin: 1.25rem 1rem 1.25rem 0.4rem;
 
-    li p {
+    /* Markdown renders tight lists without <p>, so style the <li> itself */
+    li {
+      @apply text-zinc-500 dark:text-zinc-400;
       margin-top: 0.25em;
       margin-bottom: 0.25em;
+    }
+
+    li p {
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
 
